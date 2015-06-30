@@ -75,3 +75,5 @@ LOCAL_C_INCLUDES := \
 >[《How-To-Build-openssl-For-iOS》](http://www.cvursache.com/2013/08/13/How-To-Build-openssl-For-iOS/)
 >
 >[《Compiling the latest OpenSSL for Android》](http://stackoverflow.com/questions/11929773/compiling-the-latest-openssl-for-android)
+>
+>[《在 Cocos2d-x 中使用 OpenSSL》](http://leenjewel.github.io/blog/2015/06/30/zai-cocos2d-x-zhong-shi-yong-openssl/)
