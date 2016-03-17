@@ -36,7 +36,7 @@ pwd_path="$( cd -P "$( dirname "$SOURCE" )" && pwd )/"
  
 # Setup architectures, library name and other vars + cleanup from previous runs
 ARCHS=("arm64" "armv7s" "armv7" "i386" "x86_64")
-SDKS=("iphoneos" "iphoneos" "iphoneos" "macosx" "macosx")
+SDKS=("iphoneos" "iphoneos" "iphoneos" "iphonesimulator" "iphonesimulator")
 LIB_NAME="curl-7.47.1"
 TEMP_LIB_PATH="/tmp/${LIB_NAME}"
 LIB_DEST_DIR="lib"

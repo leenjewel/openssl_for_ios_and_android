@@ -26,9 +26,9 @@
 set -u
  
 # Setup architectures, library name and other vars + cleanup from previous runs
-ARCHS=("arm64" "armv7s" "armv7" "i386")
-SDKS=("iphoneos" "iphoneos" "iphoneos" "macosx")
-LIB_NAME="openssl-1.0.2c"
+ARCHS=("arm64" "armv7s" "armv7" "i386" "x86_64")
+SDKS=("iphoneos" "iphoneos" "iphoneos" "iphonesimulator" "iphonesimulator")
+LIB_NAME="openssl-1.0.2g"
 TEMP_LIB_PATH="/tmp/${LIB_NAME}"
 LIB_DEST_DIR="lib"
 HEADER_DEST_DIR="include"
