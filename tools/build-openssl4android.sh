@@ -26,8 +26,8 @@
 set -u
  
 # Setup architectures, library name and other vars + cleanup from previous runs
-ARCHS=("android" "android-armeabi" "android64-aarch64" "android-x86" "android64" "android-mips")
-OUTNAME=("armeabi" "armeabi-v7a" "armeabi64-v8a" "x86" "x86_64" "mips")
+ARCHS=("android" "android-armeabi" "android64-aarch64" "android-x86" "android64" "android-mips" "android-mips64")
+OUTNAME=("armeabi" "armeabi-v7a" "arm64-v8a" "x86" "x86_64" "mips" "mips64")
 LIB_NAME="openssl-1.1.0c"
 LIB_DEST_DIR="libs"
 HEADER_DEST_DIR="include"
@@ -71,6 +71,12 @@ configure_make()
        export ARCH_LINK=""
        export TOOL="mipsel-linux-android"
        NDK_FLAGS="--platform=$ANDROID_PLATFORM --toolchain=mipsel-linux-android-4.9 --install-dir=`pwd`/android-toolchain"
+   elif [ "$ARCH" == "android-mips64" ]; then
+       ARCH="linux-generic64"
+       export ARCH_FLAGS=""
+       export ARCH_LINK=""
+       export TOOL="mips64el-linux-android"
+       NDK_FLAGS="--platform=$ANDROID_PLATFORM --toolchain=mips64el-linux-android-4.9 --install-dir=`pwd`/android-toolchain"
    fi
    sh $NDK/build/tools/make-standalone-toolchain.sh $NDK_FLAGS
    export TOOLCHAIN_PATH=`pwd`/android-toolchain/bin
@@ -119,7 +125,7 @@ configure_make()
 
 for ((i=0; i < ${#ARCHS[@]}; i++))
 do
-    if [[ ! "$1" ]] || [[ "$1" == "${ARCHS[i]}" ]]; then
+    if [[ $# -eq 0 ]] || [[ "$1" == "${ARCHS[i]}" ]]; then
         configure_make "${ARCHS[i]}" "${OUTNAME[i]}"
     fi
 done

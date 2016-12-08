@@ -6,13 +6,67 @@ This a static library compile from openssl and cURL for iOS and Android.
 
 ##OpenSSL Version
 
-[openssl-1.0.2c.tar.gz](https://www.openssl.org/source/openssl-1.0.2c.tar.gz)
+~~[openssl-1.0.2c.tar.gz](https://www.openssl.org/source/openssl-1.0.2c.tar.gz)~~
+
+[openssl-1.1.0c.tar.gz](https://www.openssl.org/source/openssl-1.1.0c.tar.gz)
 
 ##cURL Version
 
-[curl-7.47.1.tar.gz](https://curl.haxx.se/download/curl-7.47.1.tar.gz)
+~~[curl-7.47.1.tar.gz](https://curl.haxx.se/download/curl-7.47.1.tar.gz)~~
 
-##For iOS
+[curl-7.51.0.tar.gz](https://curl.haxx.se/download/curl-7.51.0.tar.gz)
+
+##Android NDK Version
+
+[android-ndk-r13b](https://dl.google.com/android/repository/android-ndk-r13b-darwin-x86_64.zip)
+
+##How to build
+
+###For iOS
+
+Copy `openssl-1.1.0c.tar.gz` to `tools` file folder and run
+
+```
+cd tools
+sh ./build-openssl4ios.sh
+```
+
+Copy `curl-7.51.0.tar.gz` to `tools` file folder and run
+
+```
+cd tools
+sh ./build-curl4ios.sh
+```
+
+###For Android
+
+Set ENV `NDK_ROOT`
+
+Copy `openssl-1.1.0c.tar.gz` to `tools` file folder and run
+
+```
+cd tools
+sh ./build-openssl4android.sh
+```
+
+You could build it with ABI like
+
+```
+cd tools
+sh ./build-openssl4android.sh android  # for armeabi
+sh ./build-openssl4android.sh android-armeabi #for armeabi-v7a
+sh ./build-openssl4android.sh android64-arm64 #for arm64_v8a
+sh ./build-openssl4android.sh android-x86  #for x86
+sh ./build-openssl4android.sh android64  #for x86_64
+sh ./build-openssl4android.sh mips  #for mips
+sh ./build-openssl4android.sh mips64 #for mips64
+```
+
+
+
+##How to use
+
+###For iOS
 
 Copy `lib/libcrypto.a` and `lib/libssl.a` and `lib/libcurl.a` to your project.
 
@@ -42,7 +96,7 @@ to :
 #endif
 ```
 
-##For Android
+###For Android
 
 Copy `lib/armeabi` folder and `lib/armeabi-v7a` folder and `lib/x86` to your android project `libs` folder.
 
