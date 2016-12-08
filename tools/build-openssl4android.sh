@@ -117,7 +117,7 @@ configure_make()
        mkdir -p ../$LIB_DEST_DIR/$OUT
        cp libcrypto.a ../$LIB_DEST_DIR/$OUT
        cp libssl.a ../$LIB_DEST_DIR/$OUT
-       popd; rm -rf "${LIB_NAME}";
+       popd; mv ${LIB_NAME} openssl-${OUT};
    fi
 }
 
@@ -130,6 +130,3 @@ do
     fi
 done
 
-mkdir -p "${HEADER_DEST_DIR}/openssl"
-tar xfz "${LIB_NAME}.tar.gz"
-cp ${LIB_NAME}/include/openssl/*.h ${HEADER_DEST_DIR}/openssl/
