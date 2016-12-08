@@ -54,7 +54,7 @@ configure_make()
    elif [ "$ARCH" == "android64-aarch64" ]; then
        export ARCH_FLAGS=""
        export ARCH_LINK=""
-       export TOOL="arm-linux-androideabi"
+       export TOOL="aarch64-linux-android"
        NDK_FLAGS="--platform=$ANDROID_PLATFORM --toolchain=aarch64-linux-android-4.9 --install-dir=`pwd`/android-toolchain"
    elif [ "$ARCH" == "android-x86" ]; then
        export ARCH_FLAGS="-march=i686 -msse3 -mstackrealign -mfpmath=sse"
@@ -119,7 +119,9 @@ configure_make()
 
 for ((i=0; i < ${#ARCHS[@]}; i++))
 do
-   configure_make "${ARCHS[i]}" "${OUTNAME[i]}"
+    if [[ ! "$1" ]] || [[ "$1" == "${ARCHS[i]}" ]]; then
+        configure_make "${ARCHS[i]}" "${OUTNAME[i]}"
+    fi
 done
 
 mkdir -p "${HEADER_DEST_DIR}/openssl"
