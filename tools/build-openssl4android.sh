@@ -26,13 +26,14 @@
 set -u
  
 # Setup architectures, library name and other vars + cleanup from previous runs
-ARCHS=("android-armv7" "android" "android-x86")
-OUTNAME=("armeabi-v7a" "armeabi" "x86")
-LIB_NAME="openssl-1.0.2c"
+ARCHS=("android" "android-armeabi" "android64-aarch64" "android-x86" "android64" "android-mips")
+OUTNAME=("armeabi" "armeabi-v7a" "armeabi64-v8a" "x86" "x86_64" "mips")
+LIB_NAME="openssl-1.1.0c"
 LIB_DEST_DIR="libs"
 HEADER_DEST_DIR="include"
 rm -rf "${HEADER_DEST_DIR}" "${LIB_DEST_DIR}" "${LIB_NAME}"
-NDK=$NDK_ROOT
+NDK=$ANDROID_NDK_ROOT
+ANDROID_PLATFORM="android-23"
 # Unarchive library, then configure and make for specified architectures
 configure_make()
 {
@@ -40,25 +41,42 @@ configure_make()
    tar xfz "${LIB_NAME}.tar.gz"
    pushd .; cd "${LIB_NAME}";
 
-   if [ "$ARCH" == "android-armv7" ]; then
-       export ARCH_FLAGS="-march=armv7-a -mfloat-abi=softfp -mfpu=vfpv3-d16"
-       export ARCH_LINK="-march=armv7-a -Wl,--fix-cortex-a8"
-       export TOOL="arm-linux-androideabi"
-       NDK_FLAGS="--platform=android-9 --toolchain=arm-linux-androideabi-4.6 --install-dir=`pwd`/android-toolchain"
-   elif [ "$ARCH" == "android" ]; then
+   if [ "$ARCH" == "android" ]; then
        export ARCH_FLAGS="-mthumb"
        export ARCH_LINK=""
        export TOOL="arm-linux-androideabi"
-       NDK_FLAGS="--platform=android-9 --toolchain=arm-linux-androideabi-4.6 --install-dir=`pwd`/android-toolchain"
+       NDK_FLAGS="--platform=$ANDROID_PLATFORM --toolchain=arm-linux-androideabi-4.9 --install-dir=`pwd`/android-toolchain"
+   elif [ "$ARCH" == "android-armeabi" ]; then
+       export ARCH_FLAGS="-march=armv7-a -mfloat-abi=softfp -mfpu=vfpv3-d16"
+       export ARCH_LINK="-march=armv7-a -Wl,--fix-cortex-a8"
+       export TOOL="arm-linux-androideabi"
+       NDK_FLAGS="--platform=$ANDROID_PLATFORM --toolchain=arm-linux-androideabi-4.9 --install-dir=`pwd`/android-toolchain"
+   elif [ "$ARCH" == "android64-aarch64" ]; then
+       export ARCH_FLAGS=""
+       export ARCH_LINK=""
+       export TOOL="arm-linux-androideabi"
+       NDK_FLAGS="--platform=$ANDROID_PLATFORM --toolchain=aarch64-linux-android-4.9 --install-dir=`pwd`/android-toolchain"
    elif [ "$ARCH" == "android-x86" ]; then
        export ARCH_FLAGS="-march=i686 -msse3 -mstackrealign -mfpmath=sse"
        export ARCH_LINK=""
        export TOOL="i686-linux-android"
-       NDK_FLAGS="--platform=android-9 --toolchain=x86-4.6 --install-dir=`pwd`/android-toolchain"
+       NDK_FLAGS="--platform=$ANDROID_PLATFORM --toolchain=x86-4.9 --install-dir=`pwd`/android-toolchain"
+   elif [ "$ARCH" == "android64" ]; then
+       export ARCH_FLAGS=""
+       export ARCH_LINK=""
+       export TOOL="x86_64-linux-android"
+       NDK_FLAGS="--platform=$ANDROID_PLATFORM --toolchain=x86_64-4.9 --install-dir=`pwd`/android-toolchain"
+   elif [ "$ARCH" == "android-mips" ]; then
+       export ARCH_FLAGS=""
+       export ARCH_LINK=""
+       export TOOL="mipsel-linux-android"
+       NDK_FLAGS="--platform=$ANDROID_PLATFORM --toolchain=mipsel-linux-android-4.9 --install-dir=`pwd`/android-toolchain"
    fi
-   $NDK/build/tools/make-standalone-toolchain.sh $NDK_FLAGS
+   sh $NDK/build/tools/make-standalone-toolchain.sh $NDK_FLAGS
    export TOOLCHAIN_PATH=`pwd`/android-toolchain/bin
    export NDK_TOOLCHAIN_BASENAME=${TOOLCHAIN_PATH}/${TOOL}
+   export SYSROOT=`pwd`/android-toolchain/sysroot
+   export CROSS_SYSROOT=$SYSROOT
    export CC=$NDK_TOOLCHAIN_BASENAME-gcc
    export CXX=$NDK_TOOLCHAIN_BASENAME-g++
    export LINK=${CXX}
@@ -70,12 +88,31 @@ configure_make()
    export CXXFLAGS=" ${ARCH_FLAGS} -fpic -ffunction-sections -funwind-tables -fstack-protector -fno-strict-aliasing -finline-limit=64 -frtti -fexceptions "
    export CFLAGS=" ${ARCH_FLAGS} -fpic -ffunction-sections -funwind-tables -fstack-protector -fno-strict-aliasing -finline-limit=64 "
    export LDFLAGS=" ${ARCH_LINK} "
+   echo "**********************************************"
+   echo "export ARCH=$ARCH"
+   echo "export NDK_TOOLCHAIN_BASENAME=$NDK_TOOLCHAIN_BASENAME"
+   echo "export SYSROOT=$SYSROOT"
+   echo "export CC=$CC"
+   echo "export CXX=$CXX"
+   echo "export LINK=$LINK"
+   echo "export LD=$LD"
+   echo "export AR=$AR"
+   echo "export RANLIB=$RANLIB"
+   echo "export STRIP=$STRIP"
+   echo "export CPPFLAGS=$CPPFLAGS"
+   echo "export CXXFLAGS=$CXXFLAGS"
+   echo "export CFLAGS=$CFLAGS"
+   echo "export LDFLAGS=$LDFLAGS"
+   echo "**********************************************"
    ./Configure $ARCH
-   PATH=$TOOLCHAIN_PATH:$PATH make
-   mkdir -p ../$LIB_DEST_DIR/$OUT
-   cp libcrypto.a ../$LIB_DEST_DIR/$OUT
-   cp libssl.a ../$LIB_DEST_DIR/$OUT
-   popd; rm -rf "${LIB_NAME}";
+   PATH=$TOOLCHAIN_PATH:$PATH
+   if make
+   then
+       mkdir -p ../$LIB_DEST_DIR/$OUT
+       cp libcrypto.a ../$LIB_DEST_DIR/$OUT
+       cp libssl.a ../$LIB_DEST_DIR/$OUT
+       popd; rm -rf "${LIB_NAME}";
+   fi
 }
 
 
