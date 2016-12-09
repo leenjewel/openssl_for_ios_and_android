@@ -62,7 +62,28 @@ sh ./build-openssl4android.sh mips  #for mips
 sh ./build-openssl4android.sh mips64 #for mips64
 ```
 
+> **You must to build openssl first**
+> 
+> **else cURL HTTPS is disable (without ssl)**
 
+Copy `curl-7.51.0.tar.gz` to `tools` file folder and run
+
+```
+sh ./build-curl4android.sh
+```
+
+You could build it with ABI like
+
+```
+cd tools
+sh ./build-curl4android.sh android  # for armeabi
+sh ./build-curl4android.sh android-armv7 #for armeabi-v7a
+sh ./build-curl4android.sh android64-arm64 #for arm64_v8a
+sh ./build-curl4android.sh android-x86  #for x86
+sh ./build-curl4android.sh android-x86_64  #for x86_64
+sh ./build-curl4android.sh mips  #for mips
+sh ./build-curl4android.sh mips64 #for mips64
+```
 
 ##How to use
 
