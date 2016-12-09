@@ -102,25 +102,17 @@ configure_make()
    export CFLAGS="${ARCH_FLAGS} -fpic -ffunction-sections -funwind-tables -fstack-protector -fno-strict-aliasing -finline-limit=64 "
    export LDFLAGS="${ARCH_LINK}"
    mkdir -p ../$LIB_DEST_DIR/$OUT
-   echo "./configure --prefix=${pwd_path}/$LIB_DEST_DIR/$OUT \
-       --with-sysroot=${SYSROOT} \
-       --host=${TOOL} \
-       --with-ssl=${pwd_path}/openssl-${OUT} \
-       --enable-static \
-       --disable-shared \
-       --disable-verbose \
-       --enable-threaded-resolver \
-       --enable-libgcc \
-       --enable-ipv6"
+   cp ${pwd_path}/openssl-${OUT}/libssl.a ${SYSROOT}/usr/lib/
+   cp ${pwd_path}/openssl-${OUT}/libcrypto.a ${SYSROOT}/usr/lib/
+   cp -r ${pwd_path}/openssl-${OUT}/include/openssl ${SYSROOT}/usr/include/
    ./configure --prefix=${pwd_path}/$LIB_DEST_DIR/$OUT \
        --with-sysroot=${SYSROOT} \
        --host=${TOOL} \
-       --with-ssl=${pwd_path}/openssl-${OUT} \
+       --with-ssl=/usr \
        --enable-static \
        --disable-shared \
        --disable-verbose \
        --enable-threaded-resolver \
-       --enable-libgcc \
        --enable-ipv6
    PATH=$TOOLCHAIN_PATH:$PATH
    if make
