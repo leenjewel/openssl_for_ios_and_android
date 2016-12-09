@@ -1,5 +1,12 @@
 # OpenSSL & cURL Library for iOS and Android
 
+|library|version|platform support|arch support|pull commit|
+|:-:|:-:|:-:|
+|openssl|1.1.0c|ios|armv7s armv7 i386 x86_64 arm64|20651fbb|
+|||android|armeabi armeabi-v7a arm64-v8a x86 x86_64 mips mips64|20651fbb|
+|curl|7.51.0|ios|armv7s armv7 i386 x86_64 arm64|20651fbb|
+|||android|armeabi armeabi-v7a arm64-v8a x86 x86_64 mips mips64|20651fbb|
+
 ##English
 
 This a static library compile from openssl and cURL for iOS and Android.
