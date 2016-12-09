@@ -1,27 +1,18 @@
 #!/bin/bash
 #
-#  Copyright (c) 2013 Claudiu-Vlad Ursache <claudiu@cvursache.com>
-#  MIT License (see LICENSE.md file)
-#
-#  Based on work by Felix Schulze:
-#
-#  Automatic build script for libssl and libcrypto 
-#  for iPhoneOS and iPhoneSimulator
-#
-#  Created by Felix Schulze on 16.12.10.
-#  Copyright 2010 Felix Schulze. All rights reserved.
-#
-#  Licensed under the Apache License, Version 2.0 (the "License");
-#  you may not use this file except in compliance with the License.
-#  You may obtain a copy of the License at
-#
-#  http://www.apache.org/licenses/LICENSE-2.0
-#
-#  Unless required by applicable law or agreed to in writing, software
-#  distributed under the License is distributed on an "AS IS" BASIS,
-#  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-#  See the License for the specific language governing permissions and
-#  limitations under the License.
+# Copyright 2016 leenjewel
+# 
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+# 
+#     http://www.apache.org/licenses/LICENSE-2.0
+# 
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
 
 set -u
 
@@ -31,46 +22,65 @@ while [ -h "$SOURCE" ]; do
     SOURCE="$(readlink "$SOURCE")"
     [[ $SOURCE != /* ]] && SOURCE="$DIR/$SOURCE"
 done
-pwd_path="$( cd -P "$( dirname "$SOURCE" )" && pwd )/"
+pwd_path="$( cd -P "$( dirname "$SOURCE" )" && pwd )"
 
  
 # Setup architectures, library name and other vars + cleanup from previous runs
 ARCHS=("arm64" "armv7s" "armv7" "i386" "x86_64")
 SDKS=("iphoneos" "iphoneos" "iphoneos" "iphonesimulator" "iphonesimulator")
-LIB_NAME="curl-7.47.1"
-TEMP_LIB_PATH="/tmp/${LIB_NAME}"
+PLATFORMS=("iPhoneOS" "iPhoneOS" "iPhoneOS" "iPhoneSimulator" "iPhoneSimulator")
+LIB_NAME="curl-7.51.0"
+DEVELOPER=`xcode-select -print-path`
+TOOLCHAIN=/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain
+SDK_VERSION=""10.1""
+IPHONEOS_DEPLOYMENT_TARGET="6.0"
 LIB_DEST_DIR="lib"
 HEADER_DEST_DIR="include"
-rm -rf "${HEADER_DEST_DIR}" "${LIB_DEST_DIR}" "${TEMP_LIB_PATH}*" "${LIB_NAME}"
+rm -rf "${HEADER_DEST_DIR}" "${LIB_DEST_DIR}" "${LIB_NAME}"
  
 # Unarchive library, then configure and make for specified architectures
 configure_make()
 {
-   ARCH=$1; GCC=$2; SDK_PATH=$3;
-   LOG_FILE="${TEMP_LIB_PATH}-${ARCH}.log"
-   export CC="${GCC}"
-   export CFLAGS="-arch ${ARCH} -isysroot ${SDK_PATH}"
+   ARCH=$1; SDK=$2; PLATFORM=$3;
+
+   export PATH="${TOOLCHAIN}/usr/bin:${PATH}"
+   export CROSS_TOP="${DEVELOPER}/Platforms/${PLATFORM}.platform/Developer"
+   export CROSS_SDK="${PLATFORM}${SDK_VERSION}.sdk"
+   export SYSROOT="${CROSS_TOP}/SDKs/${CROSS_SDK}"
+   export CFLAGS="-arch ${ARCH} -pipe -Os -gdwarf-2 -isysroot ${SYSROOT} -miphoneos-version-min=${IPHONEOS_DEPLOYMENT_TARGET} -fembed-bitcode"
+   export LDFLAGS="-arch ${ARCH} -isysroot ${SYSROOT}"
+
    tar xfz "${LIB_NAME}.tar.gz"
    pushd .; cd "${LIB_NAME}";
-   if [ "${ARCH}" == "i386" ] || [ "${ARCH}" == "x86_64" ]; then
-      echo "./configure --prefix=${TEMP_LIB_PATH}-${ARCH} --disable-shared --with-random=/dev/urandom --with-darwinssl"
-      ./configure --prefix="${TEMP_LIB_PATH}-${ARCH}" --disable-shared --with-random=/dev/urandom --with-darwinssl > "${LOG_FILE}" 2>$1
-   elif [ "${ARCH}" == "arm64" ]; then
-      echo "./configure --prefix=${TEMP_LIB_PATH}-${ARCH} --host=arm-apple-darwin --disable-shared --with-random=/dev/urandom --with-darwinssl"
-      ./configure --prefix="${TEMP_LIB_PATH}-${ARCH}" --host=arm-apple-darwin --disable-shared --with-random=/dev/urandom --with-darwinssl > "${LOG_FILE}" 2>$1
+   if [ "${ARCH}" == "arm64" ]; then
+       HOST="--host=arm-apple-darwin"
    else
-      echo "./configure --prefix=${TEMP_LIB_PATH}-${ARCH} --host=${ARCH}-apple-darwin --disable-shared --with-random=/dev/urandom --with-darwinssl"
-      ./configure --prefix="${TEMP_LIB_PATH}-${ARCH}" --host="${ARCH}-apple-darwin" --disable-shared --with-random=/dev/urandom --with-darwinssl > "${LOG_FILE}" 2>$1
+       HOST="--host=${ARCH}-apple-darwin"
    fi
-   make >> "${LOG_FILE}" 2>$1; 
-   make install >> "${LOG_FILE}" 2>$1;
-   popd; rm -rf "${LIB_NAME}";
+   ./configure --prefix=${pwd_path}/curl-ios-${ARCH} \
+       --with-sysroot=${CROSS_TOP}/SDKs/${CROSS_SDK} \
+       ${HOST} \
+       --with-darwinssl \
+       --enable-static \
+       --disable-shared \
+       --disable-verbose \
+       --enable-threaded-resolver \
+       --enable-ipv6
+   if make -j8
+   then
+       if [[ -d "curl-ios-${ARCH}" ]]; then
+           rm -fr "curl-ios-${ARCH}"
+       fi
+       mkdir -p "curl-ios-${ARCH}"
+       make install
+       popd; rm -fr ${LIB_NAME}
+   fi
 }
 for ((i=0; i < ${#ARCHS[@]}; i++))
 do
-   SDK_PATH=$(xcrun -sdk ${SDKS[i]} --show-sdk-path)
-   GCC=$(xcrun -sdk ${SDKS[i]} -find gcc)
-   configure_make "${ARCHS[i]}" "${GCC}" "${SDK_PATH}"
+    if [[ $# -eq 0 || "$1" == "${ARCHS[i]}" ]]; then
+        configure_make "${ARCHS[i]}" "${SDKS[i]}" "${PLATFORMS[i]}"
+    fi
 done
 
 # Combine libraries for different architectures into one
@@ -78,14 +88,10 @@ done
 create_lib()
 {
    LIB_SRC=$1; LIB_DST=$2;
-   LIB_PATHS=( "${ARCHS[@]/#/${TEMP_LIB_PATH}-}" )
+   LIB_PATHS=( "${ARCHS[@]/#/${pwd_path}/curl-ios-}" )
    LIB_PATHS=( "${LIB_PATHS[@]/%//${LIB_SRC}}" )
    lipo ${LIB_PATHS[@]} -create -output "${LIB_DST}"
 }
 mkdir "${LIB_DEST_DIR}";
 create_lib "lib/libcurl.a" "${LIB_DEST_DIR}/libcurl.a"
  
-# Copy header files + final cleanups
-mkdir -p "${HEADER_DEST_DIR}"
-cp -R "${TEMP_LIB_PATH}-${ARCHS[0]}/include" "${HEADER_DEST_DIR}"
-rm -rf "${TEMP_LIB_PATH}-*" "{LIB_NAME}"
