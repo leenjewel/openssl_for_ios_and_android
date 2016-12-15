@@ -1,0 +1,4 @@
+*.tar.gz
+*~
+tools/libs
+.DS_Store
