@@ -23,7 +23,7 @@ LIB_NAME="openssl-1.1.0c"
 LIB_DEST_DIR="libs"
 HEADER_DEST_DIR="include"
 NDK=$ANDROID_NDK_ROOT
-ANDROID_PLATFORM="android-23"
+ANDROID_API="21"
 rm -rf "${HEADER_DEST_DIR}" "${LIB_DEST_DIR}" "${LIB_NAME}"
 [ -f "${LIB_NAME}.tar.gz" ] || wget https://www.openssl.org/source/${LIB_NAME}.tar.gz;
 # Unarchive library, then configure and make for specified architectures
@@ -37,40 +37,41 @@ configure_make()
     export ARCH_FLAGS="-mthumb"
     export ARCH_LINK=""
     export TOOL="arm-linux-androideabi"
-    NDK_FLAGS="--platform=$ANDROID_PLATFORM --toolchain=arm-linux-androideabi-4.9 --install-dir=`pwd`/android-toolchain"
+    NDK_FLAGS="--arch=arm --install-dir=`pwd`/android-toolchain"
   elif [ "$ARCH" == "android-armeabi" ]; then
     export ARCH_FLAGS="-march=armv7-a -mfloat-abi=softfp -mfpu=vfpv3-d16"
     export ARCH_LINK="-march=armv7-a -Wl,--fix-cortex-a8"
     export TOOL="arm-linux-androideabi"
-    NDK_FLAGS="--platform=$ANDROID_PLATFORM --toolchain=arm-linux-androideabi-4.9 --install-dir=`pwd`/android-toolchain"
+    NDK_FLAGS="--arch=arm --install-dir=`pwd`/android-toolchain"
   elif [ "$ARCH" == "android64-aarch64" ]; then
     export ARCH_FLAGS=""
     export ARCH_LINK=""
     export TOOL="aarch64-linux-android"
-    NDK_FLAGS="--platform=$ANDROID_PLATFORM --toolchain=aarch64-linux-android-4.9 --install-dir=`pwd`/android-toolchain"
+    NDK_FLAGS="--arch=arm64 --install-dir=`pwd`/android-toolchain"
   elif [ "$ARCH" == "android-x86" ]; then
     export ARCH_FLAGS="-march=i686 -msse3 -mstackrealign -mfpmath=sse"
     export ARCH_LINK=""
     export TOOL="i686-linux-android"
-    NDK_FLAGS="--platform=$ANDROID_PLATFORM --toolchain=x86-4.9 --install-dir=`pwd`/android-toolchain"
+    NDK_FLAGS="--arch=x86 --install-dir=`pwd`/android-toolchain"
   elif [ "$ARCH" == "android64" ]; then
     export ARCH_FLAGS=""
     export ARCH_LINK=""
     export TOOL="x86_64-linux-android"
-    NDK_FLAGS="--platform=$ANDROID_PLATFORM --toolchain=x86_64-4.9 --install-dir=`pwd`/android-toolchain"
+    NDK_FLAGS="--arch=x86_64 --install-dir=`pwd`/android-toolchain"
   elif [ "$ARCH" == "android-mips" ]; then
     export ARCH_FLAGS=""
     export ARCH_LINK=""
     export TOOL="mipsel-linux-android"
-    NDK_FLAGS="--platform=$ANDROID_PLATFORM --toolchain=mipsel-linux-android-4.9 --install-dir=`pwd`/android-toolchain"
+    NDK_FLAGS="--arch=mips --install-dir=`pwd`/android-toolchain"
   elif [ "$ARCH" == "android-mips64" ]; then
-    ARCH="linux-generic64"
+    ARCH="linux64-mips64"
     export ARCH_FLAGS=""
     export ARCH_LINK=""
     export TOOL="mips64el-linux-android"
-    NDK_FLAGS="--platform=$ANDROID_PLATFORM --toolchain=mips64el-linux-android-4.9 --install-dir=`pwd`/android-toolchain"
-  fi
-  sh $NDK/build/tools/make-standalone-toolchain.sh $NDK_FLAGS
+    NDK_FLAGS="--arch=mips64 --install-dir=`pwd`/android-toolchain"
+  fi;
+
+  python $NDK/build/tools/make_standalone_toolchain.py --api=${ANDROID_API} $NDK_FLAGS
   export TOOLCHAIN_PATH=`pwd`/android-toolchain/bin
   export NDK_TOOLCHAIN_BASENAME=${TOOLCHAIN_PATH}/${TOOL}
   export SYSROOT=`pwd`/android-toolchain/sysroot
