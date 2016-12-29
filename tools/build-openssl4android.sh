@@ -15,6 +15,14 @@
 # limitations under the License.
 
 set -u
+
+SOURCE="$0"
+while [ -h "$SOURCE" ]; do
+    DIR="$( cd -P "$( dirname "$SOURCE" )" && pwd )"
+    SOURCE="$(readlink "$SOURCE")"
+    [[ $SOURCE != /* ]] && SOURCE="$DIR/$SOURCE"
+done
+pwd_path="$( cd -P "$( dirname "$SOURCE" )" && pwd )"
  
 # Setup architectures, library name and other vars + cleanup from previous runs
 ARCHS=("android" "android-armeabi" "android64-aarch64" "android-x86" "android64" "android-mips" "android-mips64")
@@ -29,40 +37,50 @@ ANDROID_PLATFORM="android-23"
 configure_make()
 {
    ARCH=$1; OUT=$2;
+   if [ -d "${LIB_NAME}" ]; then
+       rm -fr "${LIB_NAME}"
+   fi
    tar xfz "${LIB_NAME}.tar.gz"
    pushd .; cd "${LIB_NAME}";
 
    if [ "$ARCH" == "android" ]; then
+       PREFIX_DIR="${pwd_path}/openssl-android-armeabi"
        export ARCH_FLAGS="-mthumb"
        export ARCH_LINK=""
        export TOOL="arm-linux-androideabi"
        NDK_FLAGS="--platform=$ANDROID_PLATFORM --toolchain=arm-linux-androideabi-4.9 --install-dir=`pwd`/android-toolchain"
    elif [ "$ARCH" == "android-armeabi" ]; then
+       PREFIX_DIR="${pwd_path}/openssl-android-armeabi-v7a"
        export ARCH_FLAGS="-march=armv7-a -mfloat-abi=softfp -mfpu=vfpv3-d16"
        export ARCH_LINK="-march=armv7-a -Wl,--fix-cortex-a8"
        export TOOL="arm-linux-androideabi"
        NDK_FLAGS="--platform=$ANDROID_PLATFORM --toolchain=arm-linux-androideabi-4.9 --install-dir=`pwd`/android-toolchain"
    elif [ "$ARCH" == "android64-aarch64" ]; then
+       PREFIX_DIR="${pwd_path}/openssl-android-arm64-v8a"
        export ARCH_FLAGS=""
        export ARCH_LINK=""
        export TOOL="aarch64-linux-android"
        NDK_FLAGS="--platform=$ANDROID_PLATFORM --toolchain=aarch64-linux-android-4.9 --install-dir=`pwd`/android-toolchain"
    elif [ "$ARCH" == "android-x86" ]; then
+       PREFIX_DIR="${pwd_path}/openssl-android-x86"
        export ARCH_FLAGS="-march=i686 -msse3 -mstackrealign -mfpmath=sse"
        export ARCH_LINK=""
        export TOOL="i686-linux-android"
        NDK_FLAGS="--platform=$ANDROID_PLATFORM --toolchain=x86-4.9 --install-dir=`pwd`/android-toolchain"
    elif [ "$ARCH" == "android64" ]; then
+       PREFIX_DIR="${pwd_path}/openssl-android-x86_64"
        export ARCH_FLAGS=""
        export ARCH_LINK=""
        export TOOL="x86_64-linux-android"
        NDK_FLAGS="--platform=$ANDROID_PLATFORM --toolchain=x86_64-4.9 --install-dir=`pwd`/android-toolchain"
    elif [ "$ARCH" == "android-mips" ]; then
+       PREFIX_DIR="${pwd_path}/openssl-android-mips"
        export ARCH_FLAGS=""
        export ARCH_LINK=""
        export TOOL="mipsel-linux-android"
        NDK_FLAGS="--platform=$ANDROID_PLATFORM --toolchain=mipsel-linux-android-4.9 --install-dir=`pwd`/android-toolchain"
    elif [ "$ARCH" == "android-mips64" ]; then
+       PREFIX_DIR="${pwd_path}/openssl-android-mips64"
        ARCH="linux-generic64"
        export ARCH_FLAGS=""
        export ARCH_LINK=""
@@ -101,14 +119,18 @@ configure_make()
    echo "export CFLAGS=$CFLAGS"
    echo "export LDFLAGS=$LDFLAGS"
    echo "**********************************************"
-   ./Configure $ARCH
+
+   if [ -d "${PREFIX_DIR}" ]; then
+       rm -fr "${PREFIX_DIR}"
+   fi
+   mkdir -p "${PREFIX_DIR}"
+
+   ./Configure $ARCH --prefix="${PREFIX_DIR}"
    PATH=$TOOLCHAIN_PATH:$PATH
-   if make
+   if make -j8
    then
-       mkdir -p ../$LIB_DEST_DIR/$OUT
-       cp libcrypto.a ../$LIB_DEST_DIR/$OUT
-       cp libssl.a ../$LIB_DEST_DIR/$OUT
-       popd; mv ${LIB_NAME} openssl-${OUT};
+       make install; popd;
+       rm -fr "${LIB_NAME}"
    fi
 }
 

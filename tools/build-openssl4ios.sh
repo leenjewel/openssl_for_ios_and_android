@@ -22,14 +22,14 @@ while [ -h "$SOURCE" ]; do
     SOURCE="$(readlink "$SOURCE")"
     [[ $SOURCE != /* ]] && SOURCE="$DIR/$SOURCE"
 done
-pwd_path="$( cd -P "$( dirname "$SOURCE" )" && pwd )/"
+pwd_path="$( cd -P "$( dirname "$SOURCE" )" && pwd )"
  
 # Setup architectures, library name and other vars + cleanup from previous runs
 ARCHS=("arm64" "armv7s" "armv7" "i386" "x86_64")
 SDKS=("iphoneos" "iphoneos" "iphoneos" "iphonesimulator" "iphonesimulator")
 PLATFORMS=("iPhoneOS" "iPhoneOS" "iPhoneOS" "iPhoneSimulator" "iPhoneSimulator")
 DEVELOPER=`xcode-select -print-path`
-SDK_VERSION=""10.1""
+SDK_VERSION=""10.2""
 LIB_NAME="openssl-1.1.0c"
 LIB_DEST_DIR="lib"
 HEADER_DEST_DIR="include"
@@ -39,6 +39,9 @@ rm -rf "${HEADER_DEST_DIR}" "${LIB_DEST_DIR}" "${LIB_NAME}"
 configure_make()
 {
    ARCH=$1; SDK=$2; PLATFORM=$3;
+   if [ -d "${LIB_NAME}" ]; then
+       rm -fr "${LIB_NAME}"
+   fi
    tar xfz "${LIB_NAME}.tar.gz"
    pushd .; cd "${LIB_NAME}";
 
@@ -53,21 +56,25 @@ configure_make()
    export TOOLS="${DEVELOPER}"
    export CC="${TOOLS}/usr/bin/gcc -arch ${ARCH}"
 
+   PREFIX_DIR="${pwd_path}/openssl-ios-${ARCH}"
+   if [ -d "${PREFIX_DIR}" ]; then
+       rm -fr "${PREFIX_DIR}"
+   fi
+   mkdir -p "${PREFIX_DIR}"
+
    if [[ "${ARCH}" == "x86_64" ]]; then
-       ./Configure darwin64-x86_64-cc
+       ./Configure darwin64-x86_64-cc --prefix="${PREFIX_DIR}"
    elif [[ "${ARCH}" == "i386" ]]; then
-       ./Configure darwin-i386-cc
+       ./Configure darwin-i386-cc --prefix="${PREFIX_DIR}"
    else
-       ./Configure iphoneos-cross
+       ./Configure iphoneos-cross --prefix="${PREFIX_DIR}"
    fi
    export CFLAGS="-isysroot ${CROSS_TOP}/SDKs/${CROSS_SDK}"
    
    if make -j8
    then
-       if [ -d "openssl-ios-${ARCH}" ]; then
-           rm -fr "openssl-ios-${ARCH}"
-       fi
-       popd; mv "${LIB_NAME}" "openssl-ios-${ARCH}";
+       make install; popd;
+       rm -fr "${LIB_NAME}"
    fi
 }
 for ((i=0; i < ${#ARCHS[@]}; i++))
@@ -83,7 +90,7 @@ create_lib()
 {
    LIB_SRC=$1; LIB_DST=$2;
    LIB_PATHS=( "${ARCHS[@]/#/${pwd_path}/openssl-ios-}" )
-   LIB_PATHS=( "${LIB_PATHS[@]/%//${LIB_SRC}}" )
+   LIB_PATHS=( "${LIB_PATHS[@]/%//lib/${LIB_SRC}}" )
    lipo ${LIB_PATHS[@]} -create -output "${LIB_DST}"
 }
 mkdir "${LIB_DEST_DIR}";

@@ -1,0 +1,142 @@
+<?xml version="1.0" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>BIO_set_callback</title>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<link rev="made" href="mailto:root@osx300.apple.com" />
+</head>
+
+<body style="background-color: white">
+
+
+
+<ul id="index">
+  <li><a href="#NAME">NAME</a></li>
+  <li><a href="#SYNOPSIS">SYNOPSIS</a></li>
+  <li><a href="#DESCRIPTION">DESCRIPTION</a></li>
+  <li><a href="#CALLBACK-OPERATIONS">CALLBACK OPERATIONS</a></li>
+  <li><a href="#EXAMPLE">EXAMPLE</a></li>
+  <li><a href="#COPYRIGHT">COPYRIGHT</a></li>
+</ul>
+
+<h1 id="NAME">NAME</h1>
+
+<p>BIO_set_callback, BIO_get_callback, BIO_set_callback_arg, BIO_get_callback_arg, BIO_debug_callback - BIO callback functions</p>
+
+<h1 id="SYNOPSIS">SYNOPSIS</h1>
+
+<pre><code> #include &lt;openssl/bio.h&gt;
+
+
+ typedef long (*BIO_callback_fn)(BIO *b, int oper, const char *argp, int argi,
+                                 long argl, long ret);
+
+ void BIO_set_callback(BIO *b, BIO_callack_fn cb);
+ BIO_callack_fn BIO_get_callback(BIO *b);
+ void BIO_set_callback_arg(BIO *b, char *arg);
+ char *BIO_get_callback_arg(const BIO *b);
+
+ long BIO_debug_callback(BIO *bio, int cmd, const char *argp, int argi,
+                         long argl, long ret);</code></pre>
+
+<h1 id="DESCRIPTION">DESCRIPTION</h1>
+
+<p>BIO_set_callback() and BIO_get_callback() set and retrieve the BIO callback, they are both macros. The callback is called during most high level BIO operations. It can be used for debugging purposes to trace operations on a BIO or to modify its operation.</p>
+
+<p>BIO_set_callback_arg() and BIO_get_callback_arg() are macros which can be used to set and retrieve an argument for use in the callback.</p>
+
+<p>BIO_debug_callback() is a standard debugging callback which prints out information relating to each BIO operation. If the callback argument is set it is interpreted as a BIO to send the information to, otherwise stderr is used.</p>
+
+<p>BIO_callback_fn() is the type of the callback function. The meaning of each argument is described below:</p>
+
+<dl>
+
+<dt id="b"><b>b</b></dt>
+<dd>
+
+<p>The BIO the callback is attached to is passed in <b>b</b>.</p>
+
+</dd>
+<dt id="oper"><b>oper</b></dt>
+<dd>
+
+<p><b>oper</b> is set to the operation being performed. For some operations the callback is called twice, once before and once after the actual operation, the latter case has <b>oper</b> or&#39;ed with BIO_CB_RETURN.</p>
+
+</dd>
+<dt id="argp-argi-argl"><b>argp</b> <b>argi</b> <b>argl</b></dt>
+<dd>
+
+<p>The meaning of the arguments <b>argp</b>, <b>argi</b> and <b>argl</b> depends on the value of <b>oper</b>, that is the operation being performed.</p>
+
+</dd>
+<dt id="ret"><b>ret</b></dt>
+<dd>
+
+<p><b>ret</b> is the return value that would be returned to the application if no callback were present. The actual value returned is the return value of the callback itself. In the case of callbacks called before the actual BIO operation 1 is placed in <b>ret</b>, if the return value is not positive it will be immediately returned to the application and the BIO operation will not be performed.</p>
+
+</dd>
+</dl>
+
+<p>The callback should normally simply return <b>ret</b> when it has finished processing, unless it specifically wishes to modify the value returned to the application.</p>
+
+<h1 id="CALLBACK-OPERATIONS">CALLBACK OPERATIONS</h1>
+
+<p>In the notes below, <b>callback</b> defers to the actual callback function that is called.</p>
+
+<dl>
+
+<dt id="BIO_free-b"><b>BIO_free(b)</b></dt>
+<dd>
+
+<p>callback(b, BIO_CB_FREE, NULL, 0L, 0L, 1L) is called before the free operation.</p>
+
+</dd>
+<dt id="BIO_read-b-out-outl"><b>BIO_read(b, out, outl)</b></dt>
+<dd>
+
+<p>callback(b, BIO_CB_READ, out, outl, 0L, 1L) is called before the read and callback(b, BIO_CB_READ|BIO_CB_RETURN, out, outl, 0L, retvalue) after.</p>
+
+</dd>
+<dt id="BIO_write-b-in-inl"><b>BIO_write(b, in, inl)</b></dt>
+<dd>
+
+<p>callback(b, BIO_CB_WRITE, in, inl, 0L, 1L) is called before the write and callback(b, BIO_CB_WRITE|BIO_CB_RETURN, in, inl, 0L, retvalue) after.</p>
+
+</dd>
+<dt id="BIO_gets-b-out-outl"><b>BIO_gets(b, out, outl)</b></dt>
+<dd>
+
+<p>callback(b, BIO_CB_GETS, out, outl, 0L, 1L) is called before the operation and callback(b, BIO_CB_GETS|BIO_CB_RETURN, out, outl, 0L, retvalue) after.</p>
+
+</dd>
+<dt id="BIO_puts-b-in"><b>BIO_puts(b, in)</b></dt>
+<dd>
+
+<p>callback(b, BIO_CB_WRITE, in, 0, 0L, 1L) is called before the operation and callback(b, BIO_CB_WRITE|BIO_CB_RETURN, in, 0, 0L, retvalue) after.</p>
+
+</dd>
+<dt id="BIO_ctrl-BIO-b-int-cmd-long-larg-void-parg"><b>BIO_ctrl(BIO *b, int cmd, long larg, void *parg)</b></dt>
+<dd>
+
+<p>callback(b, BIO_CB_CTRL, parg, cmd, larg, 1L) is called before the call and callback(b, BIO_CB_CTRL|BIO_CB_RETURN, parg, cmd, larg, ret) after.</p>
+
+</dd>
+</dl>
+
+<h1 id="EXAMPLE">EXAMPLE</h1>
+
+<p>The BIO_debug_callback() function is a good example, its source is in crypto/bio/bio_cb.c</p>
+
+<h1 id="COPYRIGHT">COPYRIGHT</h1>
+
+<p>Copyright 2000-2016 The OpenSSL Project Authors. All Rights Reserved.</p>
+
+<p>Licensed under the OpenSSL license (the &quot;License&quot;). You may not use this file except in compliance with the License. You can obtain a copy in the file LICENSE in the source distribution or at <a href="https://www.openssl.org/source/license.html">https://www.openssl.org/source/license.html</a>.</p>
+
+
+</body>
+
+</html>
+
+
