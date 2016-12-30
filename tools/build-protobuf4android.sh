@@ -21,48 +21,51 @@ source ./_shared.sh
 # Setup architectures, library name and other vars + cleanup from previous runs
 ARCHS=("android" "android-armeabi" "android64-aarch64" "android-x86" "android64" "android-mips" "android-mips64")
 OUTNAME=("armeabi" "armeabi-v7a" "arm64-v8a" "x86" "x86_64" "mips" "mips64")
-
 TOOLS_ROOT=`pwd`
-LIB_NAME="curl-7.51.0"
+LIB_NAME="protobuf"
+LIB_VERSION="3.1.0"
+LIB_FILENAME=${LIB_NAME}-${LIB_VERSION}
 LIB_DEST_DIR=${TOOLS_ROOT}/libs
 NDK=$ANDROID_NDK_ROOT
-ANDROID_PLATFORM="android-23"
 ANDROID_API="21"
-[ -f ${LIB_NAME}.tar.gz ] || wget https://curl.haxx.se/download/${LIB_NAME}.tar.gz
+# rm -rf ${LIB_DEST_DIR}
+[ -f ${LIB_FILENAME}.tar.gz ] || wget https://github.com/google/${LIB_NAME}/archive/v${LIB_VERSION}.tar.gz -O ${LIB_FILENAME}.tar.gz
 # Unarchive library, then configure and make for specified architectures
-configure_make()
-{
+configure_make() {
   ARCH=$1; OUT=$2;
-  [ -d "${LIB_NAME}" ] && rm -rf "${LIB_NAME}"
-  tar xfz "${LIB_NAME}.tar.gz"
-  pushd "${LIB_NAME}";
+  
+  [ -d ${LIB_FILENAME} ] && rm -rf "${LIB_FILENAME}"
+  tar xfz "${LIB_FILENAME}.tar.gz"
+  pushd "${LIB_FILENAME}";
 
   configure $*
-  # fix me
-  cp ${TOOLS_ROOT}/../lib/${OUT}/libssl.a ${SYSROOT}/usr/lib
-  cp ${TOOLS_ROOT}/../lib/${OUT}/libcrypto.a ${SYSROOT}/usr/lib
-  cp -r ${TOOLS_ROOT}/../include/${OUT}/openssl ${SYSROOT}/usr/include
-
-  mkdir -p ${LIB_DEST_DIR}/${OUT}
+  CXXFLAGS="${CXXFLAGS} -std=c++11"
+  LDFLAGS="${LDFLAGS} -static-libstdc++"
+  LIBS="-lc++_static -latomic"
+  ./autogen.sh
   ./configure --prefix=${LIB_DEST_DIR}/${OUT} \
               --with-sysroot=${SYSROOT} \
+              --with-protoc=`which protoc` \
+              --with-zlib \
               --host=${TOOL} \
-              --with-ssl=/usr \
               --enable-static \
               --disable-shared \
-              --disable-verbose \
-              --enable-threaded-resolver \
-              --enable-ipv6
+              --enable-cross-compile
   PATH=$TOOLCHAIN_PATH:$PATH
   if make -j4
   then
+    mkdir -p ${LIB_DEST_DIR}/${OUT}
     make install
 
-    cp ${LIB_DEST_DIR}/${OUT}/lib/libcurl.a ${TOOLS_ROOT}/../lib/${OUT}
-    cp -r ${LIB_DEST_DIR}/${OUT}/include/curl ${TOOLS_ROOT}/../include/${OUT}
+    [ -d ${TOOLS_ROOT}/../lib/${OUT} ] || mkdir -p ${TOOLS_ROOT}/../lib/${OUT}
+    find ${LIB_DEST_DIR}/${OUT}/lib -type f -iname '*.a' -exec cp {} ${TOOLS_ROOT}/../lib/${OUT} \;
+    [ -d ${TOOLS_ROOT}/../include/${OUT} ] || mkdir -p ${TOOLS_ROOT}/../include/${OUT}
+    cp -r ${LIB_DEST_DIR}/$OUT/include/ ${TOOLS_ROOT}/../include/${OUT}
   fi;
   popd;
 }
+
+
 
 for ((i=0; i < ${#ARCHS[@]}; i++))
 do

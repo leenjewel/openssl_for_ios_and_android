@@ -16,105 +16,46 @@
 
 set -u
 
+source ./_shared.sh
+
 # Setup architectures, library name and other vars + cleanup from previous runs
 ARCHS=("android" "android-armeabi" "android64-aarch64" "android-x86" "android64" "android-mips" "android-mips64")
 OUTNAME=("armeabi" "armeabi-v7a" "arm64-v8a" "x86" "x86_64" "mips" "mips64")
+TOOLS_ROOT=`pwd`
 LIB_NAME="openssl-1.1.0c"
-LIB_DEST_DIR="libs"
-HEADER_DEST_DIR="include"
+LIB_DEST_DIR=${TOOLS_ROOT}/libs
 NDK=$ANDROID_NDK_ROOT
 ANDROID_API="21"
-rm -rf "${HEADER_DEST_DIR}" "${LIB_DEST_DIR}" "${LIB_NAME}"
+[ -d ${LIB_DEST_DIR} ] && rm -rf ${LIB_DEST_DIR}
 [ -f "${LIB_NAME}.tar.gz" ] || wget https://www.openssl.org/source/${LIB_NAME}.tar.gz;
 # Unarchive library, then configure and make for specified architectures
-configure_make()
-{
+configure_make() {
   ARCH=$1; OUT=$2;
+  rm -rf "${LIB_NAME}"
   tar xfz "${LIB_NAME}.tar.gz"
-  pushd .; cd "${LIB_NAME}";
+  pushd "${LIB_NAME}";
 
-  if [ "$ARCH" == "android" ]; then
-    export ARCH_FLAGS="-mthumb"
-    export ARCH_LINK=""
-    export TOOL="arm-linux-androideabi"
-    NDK_FLAGS="--arch=arm --install-dir=`pwd`/android-toolchain"
-  elif [ "$ARCH" == "android-armeabi" ]; then
-    export ARCH_FLAGS="-march=armv7-a -mfloat-abi=softfp -mfpu=vfpv3-d16"
-    export ARCH_LINK="-march=armv7-a -Wl,--fix-cortex-a8"
-    export TOOL="arm-linux-androideabi"
-    NDK_FLAGS="--arch=arm --install-dir=`pwd`/android-toolchain"
-  elif [ "$ARCH" == "android64-aarch64" ]; then
-    export ARCH_FLAGS=""
-    export ARCH_LINK=""
-    export TOOL="aarch64-linux-android"
-    NDK_FLAGS="--arch=arm64 --install-dir=`pwd`/android-toolchain"
-  elif [ "$ARCH" == "android-x86" ]; then
-    export ARCH_FLAGS="-march=i686 -msse3 -mstackrealign -mfpmath=sse"
-    export ARCH_LINK=""
-    export TOOL="i686-linux-android"
-    NDK_FLAGS="--arch=x86 --install-dir=`pwd`/android-toolchain"
-  elif [ "$ARCH" == "android64" ]; then
-    export ARCH_FLAGS=""
-    export ARCH_LINK=""
-    export TOOL="x86_64-linux-android"
-    NDK_FLAGS="--arch=x86_64 --install-dir=`pwd`/android-toolchain"
-  elif [ "$ARCH" == "android-mips" ]; then
-    export ARCH_FLAGS=""
-    export ARCH_LINK=""
-    export TOOL="mipsel-linux-android"
-    NDK_FLAGS="--arch=mips --install-dir=`pwd`/android-toolchain"
-  elif [ "$ARCH" == "android-mips64" ]; then
-    ARCH="linux64-mips64"
-    export ARCH_FLAGS=""
-    export ARCH_LINK=""
-    export TOOL="mips64el-linux-android"
-    NDK_FLAGS="--arch=mips64 --install-dir=`pwd`/android-toolchain"
-  fi;
-
-  python $NDK/build/tools/make_standalone_toolchain.py --api=${ANDROID_API} $NDK_FLAGS
-  export TOOLCHAIN_PATH=`pwd`/android-toolchain/bin
-  export NDK_TOOLCHAIN_BASENAME=${TOOLCHAIN_PATH}/${TOOL}
-  export SYSROOT=`pwd`/android-toolchain/sysroot
-  export CROSS_SYSROOT=$SYSROOT
-  export CC=$NDK_TOOLCHAIN_BASENAME-gcc
-  export CXX=$NDK_TOOLCHAIN_BASENAME-g++
-  export LINK=${CXX}
-  export LD=$NDK_TOOLCHAIN_BASENAME-ld
-  export AR=$NDK_TOOLCHAIN_BASENAME-ar
-  export RANLIB=$NDK_TOOLCHAIN_BASENAME-ranlib
-  export STRIP=$NDK_TOOLCHAIN_BASENAME-strip
-  export CPPFLAGS=" ${ARCH_FLAGS} -fpic -ffunction-sections -funwind-tables -fstack-protector -fno-strict-aliasing -finline-limit=64 "
-  export CXXFLAGS=" ${ARCH_FLAGS} -fpic -ffunction-sections -funwind-tables -fstack-protector -fno-strict-aliasing -finline-limit=64 -frtti -fexceptions "
-  export CFLAGS=" ${ARCH_FLAGS} -fpic -ffunction-sections -funwind-tables -fstack-protector -fno-strict-aliasing -finline-limit=64 "
-  export LDFLAGS=" ${ARCH_LINK} "
-  echo "**********************************************"
-  echo "export ARCH=$ARCH"
-  echo "export NDK_TOOLCHAIN_BASENAME=$NDK_TOOLCHAIN_BASENAME"
-  echo "export SYSROOT=$SYSROOT"
-  echo "export CC=$CC"
-  echo "export CXX=$CXX"
-  echo "export LINK=$LINK"
-  echo "export LD=$LD"
-  echo "export AR=$AR"
-  echo "export RANLIB=$RANLIB"
-  echo "export STRIP=$STRIP"
-  echo "export CPPFLAGS=$CPPFLAGS"
-  echo "export CXXFLAGS=$CXXFLAGS"
-  echo "export CFLAGS=$CFLAGS"
-  echo "export LDFLAGS=$LDFLAGS"
-  echo "**********************************************"
+  configure $*
   ./Configure $ARCH \
+              --prefix=${LIB_DEST_DIR}/${OUT} \
               --with-zlib-include=$SYSROOT/usr/include \
               --with-zlib-lib=$SYSROOT/usr/lib \
-              zlib
+              zlib \
+              no-asm \
+              no-shared \
+              no-unit-test
   PATH=$TOOLCHAIN_PATH:$PATH
+
   if make -j4
   then
-    mkdir -p ../$LIB_DEST_DIR/$OUT
-    cp libcrypto.a ../$LIB_DEST_DIR/$OUT
-    cp libssl.a ../$LIB_DEST_DIR/$OUT
-  fi
-  popd; mv ${LIB_NAME} openssl-${OUT};
+    make install
+    [ -d ${TOOLS_ROOT}/../include/$OUT ] || mkdir -p ${TOOLS_ROOT}/../include/$OUT
+    cp -r include/openssl ${TOOLS_ROOT}/../include/$OUT
+
+    [ -d ${TOOLS_ROOT}/../lib/$OUT ] || mkdir -p ${TOOLS_ROOT}/../lib/$OUT
+    find . -type f -iname \( 'libssl.a' -or -iname 'libcrypto.a' \) -exec cp {} ${TOOLS_ROOT}/../lib/$OUT \;
+  fi;
+  popd;
 }
 
 for ((i=0; i < ${#ARCHS[@]}; i++))

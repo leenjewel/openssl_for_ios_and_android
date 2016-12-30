@@ -2,3 +2,6 @@
 *~
 tools/libs
 .DS_Store
+include/
+lib/
+tools/*-android-toolchain
