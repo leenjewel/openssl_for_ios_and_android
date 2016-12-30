@@ -32,9 +32,9 @@ PLATFORMS=("iPhoneOS" "iPhoneOS" "iPhoneOS" "iPhoneSimulator" "iPhoneSimulator")
 LIB_NAME="curl-7.51.0"
 DEVELOPER=`xcode-select -print-path`
 TOOLCHAIN=/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain
-SDK_VERSION=""10.1""
+SDK_VERSION=""10.2""
 IPHONEOS_DEPLOYMENT_TARGET="6.0"
-LIB_DEST_DIR="lib"
+LIB_DEST_DIR="${pwd_path}/../output/ios/curl-ios-universal"
 HEADER_DEST_DIR="include"
 rm -rf "${HEADER_DEST_DIR}" "${LIB_DEST_DIR}" "${LIB_NAME}"
  
@@ -50,14 +50,25 @@ configure_make()
    export CFLAGS="-arch ${ARCH} -pipe -Os -gdwarf-2 -isysroot ${SYSROOT} -miphoneos-version-min=${IPHONEOS_DEPLOYMENT_TARGET} -fembed-bitcode"
    export LDFLAGS="-arch ${ARCH} -isysroot ${SYSROOT}"
 
+   if [ -d "${LIB_NAME}" ]; then
+       rm -fr "${LIB_NAME}"
+   fi
+
    tar xfz "${LIB_NAME}.tar.gz"
    pushd .; cd "${LIB_NAME}";
+
+   PREFIX_DIR="${pwd_path}/../output/ios/curl-ios-${ARCH}"
+   if [ -d "${PREFIX_DIR}" ]; then
+       rm -fr "${PREFIX_DIR}"
+   fi
+   mkdir -p "${PREFIX_DIR}"
+
    if [ "${ARCH}" == "arm64" ]; then
        HOST="--host=arm-apple-darwin"
    else
        HOST="--host=${ARCH}-apple-darwin"
    fi
-   ./configure --prefix=${pwd_path}/curl-ios-${ARCH} \
+   ./configure --prefix=${PREFIX_DIR} \
        --with-sysroot=${CROSS_TOP}/SDKs/${CROSS_SDK} \
        ${HOST} \
        --with-darwinssl \
@@ -88,7 +99,7 @@ done
 create_lib()
 {
    LIB_SRC=$1; LIB_DST=$2;
-   LIB_PATHS=( "${ARCHS[@]/#/${pwd_path}/curl-ios-}" )
+   LIB_PATHS=( "${ARCHS[@]/#/${pwd_path}/../output/ios/curl-ios-}" )
    LIB_PATHS=( "${LIB_PATHS[@]/%//${LIB_SRC}}" )
    lipo ${LIB_PATHS[@]} -create -output "${LIB_DST}"
 }
