@@ -12,9 +12,9 @@
 
 ## English
 
-This a static library compile from openssl and cURL for iOS and Android.
-
 ## OpenSSL Version
+
+This a static library compile from openssl and cURL for iOS and Android.
 
 ~~[openssl-1.0.2c.tar.gz](https://www.openssl.org/source/openssl-1.0.2c.tar.gz)~~
 
@@ -233,6 +233,13 @@ target_link_libraries( # Specifies the target library.
 
 ```
 # Android.mk
+
+include $(CLEAR_VARS)
+
+LOCAL_MODULE := curl
+LOCAL_SRC_FILES := Your cURL Library Path/$(TARGET_ARCH_ABI)/libcurl.a
+include $(PREBUILT_STATIC_LIBRARY)
+
 
 include $(CLEAR_VARS)
 
