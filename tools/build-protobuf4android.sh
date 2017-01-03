@@ -38,10 +38,11 @@ configure_make() {
   tar xfz "${LIB_FILENAME}.tar.gz"
   pushd "${LIB_FILENAME}";
 
-  configure $*
-  CXXFLAGS="${CXXFLAGS} -std=c++11"
-  LDFLAGS="${LDFLAGS} -static-libstdc++"
-  LIBS="-lc++_static -latomic"
+  export LDFLAGS="-static-libstdc++"
+  export LIBS="-lc++_static -latomic"
+  configure $* "clang"
+  # fix CXXFLAGS
+  export CXXFLAGS=${CXXFLAGS/"-finline-limit=64"/""}
   ./autogen.sh
   ./configure --prefix=${LIB_DEST_DIR}/${OUT} \
               --with-sysroot=${SYSROOT} \

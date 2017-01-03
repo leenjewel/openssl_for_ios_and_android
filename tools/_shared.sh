@@ -1,10 +1,10 @@
 #!/bin/bash
 
 configure() {
-  ARCH=$1; OUT=$2;
+  ARCH=$1; OUT=$2; CLANG=${3:-""};
 
   TOOLCHAIN_ROOT=${TOOLS_ROOT}/${OUT}-android-toolchain
- 
+
   if [ "$ARCH" == "android" ]; then
     export ARCH_FLAGS="-mthumb"
     export ARCH_LINK=""
@@ -52,17 +52,23 @@ configure() {
   export NDK_TOOLCHAIN_BASENAME=${TOOLCHAIN_PATH}/${TOOL}
   export SYSROOT=${TOOLCHAIN_ROOT}/sysroot
   export CROSS_SYSROOT=$SYSROOT
-  export CC=clang #$NDK_TOOLCHAIN_BASENAME-gcc
-  export CXX=clang++ #$NDK_TOOLCHAIN_BASENAME-g++
+  if [ -z "${CLANG}" ]; then
+    export CC=${NDK_TOOLCHAIN_BASENAME}-gcc
+    export CXX=${NDK_TOOLCHAIN_BASENAME}-g++
+  else
+    export CC=${TOOLCHAIN_PATH}/clang
+    export CXX=${TOOLCHAIN_PATH}/clang++
+  fi;
   export LINK=${CXX}
-  export LD=$NDK_TOOLCHAIN_BASENAME-ld
-  export AR=$NDK_TOOLCHAIN_BASENAME-ar
-  export RANLIB=$NDK_TOOLCHAIN_BASENAME-ranlib
-  export STRIP=$NDK_TOOLCHAIN_BASENAME-strip
-  export CPPFLAGS="${ARCH_FLAGS} -fpic -ffunction-sections -funwind-tables -fstack-protector -fno-strict-aliasing -finline-limit=64"
-  export CXXFLAGS="${ARCH_FLAGS} -fpic -ffunction-sections -funwind-tables -fstack-protector -fno-strict-aliasing -finline-limit=64 -frtti -fexceptions"
+  export LD=${NDK_TOOLCHAIN_BASENAME}-ld
+  export AR=${NDK_TOOLCHAIN_BASENAME}-ar
+  export RANLIB=${NDK_TOOLCHAIN_BASENAME}-ranlib
+  export STRIP=${NDK_TOOLCHAIN_BASENAME}-strip
+  export CPPFLAGS=${CPPFLAGS:-""}
+  export LIBS=${LIBS:-""}
   export CFLAGS="${ARCH_FLAGS} -fpic -ffunction-sections -funwind-tables -fstack-protector -fno-strict-aliasing -finline-limit=64"
-  export LDFLAGS="${ARCH_LINK}"
+  export CXXFLAGS="${CFLAGS} -std=c++11 -frtti -fexceptions"
+  export LDFLAGS="${ARCH_LINK} ${LDFLAGS:-""}"
   echo "**********************************************"
   echo "export ARCH=${ARCH}"
   echo "export NDK_TOOLCHAIN_BASENAME=${NDK_TOOLCHAIN_BASENAME}"
@@ -75,8 +81,9 @@ configure() {
   echo "export RANLIB=${RANLIB}"
   echo "export STRIP=${STRIP}"
   echo "export CPPFLAGS=${CPPFLAGS}"
-  echo "export CXXFLAGS=${CXXFLAGS}"
   echo "export CFLAGS=${CFLAGS}"
+  echo "export CXXFLAGS=${CXXFLAGS}"
   echo "export LDFLAGS=${LDFLAGS}"
+  echo "export LIBS=${LIBS}"
   echo "**********************************************"
 }
