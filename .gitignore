@@ -1,0 +1,10 @@
+*.tar.gz
+*~
+tools/libs
+.DS_Store
+include/
+lib/
+tools/*-android-toolchain
+tools/curl*
+tools/openssl*
+tools/protobuf*

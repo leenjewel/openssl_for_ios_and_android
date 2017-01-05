@@ -22,40 +22,51 @@ source ./_shared.sh
 ARCHS=("android" "android-armv7" "android64-arm64" "android-x86" "android-x86_64" "mips" "mips64")
 OUTNAME=("armeabi" "armeabi-v7a" "arm64-v8a" "x86" "x86_64" "mips" "mips64")
 TOOLS_ROOT=`pwd`
-LIB_NAME="openssl-1.1.0c"
+LIB_NAME="protobuf"
+LIB_VERSION="3.1.0"
+LIB_FILENAME=${LIB_NAME}-${LIB_VERSION}
 LIB_DEST_DIR=${TOOLS_ROOT}/libs
 NDK=$ANDROID_NDK_ROOT
 ANDROID_API="21"
-[ -d ${LIB_DEST_DIR} ] && rm -rf ${LIB_DEST_DIR}
-[ -f "${LIB_NAME}.tar.gz" ] || wget https://www.openssl.org/source/${LIB_NAME}.tar.gz;
+# rm -rf ${LIB_DEST_DIR}
+[ -f ${LIB_FILENAME}.tar.gz ] || wget https://github.com/google/${LIB_NAME}/archive/v${LIB_VERSION}.tar.gz -O ${LIB_FILENAME}.tar.gz
 # Unarchive library, then configure and make for specified architectures
 configure_make() {
   ARCH=$1; OUT=$2;
-  rm -rf "${LIB_NAME}"
-  tar xfz "${LIB_NAME}.tar.gz"
-  pushd "${LIB_NAME}";
+  
+  [ -d ${LIB_FILENAME} ] && rm -rf "${LIB_FILENAME}"
+  tar xfz "${LIB_FILENAME}.tar.gz"
+  pushd "${LIB_FILENAME}";
 
-  configure $*
-  ./Configure $ARCH \
-              --prefix=${LIB_DEST_DIR}/${OUT} \
-              --with-zlib-include=$SYSROOT/usr/include \
-              --with-zlib-lib=$SYSROOT/usr/lib \
-              zlib \
-              no-asm \
-              no-shared \
-              no-unit-test
+  export LDFLAGS="-static-libstdc++"
+  export LIBS="-lc++_static -latomic"
+  configure $* "clang"
+  # fix CXXFLAGS
+  export CXXFLAGS=${CXXFLAGS/"-finline-limit=64"/""}
+  ./autogen.sh
+  ./configure --prefix=${LIB_DEST_DIR}/${OUT} \
+              --with-sysroot=${SYSROOT} \
+              --with-protoc=`which protoc` \
+              --with-zlib \
+              --host=${TOOL} \
+              --enable-static \
+              --disable-shared \
+              --enable-cross-compile
   PATH=$TOOLCHAIN_PATH:$PATH
-
   if make -j4
   then
+    mkdir -p ${LIB_DEST_DIR}/${OUT}
     make install
-    [ -d ${TOOLS_ROOT}/../include/$OUT ] || mkdir -p ${TOOLS_ROOT}/../include/$OUT
-    cp -r include/openssl ${TOOLS_ROOT}/../include/$OUT
 
-    [ -d ${TOOLS_ROOT}/../lib/$OUT ] || mkdir -p ${TOOLS_ROOT}/../lib/$OUT
-    find . -type f -iname \( 'libssl.a' -or -iname 'libcrypto.a' \) -exec cp {} ${TOOLS_ROOT}/../lib/$OUT \;
+    [ -d ${TOOLS_ROOT}/../lib/${OUT} ] || mkdir -p ${TOOLS_ROOT}/../lib/${OUT}
+    find ${LIB_DEST_DIR}/${OUT}/lib -type f -iname '*.a' -exec cp {} ${TOOLS_ROOT}/../lib/${OUT} \;
+    [ -d ${TOOLS_ROOT}/../include/${OUT} ] || mkdir -p ${TOOLS_ROOT}/../include/${OUT}
+    cp -r ${LIB_DEST_DIR}/$OUT/include/ ${TOOLS_ROOT}/../include/${OUT}
   fi;
+  popd;
 }
+
+
 
 for ((i=0; i < ${#ARCHS[@]}; i++))
 do
