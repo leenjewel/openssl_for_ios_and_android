@@ -16,17 +16,25 @@
 
 set -u
 
+SOURCE="$0"
+while [ -h "$SOURCE" ]; do
+    DIR="$( cd -P "$( dirname "$SOURCE" )" && pwd )"
+    SOURCE="$(readlink "$SOURCE")"
+    [[ $SOURCE != /* ]] && SOURCE="$DIR/$SOURCE"
+done
+pwd_path="$( cd -P "$( dirname "$SOURCE" )" && pwd )"
+
 source ./_shared.sh
 
 # Setup architectures, library name and other vars + cleanup from previous runs
-ARCHS=("android" "android-armv7" "android64-arm64" "android-x86" "android-x86_64" "mips" "mips64")
+ARCHS=("android" "android-armeabi" "android64-aarch64" "android-x86" "android64" "android-mips" "android-mips64")
 OUTNAME=("armeabi" "armeabi-v7a" "arm64-v8a" "x86" "x86_64" "mips" "mips64")
-TOOLS_ROOT=`pwd`
+TOOLS_ROOT="${pwd_path}"
 LIB_NAME="curl-7.51.0"
-LIB_DEST_DIR=${TOOLS_ROOT}/libs
+LIB_DEST_DIR=${TOOLS_ROOT}/../output/android
 NDK=$ANDROID_NDK_ROOT
 ANDROID_PLATFORM="android-23"
-ANDROID_API="21"
+ANDROID_API="23"
 [ -f ${LIB_NAME}.tar.gz ] || wget https://curl.haxx.se/download/${LIB_NAME}.tar.gz
 # Unarchive library, then configure and make for specified architectures
 configure_make()
@@ -38,12 +46,15 @@ configure_make()
 
   configure $*
   # fix me
-  cp ${TOOLS_ROOT}/../lib/${OUT}/libssl.a ${SYSROOT}/usr/lib
-  cp ${TOOLS_ROOT}/../lib/${OUT}/libcrypto.a ${SYSROOT}/usr/lib
-  cp -r ${TOOLS_ROOT}/../include/${OUT}/openssl ${SYSROOT}/usr/include
+  cp ${TOOLS_ROOT}/../output/android/openssl-android-${OUT}/lib/libssl.a ${SYSROOT}/usr/lib
+  cp ${TOOLS_ROOT}/../output/android/openssl-android-${OUT}/lib/libcrypto.a ${SYSROOT}/usr/lib
+  cp -r ${TOOLS_ROOT}/../output/android/openssl-android-${OUT}/include/openssl ${SYSROOT}/usr/include
 
-  mkdir -p ${LIB_DEST_DIR}/${OUT}
-  ./configure --prefix=${LIB_DEST_DIR}/${OUT} \
+  PREFIX_DIR=${LIB_DEST_DIR}/curl-android-${OUT}
+  if [ -d "${PREFIX_DIR}" ]; then
+      rm -fr ${PREFIX_DIR}
+  fi
+  ./configure --prefix=${PREFIX_DIR} \
               --with-sysroot=${SYSROOT} \
               --host=${TOOL} \
               --with-ssl=/usr \
@@ -56,9 +67,6 @@ configure_make()
   if make -j4
   then
     make install
-
-    cp ${LIB_DEST_DIR}/${OUT}/lib/libcurl.a ${TOOLS_ROOT}/../lib/${OUT}
-    cp -r ${LIB_DEST_DIR}/${OUT}/include/curl ${TOOLS_ROOT}/../include/${OUT}
   fi;
   popd;
 }

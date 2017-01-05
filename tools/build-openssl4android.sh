@@ -16,17 +16,24 @@
 
 set -u
 
+SOURCE="$0"
+while [ -h "$SOURCE" ]; do
+    DIR="$( cd -P "$( dirname "$SOURCE" )" && pwd )"
+    SOURCE="$(readlink "$SOURCE")"
+    [[ $SOURCE != /* ]] && SOURCE="$DIR/$SOURCE"
+done
+pwd_path="$( cd -P "$( dirname "$SOURCE" )" && pwd )"
+
 source ./_shared.sh
 
 # Setup architectures, library name and other vars + cleanup from previous runs
-ARCHS=("android" "android-armv7" "android64-arm64" "android-x86" "android-x86_64" "mips" "mips64")
+ARCHS=("android" "android-armeabi" "android64-aarch64" "android-x86" "android64" "android-mips" "android-mips64")
 OUTNAME=("armeabi" "armeabi-v7a" "arm64-v8a" "x86" "x86_64" "mips" "mips64")
-TOOLS_ROOT=`pwd`
+TOOLS_ROOT="${pwd_path}"
 LIB_NAME="openssl-1.1.0c"
-LIB_DEST_DIR=${TOOLS_ROOT}/libs
+LIB_DEST_DIR=${TOOLS_ROOT}/../output/android
 NDK=$ANDROID_NDK_ROOT
-ANDROID_API="21"
-[ -d ${LIB_DEST_DIR} ] && rm -rf ${LIB_DEST_DIR}
+ANDROID_API="23"
 [ -f "${LIB_NAME}.tar.gz" ] || wget https://www.openssl.org/source/${LIB_NAME}.tar.gz;
 # Unarchive library, then configure and make for specified architectures
 configure_make() {
@@ -35,9 +42,14 @@ configure_make() {
   tar xfz "${LIB_NAME}.tar.gz"
   pushd "${LIB_NAME}";
 
+  PREFIX_DIR=${LIB_DEST_DIR}/openssl-android-${OUT}
+  if [ -d "${PREFIX_DIR}" ]; then
+      rm -fr ${PREFIX_DIR}
+  fi
+
   configure $*
   ./Configure $ARCH \
-              --prefix=${LIB_DEST_DIR}/${OUT} \
+              --prefix=${PREFIX_DIR} \
               --with-zlib-include=$SYSROOT/usr/include \
               --with-zlib-lib=$SYSROOT/usr/lib \
               zlib \
@@ -49,11 +61,11 @@ configure_make() {
   if make -j4
   then
     make install
-    [ -d ${TOOLS_ROOT}/../include/$OUT ] || mkdir -p ${TOOLS_ROOT}/../include/$OUT
-    cp -r include/openssl ${TOOLS_ROOT}/../include/$OUT
+    # [ -d ${TOOLS_ROOT}/../include/$OUT ] || mkdir -p ${TOOLS_ROOT}/../include/$OUT
+    # cp -r include/openssl ${TOOLS_ROOT}/../include/$OUT
 
-    [ -d ${TOOLS_ROOT}/../lib/$OUT ] || mkdir -p ${TOOLS_ROOT}/../lib/$OUT
-    find . -type f -iname \( 'libssl.a' -or -iname 'libcrypto.a' \) -exec cp {} ${TOOLS_ROOT}/../lib/$OUT \;
+    # [ -d ${TOOLS_ROOT}/../lib/$OUT ] || mkdir -p ${TOOLS_ROOT}/../lib/$OUT
+    # find . -type f -iname \( 'libssl.a' -or -iname 'libcrypto.a' \) -exec cp {} ${TOOLS_ROOT}/../lib/$OUT \;
   fi;
 }
 

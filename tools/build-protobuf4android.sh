@@ -16,18 +16,26 @@
 
 set -u
 
+SOURCE="$0"
+while [ -h "$SOURCE" ]; do
+    DIR="$( cd -P "$( dirname "$SOURCE" )" && pwd )"
+    SOURCE="$(readlink "$SOURCE")"
+    [[ $SOURCE != /* ]] && SOURCE="$DIR/$SOURCE"
+done
+pwd_path="$( cd -P "$( dirname "$SOURCE" )" && pwd )"
+
 source ./_shared.sh
 
 # Setup architectures, library name and other vars + cleanup from previous runs
-ARCHS=("android" "android-armv7" "android64-arm64" "android-x86" "android-x86_64" "mips" "mips64")
+ARCHS=("android" "android-armeabi" "android64-aarch64" "android-x86" "android64" "android-mips" "android-mips64")
 OUTNAME=("armeabi" "armeabi-v7a" "arm64-v8a" "x86" "x86_64" "mips" "mips64")
-TOOLS_ROOT=`pwd`
+TOOLS_ROOT=${pwd_path}
 LIB_NAME="protobuf"
 LIB_VERSION="3.1.0"
 LIB_FILENAME=${LIB_NAME}-${LIB_VERSION}
-LIB_DEST_DIR=${TOOLS_ROOT}/libs
+LIB_DEST_DIR=${TOOLS_ROOT}/../output/android
 NDK=$ANDROID_NDK_ROOT
-ANDROID_API="21"
+ANDROID_API="23"
 # rm -rf ${LIB_DEST_DIR}
 [ -f ${LIB_FILENAME}.tar.gz ] || wget https://github.com/google/${LIB_NAME}/archive/v${LIB_VERSION}.tar.gz -O ${LIB_FILENAME}.tar.gz
 # Unarchive library, then configure and make for specified architectures
@@ -38,13 +46,18 @@ configure_make() {
   tar xfz "${LIB_FILENAME}.tar.gz"
   pushd "${LIB_FILENAME}";
 
+  PREFIX_DIR=${LIB_DEST_DIR}/protobuf-android-${OUT}
+  if [ -d "${PREFIX_DIR}" ]; then
+      rm -fr ${PREFIX_DIR}
+  fi
+
   export LDFLAGS="-static-libstdc++"
   export LIBS="-lc++_static -latomic"
   configure $* "clang"
   # fix CXXFLAGS
   export CXXFLAGS=${CXXFLAGS/"-finline-limit=64"/""}
   ./autogen.sh
-  ./configure --prefix=${LIB_DEST_DIR}/${OUT} \
+  ./configure --prefix=${PREFIX_DIR} \
               --with-sysroot=${SYSROOT} \
               --with-protoc=`which protoc` \
               --with-zlib \
@@ -57,11 +70,6 @@ configure_make() {
   then
     mkdir -p ${LIB_DEST_DIR}/${OUT}
     make install
-
-    [ -d ${TOOLS_ROOT}/../lib/${OUT} ] || mkdir -p ${TOOLS_ROOT}/../lib/${OUT}
-    find ${LIB_DEST_DIR}/${OUT}/lib -type f -iname '*.a' -exec cp {} ${TOOLS_ROOT}/../lib/${OUT} \;
-    [ -d ${TOOLS_ROOT}/../include/${OUT} ] || mkdir -p ${TOOLS_ROOT}/../include/${OUT}
-    cp -r ${LIB_DEST_DIR}/$OUT/include/ ${TOOLS_ROOT}/../include/${OUT}
   fi;
   popd;
 }
