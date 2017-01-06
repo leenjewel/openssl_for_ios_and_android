@@ -50,13 +50,14 @@ configure_make() {
   PATH=$TOOLCHAIN_PATH:$PATH
   if make -j4
   then
-    mkdir -p ${LIB_DEST_DIR}/${ABI}
     make install
 
-    [ -d ${TOOLS_ROOT}/../lib/${ABI} ] || mkdir -p ${TOOLS_ROOT}/../lib/${ABI}
-    find ${LIB_DEST_DIR}/${ABI}/lib -type f -iname '*.a' -exec cp {} ${TOOLS_ROOT}/../lib/${ABI} \;
-    [ -d ${TOOLS_ROOT}/../include/${ABI} ] || mkdir -p ${TOOLS_ROOT}/../include/${ABI}
-    cp -r ${LIB_DEST_DIR}/$ABI/include/ ${TOOLS_ROOT}/../include/${ABI}
+    OUTPUT_ROOT=${TOOLS_ROOT}/../output/android/protobuf-${ABI}
+    [ -d ${OUTPUT_ROOT}/include ] || mkdir -p ${OUTPUT_ROOT}/include
+    cp -r ${LIB_DEST_DIR}/$ABI/include/ ${OUTPUT_ROOT}/include
+
+    [ -d ${OUTPUT_ROOT}/lib ] || mkdir -p ${OUTPUT_ROOT}/lib
+    find ${LIB_DEST_DIR}/${ABI}/lib -type f -iname '*.a' -exec cp {} ${OUTPUT_ROOT}/lib \;
   fi;
   popd;
 }
@@ -66,6 +67,7 @@ configure_make() {
 for ((i=0; i < ${#ARCHS[@]}; i++))
 do
   if [[ $# -eq 0 ]] || [[ "$1" == "${ARCHS[i]}" ]]; then
+    [[ ${ANDROID_API} < 21 ]] && ( echo "${ABIS[i]}" | grep 64 > /dev/null ) && continue;
     configure_make "${ARCHS[i]}" "${ABIS[i]}"
   fi
 done

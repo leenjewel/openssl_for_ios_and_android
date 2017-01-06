@@ -44,12 +44,13 @@ configure_make() {
   if make -j4; then
     make install
 
-    [ -d ${TOOLS_ROOT}/../include/${ABI} ] || mkdir -p ${TOOLS_ROOT}/../include/${ABI}
-    cp -r ${LIB_DEST_DIR}/${ABI}/include/openssl ${TOOLS_ROOT}/../include/${ABI}
+    OUTPUT_ROOT=${TOOLS_ROOT}/../output/android/openssl-${ABI}
+    [ -d ${OUTPUT_ROOT}/include ] || mkdir -p ${OUTPUT_ROOT}/include
+    cp -r ${LIB_DEST_DIR}/${ABI}/include/openssl ${OUTPUT_ROOT}/include
 
-    [ -d ${TOOLS_ROOT}/../lib/${ABI} ] || mkdir -p ${TOOLS_ROOT}/../lib/${ABI}
-    cp ${LIB_DEST_DIR}/${ABI}/lib/libcrypto.a ${TOOLS_ROOT}/../lib/${ABI}
-    cp ${LIB_DEST_DIR}/${ABI}/lib/libssl.a ${TOOLS_ROOT}/../lib/${ABI}
+    [ -d ${OUTPUT_ROOT}/lib ] || mkdir -p ${OUTPUT_ROOT}/lib
+    cp ${LIB_DEST_DIR}/${ABI}/lib/libcrypto.a ${OUTPUT_ROOT}/lib
+    cp ${LIB_DEST_DIR}/${ABI}/lib/libssl.a ${OUTPUT_ROOT}/lib
   fi;
   popd
 
