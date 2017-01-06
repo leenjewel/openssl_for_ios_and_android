@@ -16,40 +16,23 @@
 
 set -u
 
-SOURCE="$0"
-while [ -h "$SOURCE" ]; do
-    DIR="$( cd -P "$( dirname "$SOURCE" )" && pwd )"
-    SOURCE="$(readlink "$SOURCE")"
-    [[ $SOURCE != /* ]] && SOURCE="$DIR/$SOURCE"
-done
-pwd_path="$( cd -P "$( dirname "$SOURCE" )" && pwd )"
-
 source ./_shared.sh
 
 # Setup architectures, library name and other vars + cleanup from previous runs
-ARCHS=("android" "android-armeabi" "android64-aarch64" "android-x86" "android64" "android-mips" "android-mips64")
-OUTNAME=("armeabi" "armeabi-v7a" "arm64-v8a" "x86" "x86_64" "mips" "mips64")
-TOOLS_ROOT="${pwd_path}"
 LIB_NAME="openssl-1.1.0c"
-LIB_DEST_DIR=${TOOLS_ROOT}/../output/android
-NDK=$ANDROID_NDK_ROOT
-ANDROID_API="23"
+LIB_DEST_DIR=${TOOLS_ROOT}/libs
+[ -d ${LIB_DEST_DIR} ] && rm -rf ${LIB_DEST_DIR}
 [ -f "${LIB_NAME}.tar.gz" ] || wget https://www.openssl.org/source/${LIB_NAME}.tar.gz;
 # Unarchive library, then configure and make for specified architectures
 configure_make() {
-  ARCH=$1; OUT=$2;
+  ARCH=$1; ABI=$2;
   rm -rf "${LIB_NAME}"
   tar xfz "${LIB_NAME}.tar.gz"
-  pushd "${LIB_NAME}";
-
-  PREFIX_DIR=${LIB_DEST_DIR}/openssl-android-${OUT}
-  if [ -d "${PREFIX_DIR}" ]; then
-      rm -fr ${PREFIX_DIR}
-  fi
+  pushd "${LIB_NAME}"
 
   configure $*
   ./Configure $ARCH \
-              --prefix=${PREFIX_DIR} \
+              --prefix=${LIB_DEST_DIR}/${ABI} \
               --with-zlib-include=$SYSROOT/usr/include \
               --with-zlib-lib=$SYSROOT/usr/lib \
               zlib \
@@ -58,20 +41,27 @@ configure_make() {
               no-unit-test
   PATH=$TOOLCHAIN_PATH:$PATH
 
-  if make -j4
-  then
+  if make -j4; then
     make install
-    # [ -d ${TOOLS_ROOT}/../include/$OUT ] || mkdir -p ${TOOLS_ROOT}/../include/$OUT
-    # cp -r include/openssl ${TOOLS_ROOT}/../include/$OUT
 
-    # [ -d ${TOOLS_ROOT}/../lib/$OUT ] || mkdir -p ${TOOLS_ROOT}/../lib/$OUT
-    # find . -type f -iname \( 'libssl.a' -or -iname 'libcrypto.a' \) -exec cp {} ${TOOLS_ROOT}/../lib/$OUT \;
+    OUTPUT_ROOT=${TOOLS_ROOT}/../output/android/openssl-${ABI}
+    [ -d ${OUTPUT_ROOT}/include ] || mkdir -p ${OUTPUT_ROOT}/include
+    cp -r ${LIB_DEST_DIR}/${ABI}/include/openssl ${OUTPUT_ROOT}/include
+
+    [ -d ${OUTPUT_ROOT}/lib ] || mkdir -p ${OUTPUT_ROOT}/lib
+    cp ${LIB_DEST_DIR}/${ABI}/lib/libcrypto.a ${OUTPUT_ROOT}/lib
+    cp ${LIB_DEST_DIR}/${ABI}/lib/libssl.a ${OUTPUT_ROOT}/lib
   fi;
+  popd
+
 }
 
 for ((i=0; i < ${#ARCHS[@]}; i++))
 do
   if [[ $# -eq 0 ]] || [[ "$1" == "${ARCHS[i]}" ]]; then
-    configure_make "${ARCHS[i]}" "${OUTNAME[i]}"
+    # Do not build 64 bit arch if ANDROID_API is less than 21 which is
+    # the minimum supported API level for 64 bit.
+    [[ ${ANDROID_API} < 21 ]] && ( echo "${ABIS[i]}" | grep 64 > /dev/null ) && continue;
+    configure_make "${ARCHS[i]}" "${ABIS[i]}"
   fi
 done

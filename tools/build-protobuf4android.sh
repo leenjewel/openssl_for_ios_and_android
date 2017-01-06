@@ -16,48 +16,30 @@
 
 set -u
 
-SOURCE="$0"
-while [ -h "$SOURCE" ]; do
-    DIR="$( cd -P "$( dirname "$SOURCE" )" && pwd )"
-    SOURCE="$(readlink "$SOURCE")"
-    [[ $SOURCE != /* ]] && SOURCE="$DIR/$SOURCE"
-done
-pwd_path="$( cd -P "$( dirname "$SOURCE" )" && pwd )"
-
 source ./_shared.sh
 
 # Setup architectures, library name and other vars + cleanup from previous runs
-ARCHS=("android" "android-armeabi" "android64-aarch64" "android-x86" "android64" "android-mips" "android-mips64")
-OUTNAME=("armeabi" "armeabi-v7a" "arm64-v8a" "x86" "x86_64" "mips" "mips64")
-TOOLS_ROOT=${pwd_path}
 LIB_NAME="protobuf"
 LIB_VERSION="3.1.0"
 LIB_FILENAME=${LIB_NAME}-${LIB_VERSION}
-LIB_DEST_DIR=${TOOLS_ROOT}/../output/android
-NDK=$ANDROID_NDK_ROOT
-ANDROID_API="23"
+LIB_DEST_DIR=${TOOLS_ROOT}/libs
 # rm -rf ${LIB_DEST_DIR}
 [ -f ${LIB_FILENAME}.tar.gz ] || wget https://github.com/google/${LIB_NAME}/archive/v${LIB_VERSION}.tar.gz -O ${LIB_FILENAME}.tar.gz
 # Unarchive library, then configure and make for specified architectures
 configure_make() {
-  ARCH=$1; OUT=$2;
+  ARCH=$1; ABI=$2;
   
   [ -d ${LIB_FILENAME} ] && rm -rf "${LIB_FILENAME}"
   tar xfz "${LIB_FILENAME}.tar.gz"
   pushd "${LIB_FILENAME}";
 
-  PREFIX_DIR=${LIB_DEST_DIR}/protobuf-android-${OUT}
-  if [ -d "${PREFIX_DIR}" ]; then
-      rm -fr ${PREFIX_DIR}
-  fi
-
-  export LDFLAGS="-static-libstdc++"
-  export LIBS="-lc++_static -latomic"
   configure $* "clang"
+  export LDFLAGS="${LDFLAGS} -static-libstdc++"
+  export LIBS="${LIBS:-""} -lc++_static -latomic"
   # fix CXXFLAGS
   export CXXFLAGS=${CXXFLAGS/"-finline-limit=64"/""}
   ./autogen.sh
-  ./configure --prefix=${PREFIX_DIR} \
+  ./configure --prefix=${LIB_DEST_DIR}/${ABI} \
               --with-sysroot=${SYSROOT} \
               --with-protoc=`which protoc` \
               --with-zlib \
@@ -68,8 +50,14 @@ configure_make() {
   PATH=$TOOLCHAIN_PATH:$PATH
   if make -j4
   then
-    mkdir -p ${LIB_DEST_DIR}/${OUT}
     make install
+
+    OUTPUT_ROOT=${TOOLS_ROOT}/../output/android/protobuf-${ABI}
+    [ -d ${OUTPUT_ROOT}/include ] || mkdir -p ${OUTPUT_ROOT}/include
+    cp -r ${LIB_DEST_DIR}/$ABI/include/ ${OUTPUT_ROOT}/include
+
+    [ -d ${OUTPUT_ROOT}/lib ] || mkdir -p ${OUTPUT_ROOT}/lib
+    find ${LIB_DEST_DIR}/${ABI}/lib -type f -iname '*.a' -exec cp {} ${OUTPUT_ROOT}/lib \;
   fi;
   popd;
 }
@@ -79,6 +67,7 @@ configure_make() {
 for ((i=0; i < ${#ARCHS[@]}; i++))
 do
   if [[ $# -eq 0 ]] || [[ "$1" == "${ARCHS[i]}" ]]; then
-    configure_make "${ARCHS[i]}" "${OUTNAME[i]}"
+    [[ ${ANDROID_API} < 21 ]] && ( echo "${ABIS[i]}" | grep 64 > /dev/null ) && continue;
+    configure_make "${ARCHS[i]}" "${ABIS[i]}"
   fi
 done
