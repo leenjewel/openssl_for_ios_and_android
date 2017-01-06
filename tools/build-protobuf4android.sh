@@ -19,32 +19,27 @@ set -u
 source ./_shared.sh
 
 # Setup architectures, library name and other vars + cleanup from previous runs
-ARCHS=("android" "android-armv7" "android64-arm64" "android-x86" "android-x86_64" "mips" "mips64")
-OUTNAME=("armeabi" "armeabi-v7a" "arm64-v8a" "x86" "x86_64" "mips" "mips64")
-TOOLS_ROOT=`pwd`
 LIB_NAME="protobuf"
 LIB_VERSION="3.1.0"
 LIB_FILENAME=${LIB_NAME}-${LIB_VERSION}
 LIB_DEST_DIR=${TOOLS_ROOT}/libs
-NDK=$ANDROID_NDK_ROOT
-ANDROID_API="21"
 # rm -rf ${LIB_DEST_DIR}
 [ -f ${LIB_FILENAME}.tar.gz ] || wget https://github.com/google/${LIB_NAME}/archive/v${LIB_VERSION}.tar.gz -O ${LIB_FILENAME}.tar.gz
 # Unarchive library, then configure and make for specified architectures
 configure_make() {
-  ARCH=$1; OUT=$2;
+  ARCH=$1; ABI=$2;
   
   [ -d ${LIB_FILENAME} ] && rm -rf "${LIB_FILENAME}"
   tar xfz "${LIB_FILENAME}.tar.gz"
   pushd "${LIB_FILENAME}";
 
-  export LDFLAGS="-static-libstdc++"
-  export LIBS="-lc++_static -latomic"
   configure $* "clang"
+  export LDFLAGS="${LDFLAGS} -static-libstdc++"
+  export LIBS="${LIBS:-""} -lc++_static -latomic"
   # fix CXXFLAGS
   export CXXFLAGS=${CXXFLAGS/"-finline-limit=64"/""}
   ./autogen.sh
-  ./configure --prefix=${LIB_DEST_DIR}/${OUT} \
+  ./configure --prefix=${LIB_DEST_DIR}/${ABI} \
               --with-sysroot=${SYSROOT} \
               --with-protoc=`which protoc` \
               --with-zlib \
@@ -55,13 +50,13 @@ configure_make() {
   PATH=$TOOLCHAIN_PATH:$PATH
   if make -j4
   then
-    mkdir -p ${LIB_DEST_DIR}/${OUT}
+    mkdir -p ${LIB_DEST_DIR}/${ABI}
     make install
 
-    [ -d ${TOOLS_ROOT}/../lib/${OUT} ] || mkdir -p ${TOOLS_ROOT}/../lib/${OUT}
-    find ${LIB_DEST_DIR}/${OUT}/lib -type f -iname '*.a' -exec cp {} ${TOOLS_ROOT}/../lib/${OUT} \;
-    [ -d ${TOOLS_ROOT}/../include/${OUT} ] || mkdir -p ${TOOLS_ROOT}/../include/${OUT}
-    cp -r ${LIB_DEST_DIR}/$OUT/include/ ${TOOLS_ROOT}/../include/${OUT}
+    [ -d ${TOOLS_ROOT}/../lib/${ABI} ] || mkdir -p ${TOOLS_ROOT}/../lib/${ABI}
+    find ${LIB_DEST_DIR}/${ABI}/lib -type f -iname '*.a' -exec cp {} ${TOOLS_ROOT}/../lib/${ABI} \;
+    [ -d ${TOOLS_ROOT}/../include/${ABI} ] || mkdir -p ${TOOLS_ROOT}/../include/${ABI}
+    cp -r ${LIB_DEST_DIR}/$ABI/include/ ${TOOLS_ROOT}/../include/${ABI}
   fi;
   popd;
 }
@@ -71,6 +66,6 @@ configure_make() {
 for ((i=0; i < ${#ARCHS[@]}; i++))
 do
   if [[ $# -eq 0 ]] || [[ "$1" == "${ARCHS[i]}" ]]; then
-    configure_make "${ARCHS[i]}" "${OUTNAME[i]}"
+    configure_make "${ARCHS[i]}" "${ABIS[i]}"
   fi
 done

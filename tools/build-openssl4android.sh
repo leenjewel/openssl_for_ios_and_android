@@ -19,25 +19,20 @@ set -u
 source ./_shared.sh
 
 # Setup architectures, library name and other vars + cleanup from previous runs
-ARCHS=("android" "android-armv7" "android64-arm64" "android-x86" "android-x86_64" "mips" "mips64")
-OUTNAME=("armeabi" "armeabi-v7a" "arm64-v8a" "x86" "x86_64" "mips" "mips64")
-TOOLS_ROOT=`pwd`
 LIB_NAME="openssl-1.1.0c"
 LIB_DEST_DIR=${TOOLS_ROOT}/libs
-NDK=$ANDROID_NDK_ROOT
-ANDROID_API="21"
 [ -d ${LIB_DEST_DIR} ] && rm -rf ${LIB_DEST_DIR}
 [ -f "${LIB_NAME}.tar.gz" ] || wget https://www.openssl.org/source/${LIB_NAME}.tar.gz;
 # Unarchive library, then configure and make for specified architectures
 configure_make() {
-  ARCH=$1; OUT=$2;
+  ARCH=$1; ABI=$2;
   rm -rf "${LIB_NAME}"
   tar xfz "${LIB_NAME}.tar.gz"
-  pushd "${LIB_NAME}";
+  pushd "${LIB_NAME}"
 
   configure $*
   ./Configure $ARCH \
-              --prefix=${LIB_DEST_DIR}/${OUT} \
+              --prefix=${LIB_DEST_DIR}/${ABI} \
               --with-zlib-include=$SYSROOT/usr/include \
               --with-zlib-lib=$SYSROOT/usr/lib \
               zlib \
@@ -46,20 +41,26 @@ configure_make() {
               no-unit-test
   PATH=$TOOLCHAIN_PATH:$PATH
 
-  if make -j4
-  then
+  if make -j4; then
     make install
-    [ -d ${TOOLS_ROOT}/../include/$OUT ] || mkdir -p ${TOOLS_ROOT}/../include/$OUT
-    cp -r include/openssl ${TOOLS_ROOT}/../include/$OUT
 
-    [ -d ${TOOLS_ROOT}/../lib/$OUT ] || mkdir -p ${TOOLS_ROOT}/../lib/$OUT
-    find . -type f -iname \( 'libssl.a' -or -iname 'libcrypto.a' \) -exec cp {} ${TOOLS_ROOT}/../lib/$OUT \;
+    [ -d ${TOOLS_ROOT}/../include/${ABI} ] || mkdir -p ${TOOLS_ROOT}/../include/${ABI}
+    cp -r ${LIB_DEST_DIR}/${ABI}/include/openssl ${TOOLS_ROOT}/../include/${ABI}
+
+    [ -d ${TOOLS_ROOT}/../lib/${ABI} ] || mkdir -p ${TOOLS_ROOT}/../lib/${ABI}
+    cp ${LIB_DEST_DIR}/${ABI}/lib/libcrypto.a ${TOOLS_ROOT}/../lib/${ABI}
+    cp ${LIB_DEST_DIR}/${ABI}/lib/libssl.a ${TOOLS_ROOT}/../lib/${ABI}
   fi;
+  popd
+
 }
 
 for ((i=0; i < ${#ARCHS[@]}; i++))
 do
   if [[ $# -eq 0 ]] || [[ "$1" == "${ARCHS[i]}" ]]; then
-    configure_make "${ARCHS[i]}" "${OUTNAME[i]}"
+    # Do not build 64 bit arch if ANDROID_API is less than 21 which is
+    # the minimum supported API level for 64 bit.
+    [[ ${ANDROID_API} < 21 ]] && ( echo "${ABIS[i]}" | grep 64 > /dev/null ) && continue;
+    configure_make "${ARCHS[i]}" "${ABIS[i]}"
   fi
 done
