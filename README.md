@@ -12,6 +12,10 @@
 
 ## English
 
+## Downloads
+
+If you do not want to build it by yourself, you could download our prebuilt library from [there](https://github.com/leenjewel/openssl_for_ios_and_android/releases/tag/20170105)
+
 ## OpenSSL Version
 
 This a static library compile from openssl and cURL for iOS and Android.
@@ -192,6 +196,10 @@ target_link_libraries( # Specifies the target library.
 这是一个适用于 iOS 平台和 Android 平台的 Openssl 静态链接库。基于 openssl-1.0.2c 版本编译生成。
 
 后来又加入了适用于 iOS 平台和 Android 平台且支持 SSL 的 cURL 静态链接库。基于 curl-7.47.1 版本编译生成。
+
+## 下载
+
+如果你不想自己构建，那么你可以使用我们已经预先构建好的版本，[请在这里下载](https://github.com/leenjewel/openssl_for_ios_and_android/releases/tag/20170105)
 
 ## 在 iOS 工程中使用
 

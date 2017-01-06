@@ -31,7 +31,7 @@ PLATFORMS=("iPhoneOS" "iPhoneOS" "iPhoneOS" "iPhoneSimulator" "iPhoneSimulator")
 DEVELOPER=`xcode-select -print-path`
 SDK_VERSION=""10.2""
 LIB_NAME="openssl-1.1.0c"
-LIB_DEST_DIR="lib"
+LIB_DEST_DIR="${pwd_path}/../output/ios/openssl-ios-universal"
 HEADER_DEST_DIR="include"
 rm -rf "${HEADER_DEST_DIR}" "${LIB_DEST_DIR}" "${LIB_NAME}"
  
@@ -56,7 +56,7 @@ configure_make()
    export TOOLS="${DEVELOPER}"
    export CC="${TOOLS}/usr/bin/gcc -arch ${ARCH}"
 
-   PREFIX_DIR="${pwd_path}/openssl-ios-${ARCH}"
+   PREFIX_DIR="${pwd_path}/../output/ios/openssl-ios-${ARCH}"
    if [ -d "${PREFIX_DIR}" ]; then
        rm -fr "${PREFIX_DIR}"
    fi
@@ -89,7 +89,7 @@ done
 create_lib()
 {
    LIB_SRC=$1; LIB_DST=$2;
-   LIB_PATHS=( "${ARCHS[@]/#/${pwd_path}/openssl-ios-}" )
+   LIB_PATHS=( "${ARCHS[@]/#/${pwd_path}/../output/ios/openssl-ios-}" )
    LIB_PATHS=( "${LIB_PATHS[@]/%//lib/${LIB_SRC}}" )
    lipo ${LIB_PATHS[@]} -create -output "${LIB_DST}"
 }
