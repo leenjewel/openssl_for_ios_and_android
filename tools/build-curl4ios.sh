@@ -34,7 +34,7 @@ DEVELOPER=`xcode-select -print-path`
 TOOLCHAIN=/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain
 SDK_VERSION=""10.2""
 IPHONEOS_DEPLOYMENT_TARGET="6.0"
-LIB_DEST_DIR="${pwd_path}/../output/ios/curl-ios-universal"
+LIB_DEST_DIR="${pwd_path}/../output/ios/curl-universal"
 HEADER_DEST_DIR="include"
 rm -rf "${HEADER_DEST_DIR}" "${LIB_DEST_DIR}" "${LIB_NAME}"
  
@@ -57,7 +57,7 @@ configure_make()
    tar xfz "${LIB_NAME}.tar.gz"
    pushd .; cd "${LIB_NAME}";
 
-   PREFIX_DIR="${pwd_path}/../output/ios/curl-ios-${ARCH}"
+   PREFIX_DIR="${pwd_path}/../output/ios/curl-${ARCH}"
    if [ -d "${PREFIX_DIR}" ]; then
        rm -fr "${PREFIX_DIR}"
    fi
@@ -79,10 +79,10 @@ configure_make()
        --enable-ipv6
    if make -j8
    then
-       if [[ -d "curl-ios-${ARCH}" ]]; then
-           rm -fr "curl-ios-${ARCH}"
+       if [[ -d "curl-${ARCH}" ]]; then
+           rm -fr "curl-${ARCH}"
        fi
-       mkdir -p "curl-ios-${ARCH}"
+       mkdir -p "curl-${ARCH}"
        make install
        popd; rm -fr ${LIB_NAME}
    fi
@@ -99,7 +99,7 @@ done
 create_lib()
 {
    LIB_SRC=$1; LIB_DST=$2;
-   LIB_PATHS=( "${ARCHS[@]/#/${pwd_path}/../output/ios/curl-ios-}" )
+   LIB_PATHS=( "${ARCHS[@]/#/${pwd_path}/../output/ios/curl-}" )
    LIB_PATHS=( "${LIB_PATHS[@]/%//${LIB_SRC}}" )
    lipo ${LIB_PATHS[@]} -create -output "${LIB_DST}"
 }
