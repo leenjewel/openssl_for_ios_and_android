@@ -33,7 +33,7 @@ configure_make() {
   configure $*
 
   #support openssl-1.0.x
-  if [[ $LIB_NAME != "openssl-1.1.*" ]]; then
+  if [[ $LIB_NAME != openssl-1.1.* ]]; then
     if [[ $ARCH == "android-armeabi" ]]; then
         ARCH="android-armv7"
     elif [[ $ARCH == "android64" ]]; then 
