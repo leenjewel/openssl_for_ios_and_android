@@ -20,7 +20,7 @@ source ./_shared.sh
 
 # Setup architectures, library name and other vars + cleanup from previous runs
 LIB_NAME="protobuf"
-LIB_VERSION="3.1.0"
+LIB_VERSION="3.3.0"
 LIB_FILENAME=${LIB_NAME}-${LIB_VERSION}
 LIB_DEST_DIR=${TOOLS_ROOT}/libs
 # rm -rf ${LIB_DEST_DIR}
