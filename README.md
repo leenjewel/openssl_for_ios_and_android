@@ -20,32 +20,33 @@ If you do not want to build it by yourself, you could download our prebuilt libr
 
 This a static library compile from openssl and cURL for iOS and Android.
 
-~~[openssl-1.0.2c.tar.gz](https://www.openssl.org/source/openssl-1.0.2c.tar.gz)~~
-
-[openssl-1.1.0c.tar.gz](https://www.openssl.org/source/openssl-1.1.0c.tar.gz)
+ - ~~[openssl-1.0.2c.tar.gz](https://www.openssl.org/source/openssl-1.0.2c.tar.gz)~~
+ - [openssl-1.1.0f.tar.gz](https://www.openssl.org/source/openssl-1.1.0f.tar.gz)
+ - [https://github.com/openssl/openssl](https://github.com/openssl/openssl)
 
 ## cURL Version
 
-~~[curl-7.47.1.tar.gz](https://curl.haxx.se/download/curl-7.47.1.tar.gz)~~
-
-[curl-7.51.0.tar.gz](https://curl.haxx.se/download/curl-7.51.0.tar.gz)
+ - ~~[curl-7.47.1.tar.gz](https://curl.haxx.se/download/curl-7.47.1.tar.gz)~~
+ - [curl-7.54.1.tar.gz](https://curl.haxx.se/download/curl-7.54.1.tar.gz)
+ - [https://github.com/curl/curl](https://github.com/curl/curl)
 
 ## Android NDK Version
 
-[android-ndk-r13b](https://dl.google.com/android/repository/android-ndk-r13b-darwin-x86_64.zip)
+ - ~~[android-ndk-r13b](https://dl.google.com/android/repository/android-ndk-r13b-darwin-x86_64.zip)~~
+ - [android-ndk-r14b](https://dl.google.com/android/repository/android-ndk-r14b-darwin-x86_64.zip)
 
 ## How to build
 
 ### For iOS
 
-Copy `openssl-1.1.0c.tar.gz` to `tools` file folder and run
+Copy `openssl-1.1.0f.tar.gz` to `tools` file folder and run
 
 ```
 cd tools
 sh ./build-openssl4ios.sh
 ```
 
-Copy `curl-7.51.0.tar.gz` to `tools` file folder and run
+Copy `curl-7.54.1.tar.gz` to `tools` file folder and run
 
 ```
 cd tools
@@ -193,9 +194,9 @@ target_link_libraries( # Specifies the target library.
 
 ## 中文
 
-这是一个适用于 iOS 平台和 Android 平台的 Openssl 静态链接库。基于 openssl-1.0.2c 版本编译生成。
+这是一个适用于 iOS 平台和 Android 平台的 Openssl 静态链接库。基于 openssl-1.1.0f 版本编译生成。
 
-后来又加入了适用于 iOS 平台和 Android 平台且支持 SSL 的 cURL 静态链接库。基于 curl-7.47.1 版本编译生成。
+后来又加入了适用于 iOS 平台和 Android 平台且支持 SSL 的 cURL 静态链接库。基于 curl-7.54.1 版本编译生成。
 
 ## 下载
 
