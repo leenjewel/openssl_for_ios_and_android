@@ -4,10 +4,10 @@
 <thead>
 <tr><td>library</td><td>version</td><td>platform support</td><td>arch support</td><td>pull commit</td></tr>
 </thead>
-<tr><td>openssl</td><td>1.1.0c</td><td>ios</td><td>armv7s armv7 i386 x86_64 arm64</td><td>20651fbb</td></tr>
-<tr><td></td><td></td><td>android</td><td>armeabi armeabi-v7a arm64-v8a x86 x86_64 mips mips64</td><td>20651fbb</td></tr>
-<tr><td>curl</td><td>7.51.0</td><td>ios</td><td>armv7s armv7 i386 x86_64 arm64</td><td>20651fbb</td></tr>
-<tr><td></td><td></td><td>android</td><td>armeabi armeabi-v7a arm64-v8a x86 x86_64 mips mips64</td><td>20651fbb</td></tr>
+<tr><td>openssl</td><td>1.1.0f</td><td>ios</td><td>armv7s armv7 i386 x86_64 arm64</td><td>aae1672</td></tr>
+<tr><td></td><td></td><td>android</td><td>armeabi armeabi-v7a arm64-v8a x86 x86_64 mips mips64</td><td>aae1672</td></tr>
+<tr><td>curl</td><td>7.53.1</td><td>ios</td><td>armv7s armv7 i386 x86_64 arm64</td><td>aae1672</td></tr>
+<tr><td></td><td></td><td>android</td><td>armeabi armeabi-v7a arm64-v8a x86 x86_64 mips mips64</td><td>aae1672</td></tr>
 </table>
 
 ## English
@@ -20,32 +20,33 @@ If you do not want to build it by yourself, you could download our prebuilt libr
 
 This a static library compile from openssl and cURL for iOS and Android.
 
-~~[openssl-1.0.2c.tar.gz](https://www.openssl.org/source/openssl-1.0.2c.tar.gz)~~
+ - ~~[openssl-1.0.2c.tar.gz](https://www.openssl.org/source/openssl-1.0.2c.tar.gz)~~
+ - [openssl-1.1.0f.tar.gz](https://www.openssl.org/source/openssl-1.1.0f.tar.gz)
+ - [https://github.com/openssl/openssl](https://github.com/openssl/openssl)
 
-[openssl-1.1.0c.tar.gz](https://www.openssl.org/source/openssl-1.1.0c.tar.gz)
+## cURL Version
 
-##cURL Version
+ - ~~[curl-7.47.1.tar.gz](https://curl.haxx.se/download/curl-7.47.1.tar.gz)~~
+ - [curl-7.53.1.tar.gz](https://curl.haxx.se/download/curl-7.53.1.tar.gz)
+ - [https://github.com/curl/curl](https://github.com/curl/curl)
 
-~~[curl-7.47.1.tar.gz](https://curl.haxx.se/download/curl-7.47.1.tar.gz)~~
+## Android NDK Version
 
-[curl-7.51.0.tar.gz](https://curl.haxx.se/download/curl-7.51.0.tar.gz)
-
-##Android NDK Version
-
-[android-ndk-r13b](https://dl.google.com/android/repository/android-ndk-r13b-darwin-x86_64.zip)
+ - ~~[android-ndk-r13b](https://dl.google.com/android/repository/android-ndk-r13b-darwin-x86_64.zip)~~
+ - [android-ndk-r14b](https://dl.google.com/android/repository/android-ndk-r14b-darwin-x86_64.zip)
 
 ## How to build
 
 ### For iOS
 
-Copy `openssl-1.1.0c.tar.gz` to `tools` file folder and run
+Copy `openssl-1.1.0f.tar.gz` to `tools` file folder and run
 
 ```
 cd tools
 sh ./build-openssl4ios.sh
 ```
 
-Copy `curl-7.51.0.tar.gz` to `tools` file folder and run
+Copy `curl-7.53.1.tar.gz` to `tools` file folder and run
 
 ```
 cd tools
@@ -193,9 +194,9 @@ target_link_libraries( # Specifies the target library.
 
 ## 中文
 
-这是一个适用于 iOS 平台和 Android 平台的 Openssl 静态链接库。基于 openssl-1.0.2c 版本编译生成。
+这是一个适用于 iOS 平台和 Android 平台的 Openssl 静态链接库。基于 openssl-1.1.0f 版本编译生成。
 
-后来又加入了适用于 iOS 平台和 Android 平台且支持 SSL 的 cURL 静态链接库。基于 curl-7.47.1 版本编译生成。
+后来又加入了适用于 iOS 平台和 Android 平台且支持 SSL 的 cURL 静态链接库。基于 curl-7.53.1 版本编译生成。
 
 ## 下载
 
