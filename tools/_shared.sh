@@ -65,8 +65,8 @@ configure() {
     export CC=${NDK_TOOLCHAIN_BASENAME}-gcc
     export CXX=${NDK_TOOLCHAIN_BASENAME}-g++
   else
-    export CC=${TOOLCHAIN_PATH}/clang
-    export CXX=${TOOLCHAIN_PATH}/clang++
+    export CC=${NDK_TOOLCHAIN_BASENAME}-clang
+    export CXX=${NDK_TOOLCHAIN_BASENAME}-clang++
   fi;
   export LINK=${CXX}
   export LD=${NDK_TOOLCHAIN_BASENAME}-ld
