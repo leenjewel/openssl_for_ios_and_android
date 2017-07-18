@@ -4,7 +4,7 @@ TOOLS_ROOT=`pwd`
 ARCHS=("android" "android-armeabi" "android64-aarch64" "android-x86" "android64" "android-mips" "android-mips64")
 ABIS=("armeabi" "armeabi-v7a" "arm64-v8a" "x86" "x86_64" "mips" "mips64")
 # Default to API 21 for it is the minimum requirement for 64 bit archs.
-ANDROID_API=${ANDROID_API:-21}
+ANDROID_API=${ANDROID_API:-14}
 NDK=${ANDROID_NDK}
 
 configure() {
