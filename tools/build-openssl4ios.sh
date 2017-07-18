@@ -30,7 +30,7 @@ SDKS=("iphoneos" "iphoneos" "iphoneos" "iphonesimulator" "iphonesimulator")
 PLATFORMS=("iPhoneOS" "iPhoneOS" "iPhoneOS" "iPhoneSimulator" "iPhoneSimulator")
 DEVELOPER=`xcode-select -print-path`
 SDK_VERSION=""10.2""
-LIB_NAME="openssl-1.1.0c"
+LIB_NAME="openssl-1.1.0f"
 LIB_DEST_DIR="${pwd_path}/../output/ios/openssl-universal"
 HEADER_DEST_DIR="include"
 rm -rf "${HEADER_DEST_DIR}" "${LIB_DEST_DIR}" "${LIB_NAME}"
