@@ -53,8 +53,10 @@ configure_make() {
               no-unit-test
   PATH=$TOOLCHAIN_PATH:$PATH
 
+  make clean
+  
   if make -j4; then
-    #make install
+    # make install
     make install_sw
     make install_ssldirs
 

@@ -48,6 +48,7 @@ configure_make() {
               --disable-shared \
               --enable-cross-compile
   PATH=$TOOLCHAIN_PATH:$PATH
+  make clean
   if make -j4
   then
     make install

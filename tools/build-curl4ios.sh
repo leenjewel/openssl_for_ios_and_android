@@ -78,6 +78,7 @@ configure_make()
        --disable-verbose \
        --enable-threaded-resolver \
        --enable-ipv6
+   make clean
    if make -j8
    then
        if [[ -d "curl-${ARCH}" ]]; then

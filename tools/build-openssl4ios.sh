@@ -71,7 +71,8 @@ configure_make()
        ./Configure iphoneos-cross --prefix="${PREFIX_DIR}"
    fi
    export CFLAGS="-isysroot ${CROSS_TOP}/SDKs/${CROSS_SDK}"
-   
+
+   make clean
    if make -j8
    then
        # make install;
