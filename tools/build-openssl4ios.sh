@@ -74,7 +74,10 @@ configure_make()
    
    if make -j8
    then
-       make install; popd;
+       # make install;
+       make install_sw;
+       make install_ssldirs;
+       popd;
        rm -fr "${LIB_NAME}"
    fi
 }

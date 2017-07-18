@@ -54,7 +54,9 @@ configure_make() {
   PATH=$TOOLCHAIN_PATH:$PATH
 
   if make -j4; then
-    make install
+    #make install
+    make install_sw
+    make install_ssldirs
 
     OUTPUT_ROOT=${TOOLS_ROOT}/../output/android/openssl-${ABI}
     [ -d ${OUTPUT_ROOT}/include ] || mkdir -p ${OUTPUT_ROOT}/include
