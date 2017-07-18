@@ -29,7 +29,8 @@ ARCHS=("arm64" "armv7s" "armv7" "i386" "x86_64")
 SDKS=("iphoneos" "iphoneos" "iphoneos" "iphonesimulator" "iphonesimulator")
 PLATFORMS=("iPhoneOS" "iPhoneOS" "iPhoneOS" "iPhoneSimulator" "iPhoneSimulator")
 DEVELOPER=`xcode-select -print-path`
-SDK_VERSION=""10.2""
+# If you can't compile with this version, please modify the version to it which on your mac.
+SDK_VERSION=""10.3""
 LIB_NAME="openssl-1.1.0f"
 LIB_DEST_DIR="${pwd_path}/../output/ios/openssl-universal"
 HEADER_DEST_DIR="include"
