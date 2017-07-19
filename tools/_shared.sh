@@ -2,10 +2,23 @@
 
 TOOLS_ROOT=`pwd`
 ARCHS=("android" "android-armeabi" "android64-aarch64" "android-x86" "android64" "android-mips" "android-mips64")
-ABIS=("armeabi" "armeabi-v7a" "arm64-v8a" "x86" "x86_64" "mips" "mips64")
+
+#
+# Warning !!! Android Build !!!
+#
 # Default to API 21 for it is the minimum requirement for 64 bit archs.
-# IF you need to build for min api level 14, you need to modify it to 14 and will not build for 64 bit archs.
-ANDROID_API=${ANDROID_API:-21}
+# IF you need to build for min api level 16, you need to modify it to 14 and will not build for 64 bit archs.
+# api level 16 build is better because api level 21 and higher may have problem like
+#
+#     https://github.com/openssl/openssl/issues/988
+#     http://stackoverflow.com/questions/37122126/whats-the-exact-significance-of-android-ndk-platform-version-compared-to-api-le
+#
+# So if you not need 64 bit arch api level 16 is better
+#
+ANDROID_API=${ANDROID_API:-16}
+ABIS=("armeabi" "armeabi-v7a" "x86" "mips")
+# ANDROID_API=${ANDROID_API:-21}
+# ABIS=("armeabi" "armeabi-v7a" "arm64-v8a" "x86" "x86_64" "mips" "mips64")
 NDK=${ANDROID_NDK}
 
 configure() {
