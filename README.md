@@ -192,11 +192,33 @@ target_link_libraries( # Specifies the target library.
                        )
 ```
 
+### About "libcrypto.a(ui_openssl.o):ui_openssl.c:function read_string_inner: error: undefined reference to 'signal' " problem
+
+when you get these error 
+
+```
+libcrypto.a(ui_openssl.o):ui_openssl.c:function read_string_inner: error: undefined reference to 'signal' 
+
+libcrypto.a(ui_openssl.o):ui_openssl.c:function read_string_inner: error: undefined reference to 'tcsetattr' 
+```
+
+You need to rebuild OpenSSL static library with NDK API level 16 or earlier
+
+If you build OpenSSL with API level 16 or earlier you may not build it for arch 64 bit only support 32 bit
+
+more information :
+
+[https://github.com/openssl/openssl/issues/988](https://github.com/openssl/openssl/issues/988)
+
+[http://stackoverflow.com/questions/37122126/whats-the-exact-significance-of-android-ndk-platform-version-compared-to-api-le](http://stackoverflow.com/questions/37122126/whats-the-exact-significance-of-android-ndk-platform-version-compared-to-api-le)
+
 ## 中文
 
 这是一个适用于 iOS 平台和 Android 平台的 Openssl 静态链接库。基于 openssl-1.1.0f 版本编译生成。
 
 后来又加入了适用于 iOS 平台和 Android 平台且支持 SSL 的 cURL 静态链接库。基于 curl-7.53.1 版本编译生成。
+
+> Our build script default use API 16 to build OpenSSL
 
 ## 下载
 
@@ -297,6 +319,28 @@ target_link_libraries( # Specifies the target library.
                        crypto
                        )
 ```
+
+### 关于 "libcrypto.a(ui_openssl.o):ui_openssl.c:function read_string_inner: error: undefined reference to 'signal' " 报错解决
+
+当你将编译好的 OpenSSL 静态库链接进你的安卓工程时，可能会遇到如下报错 
+
+```
+libcrypto.a(ui_openssl.o):ui_openssl.c:function read_string_inner: error: undefined reference to 'signal' 
+
+libcrypto.a(ui_openssl.o):ui_openssl.c:function read_string_inner: error: undefined reference to 'tcsetattr' 
+```
+
+这时你需要使用低版本的 API 重新编译 OpenSSL 静态库，推荐使用 android-16 或以下版本的 API 来重新编译
+
+用低版本 API 编译的副作用是你无法编译出支持 64 位架构的静态库，只能编译出支持 32 位架构的静态库
+
+具体信息可以参考：
+
+[https://github.com/openssl/openssl/issues/988](https://github.com/openssl/openssl/issues/988)
+
+[http://stackoverflow.com/questions/37122126/whats-the-exact-significance-of-android-ndk-platform-version-compared-to-api-le](http://stackoverflow.com/questions/37122126/whats-the-exact-significance-of-android-ndk-platform-version-compared-to-api-le)
+
+> 目前我们的编译脚本默认设置已经更改为使用 API 16 编译 32 位的 OpenSSL 静态库了
 
 ## Reference / 参考资料
 
