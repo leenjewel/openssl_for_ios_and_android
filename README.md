@@ -16,6 +16,8 @@
 
 If you do not want to build it by yourself, you could download our prebuilt library from [there](https://github.com/leenjewel/openssl_for_ios_and_android/releases/tag/20170105)
 
+Android prebuilt library [download from here!!!](https://github.com/leenjewel/openssl_for_ios_and_android/releases/tag/android_openssl-1.1.0f_curl-7.54.1)
+
 ## OpenSSL Version
 
 This a static library compile from openssl and cURL for iOS and Android.
@@ -223,6 +225,10 @@ more information :
 ## 下载
 
 如果你不想自己构建，那么你可以使用我们已经预先构建好的版本，[请在这里下载](https://github.com/leenjewel/openssl_for_ios_and_android/releases/tag/20170105)
+
+
+Android 编译好的库[从这里下载!!!](https://github.com/leenjewel/openssl_for_ios_and_android/releases/tag/android_openssl-1.1.0f_curl-7.54.1)
+
 
 ## 在 iOS 工程中使用
 
