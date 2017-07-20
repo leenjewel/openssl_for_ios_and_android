@@ -1,7 +1,6 @@
 #!/bin/bash
 
 TOOLS_ROOT=`pwd`
-ARCHS=("android" "android-armeabi" "android64-aarch64" "android-x86" "android64" "android-mips" "android-mips64")
 
 #
 # Warning !!! Android Build !!!
@@ -15,9 +14,18 @@ ARCHS=("android" "android-armeabi" "android64-aarch64" "android-x86" "android64"
 #
 # So if you not need 64 bit arch api level 16 is better
 #
-ANDROID_API=${ANDROID_API:-16}
+# But but but cURL could not build by android-20 and earlier :-(
+# So you can build openssl with android-16 then build cURL with android-21
+#
+if [ "${1}" == "cURL" ]; then
+    ANDROID_API=${ANDROID_API:-21}
+else
+    ANDROID_API=${ANDROID_API:-16}
+fi
+ARCHS=("android" "android-armeabi" "android-x86" "android-mips")
 ABIS=("armeabi" "armeabi-v7a" "x86" "mips")
 # ANDROID_API=${ANDROID_API:-21}
+# ARCHS=("android" "android-armeabi" "android64-aarch64" "android-x86" "android64" "android-mips" "android-mips64")
 # ABIS=("armeabi" "armeabi-v7a" "arm64-v8a" "x86" "x86_64" "mips" "mips64")
 NDK=${ANDROID_NDK}
 
