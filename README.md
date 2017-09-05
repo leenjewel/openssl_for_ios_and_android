@@ -36,6 +36,7 @@ This a static library compile from openssl and cURL for iOS and Android.
 
  - ~~[android-ndk-r13b](https://dl.google.com/android/repository/android-ndk-r13b-darwin-x86_64.zip)~~
  - [android-ndk-r14b](https://dl.google.com/android/repository/android-ndk-r14b-darwin-x86_64.zip)
+ - ~~android-ndk-r15 (**Do not try to build use 15 It will fail**)~~
 
 ## How to build
 
