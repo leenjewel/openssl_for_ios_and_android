@@ -45,6 +45,8 @@ This a static library compile from openssl and cURL for iOS and Android.
 
 ## OpenSSL 1.1.1a for Android
 
+Thanks for [https://stackoverflow.com/questions/52717228/how-to-compile-openssl-1-1-1-for-android](https://stackoverflow.com/questions/52717228/how-to-compile-openssl-1-1-1-for-android)
+
 - [openssl-1.1.1a.tar.gz](https://www.openssl.org/source/openssl-1.1.1a.tar.gz)
 
 - Android NDK r19c
