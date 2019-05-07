@@ -20,7 +20,7 @@ set -u
 
 OPENSSL_VERSION=1.1.1a
 
-API_LEVEL=23
+API_LEVEL=16
 
 SOURCE="$0"
 while [ -h "$SOURCE" ]; do
