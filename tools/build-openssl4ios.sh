@@ -71,7 +71,13 @@ configure_make()
        ./Configure iphoneos-cross --prefix="${PREFIX_DIR}"
    fi
    export CFLAGS="-isysroot ${CROSS_TOP}/SDKs/${CROSS_SDK}"
-
+   
+   if [ ! -d ${CROSS_TOP}/SDKs/${CROSS_SDK} ]; then
+       echo "ERROR: iOS SDK version:'${SDK_VERSION}' incorrect, SDK in your system is:"
+       xcodebuild -showsdks | grep iOS
+       exit -1
+   fi
+   
    make clean
    if make -j8
    then
