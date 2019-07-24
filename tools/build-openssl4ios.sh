@@ -30,7 +30,7 @@ SDKS=("iphoneos" "iphoneos" "iphoneos" "iphonesimulator" "iphonesimulator")
 PLATFORMS=("iPhoneOS" "iPhoneOS" "iPhoneOS" "iPhoneSimulator" "iPhoneSimulator")
 DEVELOPER=`xcode-select -print-path`
 # If you can't compile with this version, please modify the version to it which on your mac.
-SDK_VERSION="xcrun -sdk iphoneos --show-sdk-version"
+SDK_VERSION=`xcrun -sdk iphoneos --show-sdk-version`
 LIB_NAME="openssl-1.1.0f"
 LIB_DEST_DIR="${pwd_path}/../output/ios/openssl-universal"
 HEADER_DEST_DIR="include"
