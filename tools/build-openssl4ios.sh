@@ -67,13 +67,15 @@ configure_make()
    mkdir -p "${PREFIX_DIR}"
 
    if [[ "${ARCH}" == "x86_64" ]]; then
+        unset IPHONEOS_DEPLOYMENT_TARGET=
        ./Configure darwin64-x86_64-cc --prefix="${PREFIX_DIR}"
    elif [[ "${ARCH}" == "i386" ]]; then
+        unset IPHONEOS_DEPLOYMENT_TARGET=
        ./Configure darwin-i386-cc --prefix="${PREFIX_DIR}"
    else
+       export IPHONEOS_DEPLOYMENT_TARGET=${IOS_MIN_TARGET}
        ./Configure iphoneos-cross --prefix="${PREFIX_DIR}"
    fi
-   export IPHONEOS_DEPLOYMENT_TARGET=${IOS_MIN_TARGET}
    export CFLAGS="-isysroot ${CROSS_TOP}/SDKs/${CROSS_SDK}"
    
    if [ ! -d ${CROSS_TOP}/SDKs/${CROSS_SDK} ]; then
