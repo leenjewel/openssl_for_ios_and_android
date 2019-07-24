@@ -23,17 +23,19 @@ while [ -h "$SOURCE" ]; do
     [[ $SOURCE != /* ]] && SOURCE="$DIR/$SOURCE"
 done
 pwd_path="$( cd -P "$( dirname "$SOURCE" )" && pwd )"
- 
+
+# Setting
+IOS_MIN_TARGET="8.0"
+LIB_NAME="openssl-1.1.0f"
+LIB_DEST_DIR="${pwd_path}/../output/ios/openssl-universal"
+HEADER_DEST_DIR="include"
+
 # Setup architectures, library name and other vars + cleanup from previous runs
 ARCHS=("arm64" "armv7s" "armv7" "i386" "x86_64")
 SDKS=("iphoneos" "iphoneos" "iphoneos" "iphonesimulator" "iphonesimulator")
 PLATFORMS=("iPhoneOS" "iPhoneOS" "iPhoneOS" "iPhoneSimulator" "iPhoneSimulator")
 DEVELOPER=`xcode-select -print-path`
-# If you can't compile with this version, please modify the version to it which on your mac.
 SDK_VERSION=`xcrun -sdk iphoneos --show-sdk-version`
-LIB_NAME="openssl-1.1.0f"
-LIB_DEST_DIR="${pwd_path}/../output/ios/openssl-universal"
-HEADER_DEST_DIR="include"
 rm -rf "${HEADER_DEST_DIR}" "${LIB_DEST_DIR}" "${LIB_NAME}"
 [ -f "${LIB_NAME}.tar.gz" ] || wget https://www.openssl.org/source/${LIB_NAME}.tar.gz;
  
@@ -71,6 +73,7 @@ configure_make()
    else
        ./Configure iphoneos-cross --prefix="${PREFIX_DIR}"
    fi
+   export IPHONEOS_DEPLOYMENT_TARGET=${IOS_MIN_TARGET}
    export CFLAGS="-isysroot ${CROSS_TOP}/SDKs/${CROSS_SDK}"
    
    if [ ! -d ${CROSS_TOP}/SDKs/${CROSS_SDK} ]; then
