@@ -61,16 +61,26 @@ Thanks for [https://stackoverflow.com/questions/52717228/how-to-compile-openssl-
 
 Copy `openssl-1.1.0f.tar.gz` to `tools` file folder and run
 
-```
+```shell
 cd tools
 sh ./build-openssl4ios.sh
 ```
 
 Copy `curl-7.53.1.tar.gz` to `tools` file folder and run
 
-```
+```shell
 cd tools
 sh ./build-curl4ios.sh
+```
+
+### Special things about building i386 architecture on Mojave
+
+If you build `i386` failed for link error on Mojave (macOS 10.14+).
+
+Try to intall the header package of macOS 10.14:
+
+```shell
+sudo installer -pkg /Library/Developer/CommandLineTools/Packages/macOS_SDK_headers_for_macOS_10.14.pkg -target /
 ```
 
 ### For Android

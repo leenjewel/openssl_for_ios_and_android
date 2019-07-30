@@ -37,7 +37,7 @@ PLATFORMS=("iPhoneOS" "iPhoneOS" "iPhoneOS" "iPhoneSimulator" "iPhoneSimulator")
 DEVELOPER=`xcode-select -print-path`
 SDK_VERSION=`xcrun -sdk iphoneos --show-sdk-version`
 rm -rf "${HEADER_DEST_DIR}" "${LIB_DEST_DIR}" "${LIB_NAME}"
-[ -f "${LIB_NAME}.tar.gz" ] || wget https://www.openssl.org/source/${LIB_NAME}.tar.gz;
+[ -f "${LIB_NAME}.tar.gz" ] || curl https://www.openssl.org/source/${LIB_NAME}.tar.gz > ${LIB_NAME}.tar.gz
  
 # Unarchive library, then configure and make for specified architectures
 configure_make()
@@ -113,4 +113,3 @@ create_lib()
 mkdir "${LIB_DEST_DIR}";
 create_lib "libcrypto.a" "${LIB_DEST_DIR}/libcrypto.a"
 create_lib "libssl.a" "${LIB_DEST_DIR}/libssl.a"
- 
