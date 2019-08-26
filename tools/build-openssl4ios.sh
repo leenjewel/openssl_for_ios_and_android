@@ -16,6 +16,8 @@
 
 set -u
 
+TOOLS_ROOT=`pwd`
+
 SOURCE="$0"
 while [ -h "$SOURCE" ]; do
     DIR="$( cd -P "$( dirname "$SOURCE" )" && pwd )"
@@ -23,6 +25,10 @@ while [ -h "$SOURCE" ]; do
     [[ $SOURCE != /* ]] && SOURCE="$DIR/$SOURCE"
 done
 pwd_path="$( cd -P "$( dirname "$SOURCE" )" && pwd )"
+
+echo pwd_path=${pwd_path}
+echo TOOLS_ROOT=${TOOLS_ROOT}
+read -n1 -p "Press any key to continue..."
 
 # Setting
 IOS_MIN_TARGET="8.0"
@@ -84,15 +90,17 @@ configure_make()
        exit -1
    fi
    
-   make clean
-   if make -j8
+    OUTPUT_ROOT=${TOOLS_ROOT}/../output/ios/openssl-${ARCH}
+    mkdir -p ${OUTPUT_ROOT}/log
+   make clean &> "${OUTPUT_ROOT}/log/${ARCH}.log"
+   if make -j8 >> "${OUTPUT_ROOT}/log/${ARCH}.log" 2>&1
    then
        # make install;
-       make install_sw;
-       make install_ssldirs;
-       popd;
-       rm -fr "${LIB_NAME}"
+       make install_sw >> "${OUTPUT_ROOT}/log/${ARCH}.log" 2>&1
+       make install_ssldirs >> "${OUTPUT_ROOT}/log/${ARCH}.log" 2>&1      
    fi
+
+   popd
 }
 for ((i=0; i < ${#ARCHS[@]}; i++))
 do
@@ -110,6 +118,6 @@ create_lib()
    LIB_PATHS=( "${LIB_PATHS[@]/%//lib/${LIB_SRC}}" )
    lipo ${LIB_PATHS[@]} -create -output "${LIB_DST}"
 }
-mkdir "${LIB_DEST_DIR}";
+mkdir -p "${LIB_DEST_DIR}";
 create_lib "libcrypto.a" "${LIB_DEST_DIR}/libcrypto.a"
 create_lib "libssl.a" "${LIB_DEST_DIR}/libssl.a"
