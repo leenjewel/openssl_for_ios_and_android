@@ -17,7 +17,7 @@
 		37342F342314C5CE00913D9A /* libssl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 37342F322314C5CD00913D9A /* libssl.a */; };
 		37342F352314C5CE00913D9A /* libcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 37342F332314C5CD00913D9A /* libcrypto.a */; };
 		37342F832314C61E00913D9A /* test_http.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 37342F812314C61E00913D9A /* test_http.cpp */; };
-		37342F852314C68A00913D9A /* ca-bundle.crt in Resources */ = {isa = PBXBuildFile; fileRef = 37342F842314C68A00913D9A /* ca-bundle.crt */; };
+		3734307C23160F0B00913D9A /* ca-bundle.crt in Resources */ = {isa = PBXBuildFile; fileRef = 37342F842314C68A00913D9A /* ca-bundle.crt */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -29,6 +29,18 @@
 			remoteInfo = test_cpphttplib_by_app;
 		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		3734307923160E4C00913D9A /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 7;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		37342EAE2314C45F00913D9A /* test_cpphttplib_by_app.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = test_cpphttplib_by_app.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -301,6 +313,7 @@
 				37342EAA2314C45F00913D9A /* Sources */,
 				37342EAB2314C45F00913D9A /* Frameworks */,
 				37342EAC2314C45F00913D9A /* Resources */,
+				3734307923160E4C00913D9A /* CopyFiles */,
 			);
 			buildRules = (
 			);
@@ -374,7 +387,7 @@
 				37342EBE2314C46900913D9A /* LaunchScreen.storyboard in Resources */,
 				37342EBB2314C46900913D9A /* Assets.xcassets in Resources */,
 				37342EB92314C46000913D9A /* Main.storyboard in Resources */,
-				37342F852314C68A00913D9A /* ca-bundle.crt in Resources */,
+				3734307C23160F0B00913D9A /* ca-bundle.crt in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -561,6 +574,7 @@
 					CPPHTTPLIB_OPENSSL_SUPPORT,
 				);
 				INFOPLIST_FILE = test_cpphttplib_by_app/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -573,7 +587,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "iOS Free Development";
 				SYSTEM_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/test_cpphttplib_by_app/http\"";
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -584,6 +598,7 @@
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = test_cpphttplib_by_app/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -596,7 +611,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SYSTEM_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/test_cpphttplib_by_app/http\"";
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};

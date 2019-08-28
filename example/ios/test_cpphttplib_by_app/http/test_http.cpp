@@ -43,6 +43,35 @@ void test_https() {
     
     return ;
 }
+void test_https(const char* cert_file_name)
+{
+#ifdef CPPHTTPLIB_OPENSSL_SUPPORT
+    httplib::SSLClient cli("httpbin.org");
+    //    httplib::SSLClient cli("localhost", 8080);
+    // httplib::SSLClient cli("google.com");
+    // httplib::SSLClient cli("www.youtube.com");
+    cli.set_ca_cert_path(cert_file_name);
+    cli.enable_server_certificate_verification(true);
+#else
+    httplib::Client cli("localhost", 8080);
+#endif
+    
+    auto res = cli.Get("/get");
+    if (res) {
+        cout << res->status << endl;
+        cout << res->get_header_value("Content-Type") << endl;
+        cout << res->body << endl;
+    } else {
+#ifdef CPPHTTPLIB_OPENSSL_SUPPORT
+        auto result = cli.get_openssl_verify_result();
+        if (result) {
+            cout << "verify error: " << X509_verify_cert_error_string(result) << endl;
+        }
+#endif
+    }
+    
+    return ;
+}
 
 using namespace httplib;
 void test_http2()
@@ -126,7 +155,15 @@ void test_http2()
 
 void test_ssl()
 {
-    SSL_CTX* ctx_ = SSL_CTX_new(SSLv23_client_method());
+    int a = OPENSSL_API_COMPAT;
+    std::cout << a << std::endl;
+    
+    const SSL_METHOD* method = SSLv23_client_method();
+    if(NULL == method) {
+        std::cout << "method is error." << std::endl;
+    }
+    
+    SSL_CTX* ctx_ = SSL_CTX_new(method);
     SSL *ssl = nullptr;
     ssl = SSL_new(ctx_);
 
@@ -138,4 +175,52 @@ void test_ssl()
     }
     std::cout << ret << std::endl;
     
+}
+
+#include <fstream>
+
+void test_file_op()
+{
+    ifstream f(CA_CERT_FILE);
+    if (f.is_open()) {
+        cout << "f is open." << endl;
+    }
+    else{
+        cout << "f is not open." << endl;
+    }
+    
+    ifstream f2;
+    f2.open(CA_CERT_FILE);
+    if (f2.is_open()) {
+        cout << "f2 is open." << endl;
+    }
+    else{
+        cout << "f2 is not open." << endl;
+    }
+}
+
+#include <cstdio>
+#include <cerrno>
+
+void test_file_op_on_c()
+{
+    std::FILE* f = fopen(CA_CERT_FILE, "r");
+    if (!f) {
+        int ret = errno;
+        cout << "f is not open. " << ret << endl;
+    }
+    else {
+        cout << "f is open." << endl;
+    }
+}
+void test_file_op_on_c2(const char* filename)
+{
+    std::FILE* f = fopen(filename, "r");
+    if (!f) {
+        int ret = errno;
+        cout << "f is not open. " << ret << endl;
+    }
+    else {
+        cout << "f is open." << endl;
+    }
 }

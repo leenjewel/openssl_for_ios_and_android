@@ -11,6 +11,10 @@
 
 #include <stdio.h>
 void test_https();
+void test_https(const char* cert_file_name);
 void test_http2();
 void test_ssl();
+void test_file_op();
+void test_file_op_on_c();
+void test_file_op_on_c2(const char* filename);
 #endif /* test_http_hpp */
