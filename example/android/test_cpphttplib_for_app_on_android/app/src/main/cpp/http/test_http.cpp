@@ -12,7 +12,7 @@
 
 
 //#define CA_CERT_FILE "./ca-bundle.crt"
-#define CA_CERT_FILE "ca-bundle.crt"
+#define CA_CERT_FILE "/storage/emulated/0/test_cpphttplib_for_app_on_android/tmp/ca_bundle.crt"
 using namespace std;
 
 void test_https() {

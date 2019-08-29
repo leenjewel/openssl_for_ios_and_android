@@ -4,10 +4,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.TextView;
+import android.os.Environment;
 
+import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.util.Vector;
 import java.io.File;
+import java.lang.String;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "demo";
@@ -47,13 +50,36 @@ public class MainActivity extends AppCompatActivity {
         }
 
         try {
-            InputStream in = getResources().openRawResource(R.raw.ca_bundle);
-            int length = in.available();
-            if (0 == length) {
-                return;
+
+
+
+            /**
+             * ref: https://blog.csdn.net/hacker_Lees/article/details/78593799
+             */
+            String tmpDir = Environment.getExternalStorageDirectory().getAbsolutePath() + "/test_cpphttplib_for_app_on_android/tmp";
+            String cerFileName = tmpDir + "/ca_bundle.crt";
+            File outFile = new File(cerFileName);
+            if (!outFile.getParentFile().exists()) {
+                createDir(tmpDir);
             }
-            byte[] buffer = new byte[length];
-            in.read(buffer);
+            if (!outFile.exists()) {
+                boolean ret = outFile.createNewFile();
+                Log.i(TAG, String.valueOf(ret));
+                InputStream in = getResources().openRawResource(R.raw.ca_bundle);
+                int length = in.available();
+                if (0 == length) {
+                    Log.i(TAG, String.valueOf(length));
+                    return;
+                }
+                byte[] buffer = new byte[length];
+                in.read(buffer);
+
+                FileOutputStream outputStream = new FileOutputStream(outFile);
+                outputStream.write(buffer);
+                Log.i(TAG, cerFileName);
+            }
+
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -64,6 +90,28 @@ public class MainActivity extends AppCompatActivity {
         TextView tv = findViewById(R.id.sample_text);
         tv.setText(stringFromJNI());
     }
+
+    public static String createDir(String dirPath){
+        //因为文件夹可能有多层，比如:  a/b/c/ff.txt  需要先创建a文件夹，然后b文件夹然后...
+        try{
+            File file=new File(dirPath);
+            if(file.getParentFile().exists()){
+                Log.i(TAG, "----- 创建文件夹" + file.getAbsolutePath());
+                file.mkdir();
+                return file.getAbsolutePath();
+            }
+            else {
+                createDir(file.getParentFile().getAbsolutePath());
+                Log.i(TAG,"----- 创建文件夹" + file.getAbsolutePath());
+                file.mkdir();
+            }
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return dirPath;
+    }
+
 
     /**
      * A native method that is implemented by the 'native-lib' native library,
