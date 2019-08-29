@@ -22,15 +22,28 @@ if [ "${1}" == "cURL" ]; then
 else
     ANDROID_API=${ANDROID_API:-16}
 fi
-ARCHS=("android" "android-armeabi" "android-x86" "android-mips")
-ABIS=("armeabi" "armeabi-v7a" "x86" "mips")
-# ANDROID_API=${ANDROID_API:-21}
+echo ANDROID_API=${ANDROID_API}
+# ARCHS=("android" "android-armeabi" "android-x86" "android-mips")
+# ABIS=("armeabi" "armeabi-v7a" "x86" "mips")
+ANDROID_API=${ANDROID_API:-21}
+echo ANDROID_API=${ANDROID_API}
+ANDROID_API=21
+echo ANDROID_API=${ANDROID_API}
+read -n1 -p "Press any key to continue..."
+
 # ARCHS=("android" "android-armeabi" "android64-aarch64" "android-x86" "android64" "android-mips" "android-mips64")
 # ABIS=("armeabi" "armeabi-v7a" "arm64-v8a" "x86" "x86_64" "mips" "mips64")
+
+ARCHS=("android" "android-armeabi" "android64-aarch64" "android-x86" "android64")
+ABIS=("armeabi" "armeabi-v7a" "arm64-v8a" "x86" "x86_64")
+
+ANDROID_NDK=/Users/yu.zuo/Library/Android/sdk/ndk-bundle
 NDK=${ANDROID_NDK}
 
 configure() {
   ARCH=$1; OUT=$2; CLANG=${3:-""};
+  CLANG="TEST_CLANG"
+  echo "CLANG" ${CLANG}
 
   TOOLCHAIN_ROOT=${TOOLS_ROOT}/${OUT}-android-toolchain
 
@@ -70,6 +83,8 @@ configure() {
     export ARCH_LINK=""
     export TOOL="mips64el-linux-android"
     NDK_FLAGS="--arch=mips64"
+  else
+    echo "not support."
   fi;
 
   [ -d ${TOOLCHAIN_ROOT} ] || python $NDK/build/tools/make_standalone_toolchain.py \
@@ -77,6 +92,7 @@ configure() {
                                      --stl libc++ \
                                      --install-dir=${TOOLCHAIN_ROOT} \
                                      $NDK_FLAGS
+  # [ -d ${TOOLCHAIN_ROOT} ] || sh $NDK/build/tools/make-standalone-toolchain.sh --install-dir=${TOOLCHAIN_ROOT} $NDK_FLAGS
 
   export TOOLCHAIN_PATH=${TOOLCHAIN_ROOT}/bin
   export NDK_TOOLCHAIN_BASENAME=${TOOLCHAIN_PATH}/${TOOL}

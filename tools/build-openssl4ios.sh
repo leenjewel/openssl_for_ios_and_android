@@ -16,6 +16,8 @@
 
 set -u
 
+TOOLS_ROOT=`pwd`
+
 SOURCE="$0"
 while [ -h "$SOURCE" ]; do
     DIR="$( cd -P "$( dirname "$SOURCE" )" && pwd )"
@@ -24,6 +26,10 @@ while [ -h "$SOURCE" ]; do
 done
 pwd_path="$( cd -P "$( dirname "$SOURCE" )" && pwd )"
 
+echo pwd_path=${pwd_path}
+echo TOOLS_ROOT=${TOOLS_ROOT}
+# read -n1 -p "Press any key to continue..."
+
 # Setting
 IOS_MIN_TARGET="8.0"
 LIB_NAME="openssl-1.1.0f"
@@ -31,9 +37,18 @@ LIB_DEST_DIR="${pwd_path}/../output/ios/openssl-universal"
 HEADER_DEST_DIR="include"
 
 # Setup architectures, library name and other vars + cleanup from previous runs
-ARCHS=("arm64" "armv7s" "armv7" "i386" "x86_64")
-SDKS=("iphoneos" "iphoneos" "iphoneos" "iphonesimulator" "iphonesimulator")
-PLATFORMS=("iPhoneOS" "iPhoneOS" "iPhoneOS" "iPhoneSimulator" "iPhoneSimulator")
+# ARCHS=("arm64" "armv7s" "armv7" "i386" "x86_64")
+# SDKS=("iphoneos" "iphoneos" "iphoneos" "iphonesimulator" "iphonesimulator")
+# PLATFORMS=("iPhoneOS" "iPhoneOS" "iPhoneOS" "iPhoneSimulator" "iPhoneSimulator")
+
+ARCHS=("arm64" "armv7s" "armv7" "x86_64")
+SDKS=("iphoneos" "iphoneos" "iphoneos" "iphonesimulator")
+PLATFORMS=("iPhoneOS" "iPhoneOS" "iPhoneOS" "iPhoneSimulator")
+
+# ARCHS=("arm64")
+# SDKS=("iphoneos")
+# PLATFORMS=("iPhoneOS")
+
 DEVELOPER=`xcode-select -print-path`
 SDK_VERSION=`xcrun -sdk iphoneos --show-sdk-version`
 rm -rf "${HEADER_DEST_DIR}" "${LIB_DEST_DIR}" "${LIB_NAME}"
@@ -69,14 +84,22 @@ configure_make()
    if [[ "${ARCH}" == "x86_64" ]]; then
         unset IPHONEOS_DEPLOYMENT_TARGET
        ./Configure darwin64-x86_64-cc --prefix="${PREFIX_DIR}"
+       export CFLAGS="-isysroot ${CROSS_TOP}/SDKs/${CROSS_SDK}"
    elif [[ "${ARCH}" == "i386" ]]; then
         unset IPHONEOS_DEPLOYMENT_TARGET
        ./Configure darwin-i386-cc --prefix="${PREFIX_DIR}"
+       export CFLAGS="-isysroot ${CROSS_TOP}/SDKs/${CROSS_SDK}"
    else
+        # instruction: 
+        # 1.no-shared and -fembed-bitcode is not compatibility
+        # 2.advise use only .a static library on iOS
        export IPHONEOS_DEPLOYMENT_TARGET=${IOS_MIN_TARGET}
-       ./Configure iphoneos-cross --prefix="${PREFIX_DIR}"
+       ./Configure iphoneos-cross no-shared --prefix="${PREFIX_DIR}"
+       export CFLAGS="-isysroot ${CROSS_TOP}/SDKs/${CROSS_SDK} -fembed-bitcode "
+       sed -ie "s!-fno-common!-fno-common -fembed-bitcode !" "Makefile"
    fi
-   export CFLAGS="-isysroot ${CROSS_TOP}/SDKs/${CROSS_SDK}"
+   echo CFLAGS=${CFLAGS}
+#    read -n1 -p "Press any key to continue..."
    
    if [ ! -d ${CROSS_TOP}/SDKs/${CROSS_SDK} ]; then
        echo "ERROR: iOS SDK version:'${SDK_VERSION}' incorrect, SDK in your system is:"
@@ -84,15 +107,17 @@ configure_make()
        exit -1
    fi
    
-   make clean
-   if make -j8
+    OUTPUT_ROOT=${TOOLS_ROOT}/../output/ios/openssl-${ARCH}
+    mkdir -p ${OUTPUT_ROOT}/log
+   make clean &> "${OUTPUT_ROOT}/log/${ARCH}.log"
+   if make -j8 >> "${OUTPUT_ROOT}/log/${ARCH}.log" 2>&1
    then
        # make install;
-       make install_sw;
-       make install_ssldirs;
-       popd;
-       rm -fr "${LIB_NAME}"
+       make install_sw >> "${OUTPUT_ROOT}/log/${ARCH}.log" 2>&1
+       make install_ssldirs >> "${OUTPUT_ROOT}/log/${ARCH}.log" 2>&1      
    fi
+
+   popd
 }
 for ((i=0; i < ${#ARCHS[@]}; i++))
 do
@@ -110,6 +135,6 @@ create_lib()
    LIB_PATHS=( "${LIB_PATHS[@]/%//lib/${LIB_SRC}}" )
    lipo ${LIB_PATHS[@]} -create -output "${LIB_DST}"
 }
-mkdir "${LIB_DEST_DIR}";
+mkdir -p "${LIB_DEST_DIR}";
 create_lib "libcrypto.a" "${LIB_DEST_DIR}/libcrypto.a"
 create_lib "libssl.a" "${LIB_DEST_DIR}/libssl.a"

@@ -14,7 +14,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-set -u
+set -e
 
 source ./_shared.sh openssl
 
@@ -34,6 +34,7 @@ configure_make() {
 
   #support openssl-1.0.x
   if [[ $LIB_NAME != openssl-1.1.* ]]; then
+    echo LIB_NAME="${LIB_NAME}"
     if [[ $ARCH == "android-armeabi" ]]; then
         ARCH="android-armv7"
     elif [[ $ARCH == "android64" ]]; then 
@@ -42,6 +43,7 @@ configure_make() {
         ARCH="android shared no-ssl2 no-ssl3 no-hw "
     fi
   fi
+  # read -n1 -p "Press any key to continue..."
 
   ./Configure $ARCH \
               --prefix=${LIB_DEST_DIR}/${ABI} \
@@ -53,12 +55,17 @@ configure_make() {
               no-unit-test
   PATH=$TOOLCHAIN_PATH:$PATH
 
-  make clean
+  sed -ie 's/-mandroid//g' "Makefile"
+
+  OUTPUT_ROOT=${TOOLS_ROOT}/../output/android/openssl-${ABI}
+  mkdir -p ${OUTPUT_ROOT}/log
+
+  make clean &> "${OUTPUT_ROOT}/log/${ABI}.log"
   
-  if make -j4; then
+  if make -j4 >> "${OUTPUT_ROOT}/log/${ABI}.log" 2>&1; then
     # make install
-    make install_sw
-    make install_ssldirs
+    make install_sw >> "${OUTPUT_ROOT}/log/${ABI}.log" 2>&1
+    make install_ssldirs >> "${OUTPUT_ROOT}/log/${ABI}.log" 2>&1
 
     OUTPUT_ROOT=${TOOLS_ROOT}/../output/android/openssl-${ABI}
     [ -d ${OUTPUT_ROOT}/include ] || mkdir -p ${OUTPUT_ROOT}/include
@@ -68,12 +75,15 @@ configure_make() {
     cp ${LIB_DEST_DIR}/${ABI}/lib/libcrypto.a ${OUTPUT_ROOT}/lib
     cp ${LIB_DEST_DIR}/${ABI}/lib/libssl.a ${OUTPUT_ROOT}/lib
   fi;
+
   popd
 
 }
 
 for ((i=0; i < ${#ARCHS[@]}; i++))
 do
+  echo ${ARCHS[i]}
+  echo $1
   if [[ $# -eq 0 ]] || [[ "$1" == "${ARCHS[i]}" ]]; then
     # Do not build 64 bit arch if ANDROID_API is less than 21 which is
     # the minimum supported API level for 64 bit.
