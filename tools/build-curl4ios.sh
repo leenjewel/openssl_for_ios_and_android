@@ -17,6 +17,8 @@
 set -u
 
 SOURCE="$0"
+echo SOURCE=${SOURCE}
+read -n1 -p "Press any key to continue..."
 while [ -h "$SOURCE" ]; do
     DIR="$( cd -P "$( dirname "$SOURCE" )" && pwd )"
     SOURCE="$(readlink "$SOURCE")"
@@ -29,20 +31,37 @@ pwd_path="$( cd -P "$( dirname "$SOURCE" )" && pwd )"
 ARCHS=("arm64" "armv7s" "armv7" "i386" "x86_64")
 SDKS=("iphoneos" "iphoneos" "iphoneos" "iphonesimulator" "iphonesimulator")
 PLATFORMS=("iPhoneOS" "iPhoneOS" "iPhoneOS" "iPhoneSimulator" "iPhoneSimulator")
-LIB_NAME="curl-7.53.1"
+LIB_NAME="curl-7.66.0"
+# LIB_NAME="curl-7_53_1"
 DEVELOPER=`xcode-select -print-path`
-TOOLCHAIN=/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain
+# TOOLCHAIN=/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain
+TOOLCHAIN=${DEVELOPER}/Toolchains/XcodeDefault.xctoolchain
+echo TOOLCHAIN=${TOOLCHAIN}
+read -n1 -p "Press any key to continue..."
+
 # If you can't compile with this version, please modify the version to it which on your mac.
-SDK_VERSION=""10.3""
-IPHONEOS_DEPLOYMENT_TARGET="6.0"
+# SDK_VERSION=""10.3""
+SDK_VERSION=""
+IPHONEOS_DEPLOYMENT_TARGET="9.0"
 LIB_DEST_DIR="${pwd_path}/../output/ios/curl-universal"
 HEADER_DEST_DIR="include"
 rm -rf "${HEADER_DEST_DIR}" "${LIB_DEST_DIR}" "${LIB_NAME}"
+
+# https://github.com/openssl/openssl/archive/OpenSSL_1_1_1d.tar.gz
+# https://github.com/curl/curl/archive/curl-7_66_0.tar.gz #not
+# https://github.com/curl/curl/releases/download/curl-7_66_0/curl-7.66.0.tar.gz
+   [ -f "${LIB_NAME}.tar.gz" ] || curl https://curl.haxx.se/download/${LIB_NAME}.tar.gz > ${LIB_NAME}.tar.gz
+   
+
  
 # Unarchive library, then configure and make for specified architectures
 configure_make()
 {
    ARCH=$1; SDK=$2; PLATFORM=$3;
+   echo ARCH=$1
+   echo SDK=$2
+   echo PLATFORM=$3
+#    read -n1 -p "Press any key to continue..."
 
    export PATH="${TOOLCHAIN}/usr/bin:${PATH}"
    export CROSS_TOP="${DEVELOPER}/Platforms/${PLATFORM}.platform/Developer"
@@ -57,6 +76,7 @@ configure_make()
 
    tar xfz "${LIB_NAME}.tar.gz"
    pushd .; cd "${LIB_NAME}";
+    # read -n1 -p "Press any key to continue..."
 
    PREFIX_DIR="${pwd_path}/../output/ios/curl-${ARCH}"
    if [ -d "${PREFIX_DIR}" ]; then

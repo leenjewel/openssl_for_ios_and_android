@@ -8,7 +8,7 @@
 <tr><td>openssl</td><td>1.1.1a</td><td>android</td><td>armeabi armeabi-v7a arm64-v8a x86 x86_64</td><td>682f60</td></tr>
 <tr><td>openssl</td><td>1.1.0f</td><td>ios</td><td>armv7s armv7 i386 x86_64 arm64</td><td>aae1672</td></tr>
 <tr><td></td><td></td><td>android</td><td>armeabi armeabi-v7a arm64-v8a x86 x86_64 mips mips64</td><td>aae1672</td></tr>
-<tr><td>curl</td><td>7.53.1</td><td>ios</td><td>armv7s armv7 i386 x86_64 arm64</td><td>aae1672</td></tr>
+<tr><td>curl</td><td>7.66.0</td><td>ios</td><td>armv7s armv7 i386 x86_64 arm64</td><td>aae1672</td></tr>
 <tr><td></td><td></td><td>android</td><td>armeabi armeabi-v7a arm64-v8a x86 x86_64 mips mips64</td><td>aae1672</td></tr>
 </tbody>
 </table>
@@ -34,7 +34,7 @@ This a static library compile from openssl and cURL for iOS and Android.
 ## cURL Version
 
  - ~~[curl-7.47.1.tar.gz](https://curl.haxx.se/download/curl-7.47.1.tar.gz)~~
- - [curl-7.53.1.tar.gz](https://curl.haxx.se/download/curl-7.53.1.tar.gz)
+ - [curl-7.66.0.tar.gz](https://curl.haxx.se/download/curl-7.66.0.tar.gz)
  - [https://github.com/curl/curl](https://github.com/curl/curl)
 
 ## Android NDK Version
@@ -66,7 +66,7 @@ cd tools
 sh ./build-openssl4ios.sh
 ```
 
-Copy `curl-7.53.1.tar.gz` to `tools` file folder and run
+Copy `curl-7.66.0.tar.gz` to `tools` file folder and run
 
 ```shell
 cd tools
@@ -246,7 +246,7 @@ more information :
 
 这是一个适用于 iOS 平台和 Android 平台的 Openssl 静态链接库。基于 openssl-1.1.0f 版本编译生成。
 
-后来又加入了适用于 iOS 平台和 Android 平台且支持 SSL 的 cURL 静态链接库。基于 curl-7.53.1 版本编译生成。
+后来又加入了适用于 iOS 平台和 Android 平台且支持 SSL 的 cURL 静态链接库。基于 curl-7.66.0 版本编译生成。
 
 > Our build script default use API 16 to build OpenSSL
 
