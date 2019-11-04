@@ -40,7 +40,7 @@ ABIS=("armeabi" "armeabi-v7a" "arm64-v8a" "x86" "x86_64")
 ANDROID_NDK=/Users/yu.zuo/Library/Android/sdk/ndk-bundle
 NDK=${ANDROID_NDK}
 
-configure() {
+configure_macro() {
   ARCH=$1; OUT=$2; CLANG=${3:-""};
   CLANG="TEST_CLANG"
   echo "CLANG" ${CLANG}

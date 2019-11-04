@@ -21,6 +21,8 @@ source ./_shared.sh openssl
 # Setup architectures, library name and other vars + cleanup from previous runs
 LIB_NAME="openssl-1.1.0f"
 LIB_DEST_DIR=${TOOLS_ROOT}/libs
+echo LIB_DEST_DIR="${LIB_DEST_DIR}"
+read -n1 -p "Press any key to continue..."
 [ -d ${LIB_DEST_DIR} ] && rm -rf ${LIB_DEST_DIR}
 [ -f "${LIB_NAME}.tar.gz" ] || wget https://www.openssl.org/source/${LIB_NAME}.tar.gz;
 # Unarchive library, then configure and make for specified architectures
@@ -30,7 +32,7 @@ configure_make() {
   tar xfz "${LIB_NAME}.tar.gz"
   pushd "${LIB_NAME}"
 
-  configure $*
+  configure_macro $*
 
   #support openssl-1.0.x
   if [[ $LIB_NAME != openssl-1.1.* ]]; then
