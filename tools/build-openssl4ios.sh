@@ -73,7 +73,7 @@ configure_make()
    export CROSS_TOP="${DEVELOPER}/Platforms/${PLATFORM}.platform/Developer"
    export CROSS_SDK="${PLATFORM}${SDK_VERSION}.sdk"
    export TOOLS="${DEVELOPER}"
-   export CC="${TOOLS}/usr/bin/gcc -arch ${ARCH}"
+   export CC="${TOOLS}/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -arch ${ARCH}"
 
    PREFIX_DIR="${pwd_path}/../output/ios/openssl-${ARCH}"
    if [ -d "${PREFIX_DIR}" ]; then
@@ -83,22 +83,17 @@ configure_make()
 
    if [[ "${ARCH}" == "x86_64" ]]; then
         unset IPHONEOS_DEPLOYMENT_TARGET
-       ./Configure darwin64-x86_64-cc --prefix="${PREFIX_DIR}"
-       export CFLAGS="-isysroot ${CROSS_TOP}/SDKs/${CROSS_SDK}"
+       ./Configure darwin64-x86_64-cc --prefix="${PREFIX_DIR}" "-isysroot ${CROSS_TOP}/SDKs/${CROSS_SDK}"
    elif [[ "${ARCH}" == "i386" ]]; then
         unset IPHONEOS_DEPLOYMENT_TARGET
-       ./Configure darwin-i386-cc --prefix="${PREFIX_DIR}"
-       export CFLAGS="-isysroot ${CROSS_TOP}/SDKs/${CROSS_SDK}"
+       ./Configure darwin-i386-cc --prefix="${PREFIX_DIR}" "-isysroot ${CROSS_TOP}/SDKs/${CROSS_SDK}"
    else
         # instruction: 
         # 1.no-shared and -fembed-bitcode is not compatibility
         # 2.advise use only .a static library on iOS
        export IPHONEOS_DEPLOYMENT_TARGET=${IOS_MIN_TARGET}
-       ./Configure iphoneos-cross no-shared --prefix="${PREFIX_DIR}"
-       export CFLAGS="-isysroot ${CROSS_TOP}/SDKs/${CROSS_SDK} -fembed-bitcode "
-       sed -ie "s!-fno-common!-fno-common -fembed-bitcode !" "Makefile"
+       ./Configure iphoneos-cross no-shared --prefix="${PREFIX_DIR}" "-fembed-bitcode"
    fi
-   echo CFLAGS=${CFLAGS}
 #    read -n1 -p "Press any key to continue..."
    
    if [ ! -d ${CROSS_TOP}/SDKs/${CROSS_SDK} ]; then
