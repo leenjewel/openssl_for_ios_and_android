@@ -36,7 +36,6 @@ IOS_MIN_TARGET="8.0"
 LIB_VERSION="v1.40.0"
 LIB_NAME="nghttp2-1.40.0"
 LIB_DEST_DIR="${pwd_path}/../output/ios/nghttp2-universal"
-HEADER_DEST_DIR="include"
 
 # Setup architectures, library name and other vars + cleanup from previous runs
 # ARCHS=("arm64" "armv7s" "armv7" "i386" "x86_64")
@@ -55,7 +54,7 @@ echo "https://github.com/nghttp2/nghttp2/releases/download/${LIB_VERSION}/${LIB_
 
 DEVELOPER=$(xcode-select -print-path)
 SDK_VERSION=$(xcrun -sdk iphoneos --show-sdk-version)
-rm -rf "${HEADER_DEST_DIR}" "${LIB_DEST_DIR}" "${LIB_NAME}"
+rm -rf "${LIB_DEST_DIR}" "${LIB_NAME}"
 [ -f "${LIB_NAME}.tar.gz" ] || curl -LO https://github.com/nghttp2/nghttp2/releases/download/${LIB_VERSION}/${LIB_NAME}.tar.gz >${LIB_NAME}.tar.gz
 
 configure_make() {

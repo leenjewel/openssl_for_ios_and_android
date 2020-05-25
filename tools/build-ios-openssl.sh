@@ -37,7 +37,6 @@ IOS_MIN_TARGET="8.0"
 LIB_VERSION="OpenSSL_1_1_1d"
 LIB_NAME="openssl-1.1.1d"
 LIB_DEST_DIR="${pwd_path}/../output/ios/openssl-universal"
-HEADER_DEST_DIR="include"
 
 # Setup architectures, library name and other vars + cleanup from previous runs
 # ARCHS=("arm64" "armv7s" "armv7" "i386" "x86_64")
@@ -58,7 +57,7 @@ echo "https://www.openssl.org/source/${LIB_NAME}.tar.gz"
 # https://github.com/openssl/openssl/archive/OpenSSL_1_1_1f.tar.gz
 DEVELOPER=$(xcode-select -print-path)
 SDK_VERSION=$(xcrun -sdk iphoneos --show-sdk-version)
-rm -rf "${HEADER_DEST_DIR}" "${LIB_DEST_DIR}" "${LIB_NAME}"
+rm -rf "${LIB_DEST_DIR}" "${LIB_NAME}"
 [ -f "${LIB_NAME}.tar.gz" ] || curl https://www.openssl.org/source/${LIB_NAME}.tar.gz >${LIB_NAME}.tar.gz
 
 configure_make() {
@@ -90,6 +89,9 @@ configure_make() {
         xcodebuild -showsdks | grep iOS
         exit -1
     fi
+
+    OUTPUT_ROOT=${TOOLS_ROOT}/../output/ios/openssl-${ARCH}
+    mkdir -p ${OUTPUT_ROOT}/log
 
     PREFIX_DIR="${pwd_path}/../output/ios/openssl-${ARCH}"
     if [ -d "${PREFIX_DIR}" ]; then
@@ -137,15 +139,6 @@ configure_make() {
     else
         echo "not support" && exit 1
     fi
-
-    if [ ! -d ${CROSS_TOP}/SDKs/${CROSS_SDK} ]; then
-        echo "ERROR: iOS SDK version:'${SDK_VERSION}' incorrect, SDK in your system is:"
-        xcodebuild -showsdks | grep iOS
-        exit -1
-    fi
-
-    OUTPUT_ROOT=${TOOLS_ROOT}/../output/ios/openssl-${ARCH}
-    mkdir -p ${OUTPUT_ROOT}/log
 
     echo "make $ARCH start..."
 

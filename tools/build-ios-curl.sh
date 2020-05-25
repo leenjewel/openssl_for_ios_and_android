@@ -35,7 +35,6 @@ IOS_MIN_TARGET="8.0"
 LIB_VERSION="curl-7_68_0"
 LIB_NAME="curl-7.68.0"
 LIB_DEST_DIR="${pwd_path}/../output/ios/curl-universal"
-HEADER_DEST_DIR="include"
 
 # Setup architectures, library name and other vars + cleanup from previous runs
 # ARCHS=("arm64" "armv7s" "armv7" "i386" "x86_64")
@@ -57,7 +56,7 @@ echo "https://github.com/curl/curl/releases/download/${LIB_VERSION}/${LIB_NAME}.
 # https://github.com/curl/curl/releases/download/curl-7_68_0/curl-7.68.0.tar.gz
 DEVELOPER=$(xcode-select -print-path)
 SDK_VERSION=$(xcrun -sdk iphoneos --show-sdk-version)
-rm -rf "${HEADER_DEST_DIR}" "${LIB_DEST_DIR}" "${LIB_NAME}"
+rm -rf "${LIB_DEST_DIR}" "${LIB_NAME}"
 [ -f "${LIB_NAME}.tar.gz" ] || curl -LO https://github.com/curl/curl/releases/download/${LIB_VERSION}/${LIB_NAME}.tar.gz >${LIB_NAME}.tar.gz
 
 # read -n1 -p "Press any key to continue..."
