@@ -10,3 +10,7 @@ tools/openssl*
 tools/protobuf*
 output/
 .xcuserstate
+
+nghttp2-*
+openssl-*
+curl-*
