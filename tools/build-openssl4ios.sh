@@ -32,7 +32,9 @@ echo TOOLS_ROOT=${TOOLS_ROOT}
 
 # Setting
 IOS_MIN_TARGET="8.0"
-LIB_NAME="openssl-1.1.0f"
+# openssl-1.1.0f has a configure bug
+# openssl-1.1.1d has fix configure bug
+LIB_NAME="openssl-1.1.1d"
 LIB_DEST_DIR="${pwd_path}/../output/ios/openssl-universal"
 HEADER_DEST_DIR="include"
 
@@ -41,13 +43,13 @@ HEADER_DEST_DIR="include"
 # SDKS=("iphoneos" "iphoneos" "iphoneos" "iphonesimulator" "iphonesimulator")
 # PLATFORMS=("iPhoneOS" "iPhoneOS" "iPhoneOS" "iPhoneSimulator" "iPhoneSimulator")
 
-ARCHS=("arm64" "armv7s" "armv7" "x86_64")
-SDKS=("iphoneos" "iphoneos" "iphoneos" "iphonesimulator")
-PLATFORMS=("iPhoneOS" "iPhoneOS" "iPhoneOS" "iPhoneSimulator")
+ARCHS=("armv7" "arm64" "x86_64")
+SDKS=("iphoneos" "iphoneos" "iphonesimulator")
+PLATFORMS=("iPhoneOS" "iPhoneOS" "iPhoneSimulator")
 
-# ARCHS=("arm64")
-# SDKS=("iphoneos")
-# PLATFORMS=("iPhoneOS")
+# ARCHS=("x86_64")
+# SDKS=("iphonesimulator")
+# PLATFORMS=("iPhoneSimulator")
 
 DEVELOPER=`xcode-select -print-path`
 SDK_VERSION=`xcrun -sdk iphoneos --show-sdk-version`
@@ -81,22 +83,45 @@ configure_make()
    fi
    mkdir -p "${PREFIX_DIR}"
 
-   if [[ "${ARCH}" == "x86_64" ]]; then
-        unset IPHONEOS_DEPLOYMENT_TARGET
-       ./Configure darwin64-x86_64-cc --prefix="${PREFIX_DIR}"
-       export CFLAGS="-isysroot ${CROSS_TOP}/SDKs/${CROSS_SDK}"
-   elif [[ "${ARCH}" == "i386" ]]; then
-        unset IPHONEOS_DEPLOYMENT_TARGET
-       ./Configure darwin-i386-cc --prefix="${PREFIX_DIR}"
-       export CFLAGS="-isysroot ${CROSS_TOP}/SDKs/${CROSS_SDK}"
+   unset IPHONEOS_DEPLOYMENT_TARGET
+
+   if [[ "${ARCH}" == "x86_64" ]]; then    
+
+       export CC="xcrun -sdk iphonesimulator clang -arch x86_64"
+        export CXX="xcrun -sdk iphonesimulator clang++ -arch x86_64"
+        export CFLAGS="-arch x86_64 -target x86_64-ios-darwin -march=x86-64 -isysroot ${CROSS_TOP}/SDKs/${CROSS_SDK} -miphoneos-version-min=9 -I${CROSS_TOP}/SDKs/${CROSS_SDK}/usr/include"
+
+        # openssl1.1.1d can be set normally, 1.1.0f does not take effect
+        export LDFLAGS="-arch x86_64 -target x86_64-ios-darwin -march=x86-64 -isysroot ${CROSS_TOP}/SDKs/${CROSS_SDK} -L${CROSS_TOP}/SDKs/${CROSS_SDK}/usr/lib"
+
+        ./Configure darwin64-x86_64-cc no-shared --prefix="${PREFIX_DIR}" 
+        
+    elif [[ "${ARCH}" == "armv7" ]]; then
+
+        export CC="xcrun -sdk iphoneos clang -arch armv7"
+        export CXX="xcrun -sdk iphoneos clang++ -arch armv7"
+        export CFLAGS="-arch armv7 -target armv7-ios-darwin -march=armv7 -isysroot ${CROSS_TOP}/SDKs/${CROSS_SDK} -fembed-bitcode -miphoneos-version-min=9 -I${CROSS_TOP}/SDKs/${CROSS_SDK}/usr/include"
+
+        # openssl1.1.1d can be set normally, 1.1.0f does not take effect
+        export LDFLAGS="-arch armv7 -target armv7-ios-darwin -march=armv7 -isysroot ${CROSS_TOP}/SDKs/${CROSS_SDK} -fembed-bitcode -L${CROSS_TOP}/SDKs/${CROSS_SDK}/usr/lib"
+
+        ./Configure iphoneos-cross no-shared --prefix="${PREFIX_DIR}" 
+        sed -ie "s!-fno-common!-fno-common -fembed-bitcode !" "Makefile"
+
+    elif [[ "${ARCH}" == "arm64" ]]; then
+
+        export CC="xcrun -sdk iphoneos clang -arch arm64"
+        export CXX="xcrun -sdk iphoneos clang++ -arch arm64"
+        export CFLAGS="-arch arm64 -target aarch64-ios-darwin -march=armv8 -isysroot ${CROSS_TOP}/SDKs/${CROSS_SDK} -fembed-bitcode -miphoneos-version-min=9 -I${CROSS_TOP}/SDKs/${CROSS_SDK}/usr/include"
+
+        # openssl1.1.1d can be set normally, 1.1.0f does not take effect
+        export LDFLAGS="-arch arm64 -target aarch64-ios-darwin -march=armv8 -isysroot ${CROSS_TOP}/SDKs/${CROSS_SDK} -fembed-bitcode -L${CROSS_TOP}/SDKs/${CROSS_SDK}/usr/lib"
+
+        ./Configure iphoneos-cross no-shared --prefix="${PREFIX_DIR}" 
+        sed -ie "s!-fno-common!-fno-common -fembed-bitcode !" "Makefile"
+
    else
-        # instruction: 
-        # 1.no-shared and -fembed-bitcode is not compatibility
-        # 2.advise use only .a static library on iOS
-       export IPHONEOS_DEPLOYMENT_TARGET=${IOS_MIN_TARGET}
-       ./Configure iphoneos-cross no-shared --prefix="${PREFIX_DIR}"
-       export CFLAGS="-isysroot ${CROSS_TOP}/SDKs/${CROSS_SDK} -fembed-bitcode "
-       sed -ie "s!-fno-common!-fno-common -fembed-bitcode !" "Makefile"
+       echo "not support" && exit 1
    fi
    echo CFLAGS=${CFLAGS}
 #    read -n1 -p "Press any key to continue..."
