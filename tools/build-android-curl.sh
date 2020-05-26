@@ -14,7 +14,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# read -n1 -p "Press any key to continue..."
+# # read -n1 -p "Press any key to continue..."
 
 set -u
 
@@ -62,7 +62,7 @@ configure_make() {
     ABI=$2
     ABI_TRIPLE=$3
 
-    read -n1 -p "Press any key to continue..."
+    # read -n1 -p "Press any key to continue..."
     echo "configure $ARCH start..."
 
     if [ -d "${LIB_NAME}" ]; then
@@ -92,8 +92,11 @@ configure_make() {
 
     export LDFLAGS="${LDFLAGS} -L${OPENSSL_OUT_DIR}/lib -L${NGHTTP2_OUT_DIR}/lib"
     # export LD="${LD} -L${OPENSSL_OUT_DIR}/lib -L${NGHTTP2_OUT_DIR}/lib"
+    # export LD_LIBRARY_PATH="-L${OPENSSL_OUT_DIR}/lib -L${NGHTTP2_OUT_DIR}/lib"
+    # export LD="$LD -rpath -L${OPENSSL_OUT_DIR}/lib -L${NGHTTP2_OUT_DIR}/lib -rpath-link -L${OPENSSL_OUT_DIR}/lib -L${NGHTTP2_OUT_DIR}/lib"
+    export LDFLAGS="$LDFLAGS -Wl,-rpath-link,-L${NGHTTP2_OUT_DIR}/lib,-L${OPENSSL_OUT_DIR}/lib"
 
-    read -n1 -p "Press any key to continue..."
+    # read -n1 -p "Press any key to continue..."
 
     if [[ "${ARCH}" == "x86_64" ]]; then
 
@@ -107,14 +110,15 @@ configure_make() {
 
     elif [[ "${ARCH}" == "arm64" ]]; then
 
+        export LDFLAGS="$LDFLAGS -Wl,-rpath,-L${NGHTTP2_OUT_DIR}/lib,-L${OPENSSL_OUT_DIR}/lib"
         # ./configure android-arm64 --prefix="${PREFIX_DIR}"
-        ./configure --host=aarch64-linux-android --prefix="${PREFIX_DIR}" --enable-ipv6 --with-nghttp2=${NGHTTP2_OUT_DIR} --with-ssl=${OPENSSL_OUT_DIR} >"${OUTPUT_ROOT}/log/${ARCH}.log" 2>&1
+        ./configure --host=aarch64-linux-android --prefix="${PREFIX_DIR}" --enable-ipv6 --with-ssl=${OPENSSL_OUT_DIR} --with-nghttp2=${NGHTTP2_OUT_DIR} >"${OUTPUT_ROOT}/log/${ARCH}.log" 2>&1
 
     else
         echo "not support" && exit 1
     fi
 
-    read -n1 -p "Press any key to continue..."
+    # read -n1 -p "Press any key to continue..."
     echo "make $ARCH start..."
 
     make clean >>"${OUTPUT_ROOT}/log/${ARCH}.log"
@@ -125,7 +129,7 @@ configure_make() {
     popd
 }
 
-read -n1 -p "Press any key to continue..."
+# read -n1 -p "Press any key to continue..."
 
 for ((i = 0; i < ${#ARCHS[@]}; i++)); do
     if [[ $# -eq 0 || "$1" == "${ARCHS[i]}" ]]; then
