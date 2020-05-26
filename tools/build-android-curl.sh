@@ -14,7 +14,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# # read -n1 -p "Press any key to continue..."
+# read -n1 -p "Press any key to continue..."
 
 set -u
 
@@ -31,27 +31,26 @@ pwd_path="$(cd -P "$(dirname "$SOURCE")" && pwd)"
 echo pwd_path=${pwd_path}
 echo TOOLS_ROOT=${TOOLS_ROOT}
 
-# openssl-1.1.0f has a configure bug
-# openssl-1.1.1d has fix configure bug
-LIB_VERSION="OpenSSL_1_1_1d"
-LIB_NAME="openssl-1.1.1d"
-LIB_DEST_DIR="${pwd_path}/../output/android/openssl-universal"
+LIB_VERSION="curl-7_68_0"
+LIB_NAME="curl-7.68.0"
+LIB_DEST_DIR="${pwd_path}/../output/android/curl-universal"
 
 ARCHS=("arm" "arm64" "x86_64")
 ABIS=("armeabi-v7a" "arm64-v8a" "x86_64")
 ABI_TRIPLES=("arm-linux-androideabi" "aarch64-linux-android" "x86_64-linux-android")
 ANDROID_API=23
 
-# ARCHS=("arm64")
+ARCHS=("arm64")
 
-echo "https://www.openssl.org/source/${LIB_NAME}.tar.gz"
+echo "https://github.com/curl/curl/releases/download/${LIB_VERSION}/${LIB_NAME}.tar.gz"
 
-# https://github.com/openssl/openssl/archive/OpenSSL_1_1_1d.tar.gz
-# https://github.com/openssl/openssl/archive/OpenSSL_1_1_1f.tar.gz
+# https://curl.haxx.se/download/${LIB_NAME}.tar.gz
+# https://github.com/curl/curl/releases/download/curl-7_69_0/curl-7.69.0.tar.gz
+# https://github.com/curl/curl/releases/download/curl-7_68_0/curl-7.68.0.tar.gz
 DEVELOPER=$(xcode-select -print-path)
 SDK_VERSION=$(xcrun -sdk iphoneos --show-sdk-version)
 rm -rf "${LIB_DEST_DIR}" "${LIB_NAME}"
-[ -f "${LIB_NAME}.tar.gz" ] || curl https://www.openssl.org/source/${LIB_NAME}.tar.gz >${LIB_NAME}.tar.gz
+[ -f "${LIB_NAME}.tar.gz" ] || curl -LO https://github.com/curl/curl/releases/download/${LIB_VERSION}/${LIB_NAME}.tar.gz >${LIB_NAME}.tar.gz
 
 source ./build-android-common.sh
 
@@ -63,7 +62,7 @@ configure_make() {
     ABI=$2
     ABI_TRIPLE=$3
 
-    # read -n1 -p "Press any key to continue..."
+    read -n1 -p "Press any key to continue..."
     echo "configure $ARCH start..."
 
     if [ -d "${LIB_NAME}" ]; then
@@ -73,55 +72,60 @@ configure_make() {
     pushd .
     cd "${LIB_NAME}"
 
-    PREFIX_DIR="${pwd_path}/../output/android/openssl-${ARCH}"
+    PREFIX_DIR="${pwd_path}/../output/android/curl-${ARCH}"
     if [ -d "${PREFIX_DIR}" ]; then
         rm -fr "${PREFIX_DIR}"
     fi
     mkdir -p "${PREFIX_DIR}"
 
-    OUTPUT_ROOT=${TOOLS_ROOT}/../output/android/openssl-${ARCH}
+    OUTPUT_ROOT=${TOOLS_ROOT}/../output/android/curl-${ARCH}
     mkdir -p ${OUTPUT_ROOT}/log
 
-    set_android_toolchain "openssl" "${ARCH}" "${ANDROID_API}"
-    set_android_cpu_feature "openssl" "${ARCH}" "${ANDROID_API}"
+    set_android_toolchain "curl" "${ARCH}" "${ANDROID_API}"
+    set_android_cpu_feature "curl" "${ARCH}" "${ANDROID_API}"
 
     export ANDROID_NDK_HOME=${ANDROID_NDK_ROOT}
     echo ANDROID_NDK_HOME=${ANDROID_NDK_HOME}
 
-    # read -n1 -p "Press any key to continue..."
+    OPENSSL_OUT_DIR="${pwd_path}/../output/android/openssl-${ARCH}"
+    NGHTTP2_OUT_DIR="${pwd_path}/../output/android/nghttp2-${ARCH}"
+
+    export LDFLAGS="${LDFLAGS} -L${OPENSSL_OUT_DIR}/lib -L${NGHTTP2_OUT_DIR}/lib"
+    # export LD="${LD} -L${OPENSSL_OUT_DIR}/lib -L${NGHTTP2_OUT_DIR}/lib"
+
+    read -n1 -p "Press any key to continue..."
 
     if [[ "${ARCH}" == "x86_64" ]]; then
 
-        ./Configure android-x86_64 --prefix="${PREFIX_DIR}"
-        # ./Configure android-x86_64 --host=x86_64-linux-android --prefix="${PREFIX_DIR}"
+        # ./configure android-x86_64 --prefix="${PREFIX_DIR}"
+        ./configure --host=x86_64-linux-android --prefix="${PREFIX_DIR}" --enable-ipv6 --with-ssl=${OPENSSL_OUT_DIR} --with-nghttp2=${NGHTTP2_OUT_DIR} >"${OUTPUT_ROOT}/log/${ARCH}.log" 2>&1
 
     elif [[ "${ARCH}" == "arm" ]]; then
 
-        ./Configure android-arm --prefix="${PREFIX_DIR}"
-        # ./Configure --host=arm-linux-androideabi --prefix="${PREFIX_DIR}"
+        # ./configure android-arm --prefix="${PREFIX_DIR}"
+        ./configure --host=arm-linux-androideabi --prefix="${PREFIX_DIR}" --enable-ipv6 --with-ssl=${OPENSSL_OUT_DIR} --with-nghttp2=${NGHTTP2_OUT_DIR} >"${OUTPUT_ROOT}/log/${ARCH}.log" 2>&1
 
     elif [[ "${ARCH}" == "arm64" ]]; then
 
-        ./Configure android-arm64 --prefix="${PREFIX_DIR}"
-        # ./Configure --host=aarch64-linux-android --prefix="${PREFIX_DIR}"
+        # ./configure android-arm64 --prefix="${PREFIX_DIR}"
+        ./configure --host=aarch64-linux-android --prefix="${PREFIX_DIR}" --enable-ipv6 --with-nghttp2=${NGHTTP2_OUT_DIR} --with-ssl=${OPENSSL_OUT_DIR} >"${OUTPUT_ROOT}/log/${ARCH}.log" 2>&1
 
     else
         echo "not support" && exit 1
     fi
 
-    # read -n1 -p "Press any key to continue..."
+    read -n1 -p "Press any key to continue..."
     echo "make $ARCH start..."
 
-    make clean >"${OUTPUT_ROOT}/log/${ARCH}.log"
+    make clean >>"${OUTPUT_ROOT}/log/${ARCH}.log"
     if make -j$(get_cpu_count) >>"${OUTPUT_ROOT}/log/${ARCH}.log" 2>&1; then
-        make install_sw >>"${OUTPUT_ROOT}/log/${ARCH}.log" 2>&1
-        make install_ssldirs >>"${OUTPUT_ROOT}/log/${ARCH}.log" 2>&1
+        make install >>"${OUTPUT_ROOT}/log/${ARCH}.log" 2>&1
     fi
 
     popd
 }
 
-# read -n1 -p "Press any key to continue..."
+read -n1 -p "Press any key to continue..."
 
 for ((i = 0; i < ${#ARCHS[@]}; i++)); do
     if [[ $# -eq 0 || "$1" == "${ARCHS[i]}" ]]; then
@@ -129,4 +133,4 @@ for ((i = 0; i < ${#ARCHS[@]}; i++)); do
     fi
 done
 
-echo "build android openssl end..."
+echo "build android curl end..."

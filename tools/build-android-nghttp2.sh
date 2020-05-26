@@ -31,11 +31,9 @@ pwd_path="$(cd -P "$(dirname "$SOURCE")" && pwd)"
 echo pwd_path=${pwd_path}
 echo TOOLS_ROOT=${TOOLS_ROOT}
 
-# openssl-1.1.0f has a configure bug
-# openssl-1.1.1d has fix configure bug
-LIB_VERSION="OpenSSL_1_1_1d"
-LIB_NAME="openssl-1.1.1d"
-LIB_DEST_DIR="${pwd_path}/../output/android/openssl-universal"
+LIB_VERSION="v1.40.0"
+LIB_NAME="nghttp2-1.40.0"
+LIB_DEST_DIR="${pwd_path}/../output/android/nghttp2-universal"
 
 ARCHS=("arm" "arm64" "x86_64")
 ABIS=("armeabi-v7a" "arm64-v8a" "x86_64")
@@ -44,14 +42,12 @@ ANDROID_API=23
 
 # ARCHS=("arm64")
 
-echo "https://www.openssl.org/source/${LIB_NAME}.tar.gz"
+echo "https://github.com/nghttp2/nghttp2/releases/download/${LIB_VERSION}/${LIB_NAME}.tar.gz"
 
-# https://github.com/openssl/openssl/archive/OpenSSL_1_1_1d.tar.gz
-# https://github.com/openssl/openssl/archive/OpenSSL_1_1_1f.tar.gz
 DEVELOPER=$(xcode-select -print-path)
 SDK_VERSION=$(xcrun -sdk iphoneos --show-sdk-version)
 rm -rf "${LIB_DEST_DIR}" "${LIB_NAME}"
-[ -f "${LIB_NAME}.tar.gz" ] || curl https://www.openssl.org/source/${LIB_NAME}.tar.gz >${LIB_NAME}.tar.gz
+[ -f "${LIB_NAME}.tar.gz" ] || curl -LO https://github.com/nghttp2/nghttp2/releases/download/${LIB_VERSION}/${LIB_NAME}.tar.gz >${LIB_NAME}.tar.gz
 
 source ./build-android-common.sh
 
@@ -73,17 +69,17 @@ configure_make() {
     pushd .
     cd "${LIB_NAME}"
 
-    PREFIX_DIR="${pwd_path}/../output/android/openssl-${ARCH}"
+    PREFIX_DIR="${pwd_path}/../output/android/nghttp2-${ARCH}"
     if [ -d "${PREFIX_DIR}" ]; then
         rm -fr "${PREFIX_DIR}"
     fi
     mkdir -p "${PREFIX_DIR}"
 
-    OUTPUT_ROOT=${TOOLS_ROOT}/../output/android/openssl-${ARCH}
+    OUTPUT_ROOT=${TOOLS_ROOT}/../output/android/nghttp2-${ARCH}
     mkdir -p ${OUTPUT_ROOT}/log
 
-    set_android_toolchain "openssl" "${ARCH}" "${ANDROID_API}"
-    set_android_cpu_feature "openssl" "${ARCH}" "${ANDROID_API}"
+    set_android_toolchain "nghttp2" "${ARCH}" "${ANDROID_API}"
+    set_android_cpu_feature "nghttp2" "${ARCH}" "${ANDROID_API}"
 
     export ANDROID_NDK_HOME=${ANDROID_NDK_ROOT}
     echo ANDROID_NDK_HOME=${ANDROID_NDK_HOME}
@@ -92,18 +88,18 @@ configure_make() {
 
     if [[ "${ARCH}" == "x86_64" ]]; then
 
-        ./Configure android-x86_64 --prefix="${PREFIX_DIR}"
-        # ./Configure android-x86_64 --host=x86_64-linux-android --prefix="${PREFIX_DIR}"
+        # ./configure android-x86_64 --prefix="${PREFIX_DIR}"
+        ./configure --host=x86_64-linux-android --prefix="${PREFIX_DIR}" --disable-app --disable-threads --enable-lib-only >"${OUTPUT_ROOT}/log/${ARCH}.log" 2>&1
 
     elif [[ "${ARCH}" == "arm" ]]; then
 
-        ./Configure android-arm --prefix="${PREFIX_DIR}"
-        # ./Configure --host=arm-linux-androideabi --prefix="${PREFIX_DIR}"
+        # ./configure android-arm --prefix="${PREFIX_DIR}"
+        ./configure --host=arm-linux-androideabi --prefix="${PREFIX_DIR}" --disable-app --disable-threads --enable-lib-only >"${OUTPUT_ROOT}/log/${ARCH}.log" 2>&1
 
     elif [[ "${ARCH}" == "arm64" ]]; then
 
-        ./Configure android-arm64 --prefix="${PREFIX_DIR}"
-        # ./Configure --host=aarch64-linux-android --prefix="${PREFIX_DIR}"
+        # ./configure android-arm64 --prefix="${PREFIX_DIR}"
+        ./configure --host=aarch64-linux-android --prefix="${PREFIX_DIR}" --disable-app --disable-threads --enable-lib-only >"${OUTPUT_ROOT}/log/${ARCH}.log" 2>&1
 
     else
         echo "not support" && exit 1
@@ -112,10 +108,9 @@ configure_make() {
     # read -n1 -p "Press any key to continue..."
     echo "make $ARCH start..."
 
-    make clean >"${OUTPUT_ROOT}/log/${ARCH}.log"
+    make clean >>"${OUTPUT_ROOT}/log/${ARCH}.log"
     if make -j$(get_cpu_count) >>"${OUTPUT_ROOT}/log/${ARCH}.log" 2>&1; then
-        make install_sw >>"${OUTPUT_ROOT}/log/${ARCH}.log" 2>&1
-        make install_ssldirs >>"${OUTPUT_ROOT}/log/${ARCH}.log" 2>&1
+        make install >>"${OUTPUT_ROOT}/log/${ARCH}.log" 2>&1
     fi
 
     popd
@@ -129,4 +124,4 @@ for ((i = 0; i < ${#ARCHS[@]}; i++)); do
     fi
 done
 
-echo "build android openssl end..."
+echo "build android nghttp2 end..."
