@@ -18,6 +18,8 @@
 
 set -u
 
+source ./build-ios-common.sh
+
 TOOLS_ROOT=$(pwd)
 
 SOURCE="$0"
@@ -51,8 +53,6 @@ PLATFORMS=("iPhoneOS" "iPhoneOS" "iPhoneSimulator")
 # SDKS=("iphonesimulator")
 # PLATFORMS=("iPhoneSimulator")
 
-source ./build-ios-common.sh
-
 init_log_color
 
 echo "https://www.openssl.org/source/${LIB_NAME}.tar.gz"
@@ -79,11 +79,11 @@ function configure_make() {
     pushd .
     cd "${LIB_NAME}"
 
-    if [[ "${ARCH}" == "i386" || "${ARCH}" == "x86_64" ]]; then
-        echo ""
-    else
-        sed -ie "s!static volatile sig_atomic_t intr_signal;!static volatile intr_signal;!" "crypto/ui/ui_openssl.c"
-    fi
+    # if [[ "${ARCH}" == "i386" || "${ARCH}" == "x86_64" ]]; then
+    #     echo ""
+    # else
+    #     sed -ie "s!static volatile sig_atomic_t intr_signal;!static volatile intr_signal;!" "crypto/ui/ui_openssl.c"
+    # fi
 
     export CROSS_TOP="${DEVELOPER}/Platforms/${PLATFORM}.platform/Developer"
     export CROSS_SDK="${PLATFORM}${SDK_VERSION}.sdk"
@@ -103,40 +103,24 @@ function configure_make() {
     OUTPUT_ROOT=${TOOLS_ROOT}/../output/ios/openssl-${ARCH}
     mkdir -p ${OUTPUT_ROOT}/log
 
+    set_android_cpu_feature "nghttp2" "${ARCH}" "${IOS_MIN_TARGET}" "${CROSS_TOP}/SDKs/${CROSS_SDK}"
+
     unset IPHONEOS_DEPLOYMENT_TARGET
 
     if [[ "${ARCH}" == "x86_64" ]]; then
 
-        export CC="xcrun -sdk iphonesimulator clang -arch x86_64"
-        export CXX="xcrun -sdk iphonesimulator clang++ -arch x86_64"
-        export CFLAGS="-arch x86_64 -target x86_64-ios-darwin -march=x86-64 -isysroot ${CROSS_TOP}/SDKs/${CROSS_SDK} -miphoneos-version-min=${IOS_MIN_TARGET} -I${CROSS_TOP}/SDKs/${CROSS_SDK}/usr/include"
-
         # openssl1.1.1d can be set normally, 1.1.0f does not take effect
-        export LDFLAGS="-arch x86_64 -target x86_64-ios-darwin -march=x86-64 -isysroot ${CROSS_TOP}/SDKs/${CROSS_SDK} -L${CROSS_TOP}/SDKs/${CROSS_SDK}/usr/lib"
-
         ./Configure darwin64-x86_64-cc no-shared --prefix="${PREFIX_DIR}"
 
     elif [[ "${ARCH}" == "armv7" ]]; then
 
-        export CC="xcrun -sdk iphoneos clang -arch armv7"
-        export CXX="xcrun -sdk iphoneos clang++ -arch armv7"
-        export CFLAGS="-arch armv7 -target armv7-ios-darwin -march=armv7 -isysroot ${CROSS_TOP}/SDKs/${CROSS_SDK} -fembed-bitcode -miphoneos-version-min=${IOS_MIN_TARGET} -I${CROSS_TOP}/SDKs/${CROSS_SDK}/usr/include"
-
         # openssl1.1.1d can be set normally, 1.1.0f does not take effect
-        export LDFLAGS="-arch armv7 -target armv7-ios-darwin -march=armv7 -isysroot ${CROSS_TOP}/SDKs/${CROSS_SDK} -fembed-bitcode -L${CROSS_TOP}/SDKs/${CROSS_SDK}/usr/lib"
-
         ./Configure iphoneos-cross no-shared --prefix="${PREFIX_DIR}"
         sed -ie "s!-fno-common!-fno-common -fembed-bitcode !" "Makefile"
 
     elif [[ "${ARCH}" == "arm64" ]]; then
 
-        export CC="xcrun -sdk iphoneos clang -arch arm64"
-        export CXX="xcrun -sdk iphoneos clang++ -arch arm64"
-        export CFLAGS="-arch arm64 -target aarch64-ios-darwin -march=armv8 -isysroot ${CROSS_TOP}/SDKs/${CROSS_SDK} -fembed-bitcode -miphoneos-version-min=${IOS_MIN_TARGET} -I${CROSS_TOP}/SDKs/${CROSS_SDK}/usr/include"
-
         # openssl1.1.1d can be set normally, 1.1.0f does not take effect
-        export LDFLAGS="-arch arm64 -target aarch64-ios-darwin -march=armv8 -isysroot ${CROSS_TOP}/SDKs/${CROSS_SDK} -fembed-bitcode -L${CROSS_TOP}/SDKs/${CROSS_SDK}/usr/lib"
-
         ./Configure iphoneos-cross no-shared --prefix="${PREFIX_DIR}"
         sed -ie "s!-fno-common!-fno-common -fembed-bitcode !" "Makefile"
 
@@ -154,6 +138,8 @@ function configure_make() {
 
     popd
 }
+
+log_info "${PLATFORM_TYPE} ${LIB_NAME} start..."
 
 for ((i = 0; i < ${#ARCHS[@]}; i++)); do
     if [[ $# -eq 0 || "$1" == "${ARCHS[i]}" ]]; then
@@ -174,4 +160,4 @@ mkdir -p "${LIB_DEST_DIR}"
 lipo_library "libcrypto.a" "${LIB_DEST_DIR}/libcrypto-universal.a"
 lipo_library "libssl.a" "${LIB_DEST_DIR}/libssl-universal.a"
 
-log_info "build ios openssl end..."
+log_info "${PLATFORM_TYPE} ${LIB_NAME} end..."

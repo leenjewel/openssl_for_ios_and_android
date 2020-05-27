@@ -18,6 +18,10 @@
 
 set -u
 
+source ./build-android-common.sh
+
+init_log_color
+
 TOOLS_ROOT=$(pwd)
 
 SOURCE="$0"
@@ -42,8 +46,6 @@ ANDROID_API=23
 
 # ARCHS=("arm64")
 
-source ./build-android-common.sh
-
 echo "https://github.com/nghttp2/nghttp2/releases/download/${LIB_VERSION}/${LIB_NAME}.tar.gz"
 
 DEVELOPER=$(xcode-select -print-path)
@@ -59,7 +61,6 @@ function configure_make() {
     ABI=$2
     ABI_TRIPLE=$3
 
-    # read -n1 -p "Press any key to continue..."
     log_info "configure $ARCH start..."
 
     if [ -d "${LIB_NAME}" ]; then
@@ -84,8 +85,6 @@ function configure_make() {
     export ANDROID_NDK_HOME=${ANDROID_NDK_ROOT}
     echo ANDROID_NDK_HOME=${ANDROID_NDK_HOME}
 
-    # read -n1 -p "Press any key to continue..."
-
     if [[ "${ARCH}" == "x86_64" ]]; then
 
         ./configure --host=x86_64-linux-android --prefix="${PREFIX_DIR}" --disable-app --disable-threads --enable-lib-only >"${OUTPUT_ROOT}/log/${ARCH}.log" 2>&1
@@ -103,7 +102,6 @@ function configure_make() {
         log_error "not support" && exit 1
     fi
 
-    # read -n1 -p "Press any key to continue..."
     log_info "make $ARCH start..."
 
     make clean >>"${OUTPUT_ROOT}/log/${ARCH}.log"
@@ -114,7 +112,7 @@ function configure_make() {
     popd
 }
 
-# read -n1 -p "Press any key to continue..."
+log_info "${PLATFORM_TYPE} ${LIB_NAME} start..."
 
 for ((i = 0; i < ${#ARCHS[@]}; i++)); do
     if [[ $# -eq 0 || "$1" == "${ARCHS[i]}" ]]; then
@@ -122,4 +120,4 @@ for ((i = 0; i < ${#ARCHS[@]}; i++)); do
     fi
 done
 
-log_info "build android nghttp2 end..."
+log_info "${PLATFORM_TYPE} ${LIB_NAME} end..."

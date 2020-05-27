@@ -18,6 +18,10 @@
 
 set -u
 
+source ./build-android-common.sh
+
+init_log_color
+
 TOOLS_ROOT=$(pwd)
 
 SOURCE="$0"
@@ -44,8 +48,6 @@ ANDROID_API=23
 
 # ARCHS=("arm64")
 
-source ./build-android-common.sh
-
 echo "https://www.openssl.org/source/${LIB_NAME}.tar.gz"
 
 # https://github.com/openssl/openssl/archive/OpenSSL_1_1_1d.tar.gz
@@ -63,7 +65,6 @@ function configure_make() {
     ABI=$2
     ABI_TRIPLE=$3
 
-    # read -n1 -p "Press any key to continue..."
     log_info "configure $ARCH start..."
 
     if [ -d "${LIB_NAME}" ]; then
@@ -88,8 +89,6 @@ function configure_make() {
     export ANDROID_NDK_HOME=${ANDROID_NDK_ROOT}
     echo ANDROID_NDK_HOME=${ANDROID_NDK_HOME}
 
-    # read -n1 -p "Press any key to continue..."
-
     if [[ "${ARCH}" == "x86_64" ]]; then
 
         ./Configure android-x86_64 --prefix="${PREFIX_DIR}"
@@ -106,7 +105,6 @@ function configure_make() {
         log_error "not support" && exit 1
     fi
 
-    # read -n1 -p "Press any key to continue..."
     log_info "make $ARCH start..."
 
     make clean >"${OUTPUT_ROOT}/log/${ARCH}.log"
@@ -118,7 +116,7 @@ function configure_make() {
     popd
 }
 
-# read -n1 -p "Press any key to continue..."
+log_info "${PLATFORM_TYPE} ${LIB_NAME} start..."
 
 for ((i = 0; i < ${#ARCHS[@]}; i++)); do
     if [[ $# -eq 0 || "$1" == "${ARCHS[i]}" ]]; then
@@ -126,4 +124,4 @@ for ((i = 0; i < ${#ARCHS[@]}; i++)); do
     fi
 done
 
-log_info "build android openssl end..."
+log_info "${PLATFORM_TYPE} ${LIB_NAME} end..."

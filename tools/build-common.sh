@@ -14,6 +14,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+export PLATFORM_TYPE=""
+
 function get_cpu_count() {
     if [ "$(uname)" == "Darwin" ]; then
         echo $(sysctl -n hw.physicalcpu)

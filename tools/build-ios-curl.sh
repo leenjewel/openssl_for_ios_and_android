@@ -18,6 +18,8 @@
 
 set -u
 
+source ./build-ios-common.sh
+
 TOOLS_ROOT=$(pwd)
 
 SOURCE="$0"
@@ -49,8 +51,6 @@ PLATFORMS=("iPhoneOS" "iPhoneOS" "iPhoneSimulator")
 # SDKS=("iphonesimulator")
 # PLATFORMS=("iPhoneSimulator")
 
-source ./build-ios-common.sh
-
 init_log_color
 
 echo "https://github.com/curl/curl/releases/download/${LIB_VERSION}/${LIB_NAME}.tar.gz"
@@ -62,8 +62,6 @@ DEVELOPER=$(xcode-select -print-path)
 SDK_VERSION=$(xcrun -sdk iphoneos --show-sdk-version)
 rm -rf "${LIB_DEST_DIR}" "${LIB_NAME}"
 [ -f "${LIB_NAME}.tar.gz" ] || curl -LO https://github.com/curl/curl/releases/download/${LIB_VERSION}/${LIB_NAME}.tar.gz >${LIB_NAME}.tar.gz
-
-# read -n1 -p "Press any key to continue..."
 
 export PKG_CONFIG_PATH=$(which pkg-config)
 
@@ -100,41 +98,28 @@ function configure_make() {
     OUTPUT_ROOT=${TOOLS_ROOT}/../output/ios/curl-${ARCH}
     mkdir -p ${OUTPUT_ROOT}/log
 
+    set_android_cpu_feature "nghttp2" "${ARCH}" "${IOS_MIN_TARGET}" "${CROSS_TOP}/SDKs/${CROSS_SDK}"
+
     OPENSSL_OUT_DIR="${pwd_path}/../output/ios/openssl-${ARCH}"
     NGHTTP2_OUT_DIR="${pwd_path}/../output/ios/nghttp2-${ARCH}"
 
-    if [[ "${ARCH}" == "x86_64" ]]; then
+    export LDFLAGS="${LDFLAGS} -L${OPENSSL_OUT_DIR}/lib -L${NGHTTP2_OUT_DIR}/lib"
 
-        export CC="xcrun -sdk iphonesimulator clang -arch x86_64"
-        export CXX="xcrun -sdk iphonesimulator clang++ -arch x86_64"
-        export CFLAGS="-arch x86_64 -target x86_64-ios-darwin -march=x86-64 -isysroot ${CROSS_TOP}/SDKs/${CROSS_SDK} -miphoneos-version-min=${IOS_MIN_TARGET} -I${CROSS_TOP}/SDKs/${CROSS_SDK}/usr/include"
-        export LDFLAGS="-arch x86_64 -target x86_64-ios-darwin -march=x86-64 -isysroot ${CROSS_TOP}/SDKs/${CROSS_SDK} -L${CROSS_TOP}/SDKs/${CROSS_SDK}/usr/lib -L${OPENSSL_OUT_DIR}/lib -L${NGHTTP2_OUT_DIR}/lib"
+    if [[ "${ARCH}" == "x86_64" ]]; then
 
         ./Configure --host=x86_64-ios-darwin --prefix="${PREFIX_DIR}" --disable-shared --enable-static --enable-ipv6 --with-ssl=${OPENSSL_OUT_DIR} --with-nghttp2=${NGHTTP2_OUT_DIR} >"${OUTPUT_ROOT}/log/${ARCH}.log" 2>&1
 
     elif [[ "${ARCH}" == "armv7" ]]; then
 
-        export CC="xcrun -sdk iphoneos clang -arch armv7"
-        export CXX="xcrun -sdk iphoneos clang++ -arch armv7"
-        export CFLAGS="-arch armv7 -target armv7-ios-darwin -march=armv7 -isysroot ${CROSS_TOP}/SDKs/${CROSS_SDK} -fembed-bitcode -miphoneos-version-min=${IOS_MIN_TARGET} -I${CROSS_TOP}/SDKs/${CROSS_SDK}/usr/include"
-        export LDFLAGS="-arch armv7 -target armv7-ios-darwin -march=armv7 -isysroot ${CROSS_TOP}/SDKs/${CROSS_SDK} -fembed-bitcode -L${CROSS_TOP}/SDKs/${CROSS_SDK}/usr/lib -L${OPENSSL_OUT_DIR}/lib -L${NGHTTP2_OUT_DIR}/lib"
-
         ./Configure --host=armv7-ios-darwin --prefix="${PREFIX_DIR}" --disable-shared --enable-static --enable-ipv6 --with-ssl=${OPENSSL_OUT_DIR} --with-nghttp2=${NGHTTP2_OUT_DIR} >"${OUTPUT_ROOT}/log/${ARCH}.log" 2>&1
 
     elif [[ "${ARCH}" == "arm64" ]]; then
-
-        export CC="xcrun -sdk iphoneos clang -arch arm64"
-        export CXX="xcrun -sdk iphoneos clang++ -arch arm64"
-        export CFLAGS="-arch arm64 -target aarch64-ios-darwin -march=armv8 -isysroot ${CROSS_TOP}/SDKs/${CROSS_SDK} -fembed-bitcode -miphoneos-version-min=${IOS_MIN_TARGET} -I${CROSS_TOP}/SDKs/${CROSS_SDK}/usr/include"
-        export LDFLAGS="-arch arm64 -target aarch64-ios-darwin -march=armv8 -isysroot ${CROSS_TOP}/SDKs/${CROSS_SDK} -fembed-bitcode -L${CROSS_TOP}/SDKs/${CROSS_SDK}/usr/lib -L${OPENSSL_OUT_DIR}/lib -L${NGHTTP2_OUT_DIR}/lib"
 
         ./Configure --host=aarch64-ios-darwin --prefix="${PREFIX_DIR}" --disable-shared --enable-static --enable-ipv6 --with-ssl=${OPENSSL_OUT_DIR} --with-nghttp2=${NGHTTP2_OUT_DIR} >"${OUTPUT_ROOT}/log/${ARCH}.log" 2>&1
 
     else
         log_error "not support" && exit 1
     fi
-
-    # read -n1 -p "Press any key to continue..."
 
     log_info "make $ARCH start..."
 
@@ -146,13 +131,13 @@ function configure_make() {
     popd
 }
 
+log_info "${PLATFORM_TYPE} ${LIB_NAME} start..."
+
 for ((i = 0; i < ${#ARCHS[@]}; i++)); do
     if [[ $# -eq 0 || "$1" == "${ARCHS[i]}" ]]; then
         configure_make "${ARCHS[i]}" "${SDKS[i]}" "${PLATFORMS[i]}"
     fi
 done
-
-# read -n1 -p "Press any key to continue..."
 
 log_info "lipo start..."
 
@@ -166,4 +151,4 @@ function lipo_library() {
 mkdir -p "${LIB_DEST_DIR}"
 lipo_library "libcurl.a" "${LIB_DEST_DIR}/libcurl-universal.a"
 
-log_info "build ios openssl end..."
+log_info "${PLATFORM_TYPE} ${LIB_NAME} end..."

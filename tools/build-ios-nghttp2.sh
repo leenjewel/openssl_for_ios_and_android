@@ -18,6 +18,8 @@
 
 set -u
 
+source ./build-ios-common.sh
+
 TOOLS_ROOT=$(pwd)
 
 SOURCE="$0"
@@ -31,7 +33,7 @@ pwd_path="$(cd -P "$(dirname "$SOURCE")" && pwd)"
 echo pwd_path=${pwd_path}
 echo TOOLS_ROOT=${TOOLS_ROOT}
 
-# Setting
+PLATFORM_TYPE="ios"
 IOS_MIN_TARGET="8.0"
 LIB_VERSION="v1.40.0"
 LIB_NAME="nghttp2-1.40.0"
@@ -49,8 +51,6 @@ PLATFORMS=("iPhoneOS" "iPhoneOS" "iPhoneSimulator")
 # ARCHS=("x86_64")
 # SDKS=("iphonesimulator")
 # PLATFORMS=("iPhoneSimulator")
-
-source ./build-ios-common.sh
 
 init_log_color
 
@@ -94,30 +94,17 @@ function configure_make() {
     OUTPUT_ROOT=${TOOLS_ROOT}/../output/ios/nghttp2-${ARCH}
     mkdir -p ${OUTPUT_ROOT}/log
 
-    if [[ "${ARCH}" == "x86_64" ]]; then
+    set_android_cpu_feature "nghttp2" "${ARCH}" "${IOS_MIN_TARGET}" "${CROSS_TOP}/SDKs/${CROSS_SDK}"
 
-        export CC="xcrun -sdk iphonesimulator clang -arch x86_64"
-        export CXX="xcrun -sdk iphonesimulator clang++ -arch x86_64"
-        export CFLAGS="-arch x86_64 -target x86_64-ios-darwin -march=x86-64 -isysroot ${CROSS_TOP}/SDKs/${CROSS_SDK} -miphoneos-version-min=${IOS_MIN_TARGET} -I${CROSS_TOP}/SDKs/${CROSS_SDK}/usr/include"
-        export LDFLAGS="-arch x86_64 -target x86_64-ios-darwin -march=x86-64 -isysroot ${CROSS_TOP}/SDKs/${CROSS_SDK} -L${CROSS_TOP}/SDKs/${CROSS_SDK}/usr/lib"
+    if [[ "${ARCH}" == "x86_64" ]]; then
 
         ./configure --host=x86_64-ios-darwin --prefix="${PREFIX_DIR}" --disable-shared --disable-app --disable-threads --enable-lib-only >"${OUTPUT_ROOT}/log/${ARCH}.log" 2>&1
 
     elif [[ "${ARCH}" == "armv7" ]]; then
 
-        export CC="xcrun -sdk iphoneos clang -arch armv7"
-        export CXX="xcrun -sdk iphoneos clang++ -arch armv7"
-        export CFLAGS="-arch armv7 -target armv7-ios-darwin -march=armv7 -isysroot ${CROSS_TOP}/SDKs/${CROSS_SDK} -fembed-bitcode -miphoneos-version-min=${IOS_MIN_TARGET} -I${CROSS_TOP}/SDKs/${CROSS_SDK}/usr/include"
-        export LDFLAGS="-arch armv7 -target armv7-ios-darwin -march=armv7 -isysroot ${CROSS_TOP}/SDKs/${CROSS_SDK} -fembed-bitcode -L${CROSS_TOP}/SDKs/${CROSS_SDK}/usr/lib"
-
         ./configure --host=armv7-ios-darwin --prefix="${PREFIX_DIR}" --disable-shared --disable-app --disable-threads --enable-lib-only >"${OUTPUT_ROOT}/log/${ARCH}.log" 2>&1
 
     elif [[ "${ARCH}" == "arm64" ]]; then
-
-        export CC="xcrun -sdk iphoneos clang -arch arm64"
-        export CXX="xcrun -sdk iphoneos clang++ -arch arm64"
-        export CFLAGS="-arch arm64 -target aarch64-ios-darwin -march=armv8 -isysroot ${CROSS_TOP}/SDKs/${CROSS_SDK} -fembed-bitcode -miphoneos-version-min=${IOS_MIN_TARGET} -I${CROSS_TOP}/SDKs/${CROSS_SDK}/usr/include"
-        export LDFLAGS="-arch arm64 -target aarch64-ios-darwin -march=armv8 -isysroot ${CROSS_TOP}/SDKs/${CROSS_SDK} -fembed-bitcode -L${CROSS_TOP}/SDKs/${CROSS_SDK}/usr/lib"
 
         ./configure --host=aarch64-ios-darwin --prefix="${PREFIX_DIR}" --disable-shared --disable-app --disable-threads --enable-lib-only >"${OUTPUT_ROOT}/log/${ARCH}.log" 2>&1
 
@@ -134,6 +121,8 @@ function configure_make() {
 
     popd
 }
+
+log_info "${PLATFORM_TYPE} ${LIB_NAME} start..."
 
 for ((i = 0; i < ${#ARCHS[@]}; i++)); do
     if [[ $# -eq 0 || "$1" == "${ARCHS[i]}" ]]; then
@@ -153,4 +142,4 @@ function lipo_library() {
 mkdir -p "${LIB_DEST_DIR}"
 lipo_library "libnghttp2.a" "${LIB_DEST_DIR}/libnghttp2-universal.a"
 
-log_info "build ios openssl end..."
+log_info "${PLATFORM_TYPE} ${LIB_NAME} end..."

@@ -16,6 +16,8 @@
 
 source ./build-common.sh
 
+export PLATFORM_TYPE="Android"
+
 if [[ -z ${ANDROID_NDK_ROOT} ]]; then
   echo "ANDROID_NDK_ROOT not defined"
   exit 1
