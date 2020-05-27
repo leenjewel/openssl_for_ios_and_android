@@ -106,7 +106,7 @@ link. `libz` is publically provided by Android system.
 
 - Android Studio 3.5.3
 - The latest available example is in the demo2 folder (/openssl_for_ios_and_android/example/android/demo2).
-- Copy libcrypto-universal.a, libcurl-universal.a, libnghttp2-universal.a, libssl-universal.a four files to folder (/openssl_for_ios_and_android/example/android/demo2/test_curl_with_ssl_and_http2_android/app/src/main/cpp/test/lib) (armeabi-v7a, arm64-v8a, x86_64)
+- Copy libcrypto.a, libcurl.a, libnghttp2.a, libssl.a four files to folder (/openssl_for_ios_and_android/example/android/demo2/test_curl_with_ssl_and_http2_android/app/src/main/cpp/test/lib) (armeabi-v7a, arm64-v8a, x86_64)
 - Use Android Studio open project test.
 
 ## How to use
