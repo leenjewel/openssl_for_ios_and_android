@@ -33,23 +33,14 @@ pwd_path="$(cd -P "$(dirname "$SOURCE")" && pwd)"
 echo pwd_path=${pwd_path}
 echo TOOLS_ROOT=${TOOLS_ROOT}
 
-IOS_MIN_TARGET="8.0"
 LIB_VERSION="curl-7_68_0"
 LIB_NAME="curl-7.68.0"
 LIB_DEST_DIR="${pwd_path}/../output/ios/curl-universal"
 
-# Setup architectures, library name and other vars + cleanup from previous runs
-# ARCHS=("arm64" "armv7s" "armv7" "i386" "x86_64")
-# SDKS=("iphoneos" "iphoneos" "iphoneos" "iphonesimulator" "iphonesimulator")
-# PLATFORMS=("iPhoneOS" "iPhoneOS" "iPhoneOS" "iPhoneSimulator" "iPhoneSimulator")
-
-ARCHS=("armv7" "arm64" "x86_64")
-SDKS=("iphoneos" "iphoneos" "iphonesimulator")
-PLATFORMS=("iPhoneOS" "iPhoneOS" "iPhoneSimulator")
-
-# ARCHS=("x86_64")
-# SDKS=("iphonesimulator")
-# PLATFORMS=("iPhoneSimulator")
+# for test
+# ARCHS=("arm64e")
+# SDKS=("iphoneos")
+# PLATFORMS=("iphoneos")
 
 init_log_color
 
@@ -62,8 +53,6 @@ DEVELOPER=$(xcode-select -print-path)
 SDK_VERSION=$(xcrun -sdk iphoneos --show-sdk-version)
 rm -rf "${LIB_DEST_DIR}" "${LIB_NAME}"
 [ -f "${LIB_NAME}.tar.gz" ] || curl -LO https://github.com/curl/curl/releases/download/${LIB_VERSION}/${LIB_NAME}.tar.gz >${LIB_NAME}.tar.gz
-
-export PKG_CONFIG_PATH=$(which pkg-config)
 
 function configure_make() {
 
@@ -114,6 +103,10 @@ function configure_make() {
         ./Configure --host=armv7-ios-darwin --prefix="${PREFIX_DIR}" --disable-shared --enable-static --enable-ipv6 --with-ssl=${OPENSSL_OUT_DIR} --with-nghttp2=${NGHTTP2_OUT_DIR} >"${OUTPUT_ROOT}/log/${ARCH}.log" 2>&1
 
     elif [[ "${ARCH}" == "arm64" ]]; then
+
+        ./Configure --host=aarch64-ios-darwin --prefix="${PREFIX_DIR}" --disable-shared --enable-static --enable-ipv6 --with-ssl=${OPENSSL_OUT_DIR} --with-nghttp2=${NGHTTP2_OUT_DIR} >"${OUTPUT_ROOT}/log/${ARCH}.log" 2>&1
+    
+    elif [[ "${ARCH}" == "arm64e" ]]; then
 
         ./Configure --host=aarch64-ios-darwin --prefix="${PREFIX_DIR}" --disable-shared --enable-static --enable-ipv6 --with-ssl=${OPENSSL_OUT_DIR} --with-nghttp2=${NGHTTP2_OUT_DIR} >"${OUTPUT_ROOT}/log/${ARCH}.log" 2>&1
 

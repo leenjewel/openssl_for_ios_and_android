@@ -33,24 +33,14 @@ pwd_path="$(cd -P "$(dirname "$SOURCE")" && pwd)"
 echo pwd_path=${pwd_path}
 echo TOOLS_ROOT=${TOOLS_ROOT}
 
-PLATFORM_TYPE="ios"
-IOS_MIN_TARGET="8.0"
 LIB_VERSION="v1.40.0"
 LIB_NAME="nghttp2-1.40.0"
 LIB_DEST_DIR="${pwd_path}/../output/ios/nghttp2-universal"
 
-# Setup architectures, library name and other vars + cleanup from previous runs
-# ARCHS=("arm64" "armv7s" "armv7" "i386" "x86_64")
-# SDKS=("iphoneos" "iphoneos" "iphoneos" "iphonesimulator" "iphonesimulator")
-# PLATFORMS=("iPhoneOS" "iPhoneOS" "iPhoneOS" "iPhoneSimulator" "iPhoneSimulator")
-
-ARCHS=("armv7" "arm64" "x86_64")
-SDKS=("iphoneos" "iphoneos" "iphonesimulator")
-PLATFORMS=("iPhoneOS" "iPhoneOS" "iPhoneSimulator")
-
-# ARCHS=("x86_64")
-# SDKS=("iphonesimulator")
-# PLATFORMS=("iPhoneSimulator")
+# for test
+# ARCHS=("arm64e")
+# SDKS=("iphoneos")
+# PLATFORMS=("iphoneos")
 
 init_log_color
 
@@ -105,6 +95,10 @@ function configure_make() {
         ./configure --host=armv7-ios-darwin --prefix="${PREFIX_DIR}" --disable-shared --disable-app --disable-threads --enable-lib-only >"${OUTPUT_ROOT}/log/${ARCH}.log" 2>&1
 
     elif [[ "${ARCH}" == "arm64" ]]; then
+
+        ./configure --host=aarch64-ios-darwin --prefix="${PREFIX_DIR}" --disable-shared --disable-app --disable-threads --enable-lib-only >"${OUTPUT_ROOT}/log/${ARCH}.log" 2>&1
+
+    elif [[ "${ARCH}" == "arm64e" ]]; then
 
         ./configure --host=aarch64-ios-darwin --prefix="${PREFIX_DIR}" --disable-shared --disable-app --disable-threads --enable-lib-only >"${OUTPUT_ROOT}/log/${ARCH}.log" 2>&1
 

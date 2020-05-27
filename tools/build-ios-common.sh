@@ -17,6 +17,10 @@
 source ./build-common.sh
 
 export PLATFORM_TYPE="iOS"
+export IOS_MIN_TARGET="8.0"
+export ARCHS=("armv7" "arm64" "arm64e" "x86_64")
+export SDKS=("iphoneos" "iphoneos" "iphoneos" "iphonesimulator")
+export PLATFORMS=("iPhoneOS" "iPhoneOS" "iphoneos" "iPhoneSimulator")
 
 function get_android_arch() {
     local common_arch=$1
@@ -26,6 +30,9 @@ function get_android_arch() {
         ;;
     arm64)
         echo "arm64"
+        ;;
+    arm64e)
+        echo "arm64e"
         ;;
     x86)
         echo "i*86"
@@ -56,8 +63,16 @@ function set_android_cpu_feature() {
         export LDFLAGS="-arch arm64 -target aarch64-ios-darwin -march=armv8 -isysroot ${sysroot} -fembed-bitcode -L${sysroot}/usr/lib "
         export CXXFLAGS="-std=c++14 -arch arm64 -target aarch64-ios-darwin -march=armv8 -mcpu=generic -fstrict-aliasing -fembed-bitcode -DIOS -miphoneos-version-min=${ios_min_target} -I${sysroot}/usr/include"
         ;;
+    arm64e)
+        # -march=armv8.3 ???
+        export CC="xcrun -sdk iphoneos clang -arch arm64e"
+        export CXX="xcrun -sdk iphoneos clang++ -arch arm64e"
+        export CFLAGS="-arch arm64e -target aarch64-ios-darwin -Wno-unused-function -fstrict-aliasing -DIOS -isysroot ${sysroot} -fembed-bitcode -miphoneos-version-min=${ios_min_target} -I${sysroot}/usr/include"
+        export LDFLAGS="-arch arm64e -target aarch64-ios-darwin -isysroot ${sysroot} -fembed-bitcode -L${sysroot}/usr/lib "
+        export CXXFLAGS="-std=c++14 -arch arm64e -target aarch64-ios-darwin -fstrict-aliasing -fembed-bitcode -DIOS -miphoneos-version-min=${ios_min_target} -I${sysroot}/usr/include"
+        ;;
     i*86)
-        echo "not support" && exit 1
+        log_error "not support" && exit 1
         ;;
     x86-64)
         export CC="xcrun -sdk iphonesimulator clang -arch x86_64"
@@ -65,6 +80,9 @@ function set_android_cpu_feature() {
         export CFLAGS="-arch x86_64 -target x86_64-ios-darwin -march=x86-64 -msse4.2 -mpopcnt -m64 -mtune=intel -Wno-unused-function -fstrict-aliasing -O2 -Wno-ignored-optimization-argument -DIOS -isysroot ${sysroot} -mios-simulator-version-min=${ios_min_target} -I${sysroot}/usr/include"
         export LDFLAGS="-arch x86_64 -target x86_64-ios-darwin -march=x86-64 -isysroot ${sysroot} -L${sysroot}/usr/lib "
         export CXXFLAGS="-std=c++14 -arch x86_64 -target x86_64-ios-darwin -march=x86-64 -msse4.2 -mpopcnt -m64 -mtune=intel -fstrict-aliasing -DIOS -mios-simulator-version-min=${ios_min_target} -I${sysroot}/usr/include"
+        ;;
+    *) 
+        log_error "not support" && exit 1
         ;;
     esac
 

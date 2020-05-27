@@ -15,6 +15,12 @@
 # limitations under the License.
 
 export PLATFORM_TYPE=""
+export PKG_CONFIG_PATH=$(which pkg-config)
+
+if [[ -z ${PKG_CONFIG_PATH} ]]; then
+  echo "PKG_CONFIG_PATH not defined"
+  exit 1
+fi
 
 function get_cpu_count() {
     if [ "$(uname)" == "Darwin" ]; then

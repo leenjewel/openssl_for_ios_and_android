@@ -33,25 +33,16 @@ pwd_path="$(cd -P "$(dirname "$SOURCE")" && pwd)"
 echo pwd_path=${pwd_path}
 echo TOOLS_ROOT=${TOOLS_ROOT}
 
-IOS_MIN_TARGET="8.0"
 # openssl-1.1.0f has a configure bug
 # openssl-1.1.1d has fix configure bug
 LIB_VERSION="OpenSSL_1_1_1d"
 LIB_NAME="openssl-1.1.1d"
 LIB_DEST_DIR="${pwd_path}/../output/ios/openssl-universal"
 
-# Setup architectures, library name and other vars + cleanup from previous runs
-# ARCHS=("arm64" "armv7s" "armv7" "i386" "x86_64")
-# SDKS=("iphoneos" "iphoneos" "iphoneos" "iphonesimulator" "iphonesimulator")
-# PLATFORMS=("iPhoneOS" "iPhoneOS" "iPhoneOS" "iPhoneSimulator" "iPhoneSimulator")
-
-ARCHS=("armv7" "arm64" "x86_64")
-SDKS=("iphoneos" "iphoneos" "iphonesimulator")
-PLATFORMS=("iPhoneOS" "iPhoneOS" "iPhoneSimulator")
-
-# ARCHS=("x86_64")
-# SDKS=("iphonesimulator")
-# PLATFORMS=("iPhoneSimulator")
+# for test
+# ARCHS=("arm64e")
+# SDKS=("iphoneos")
+# PLATFORMS=("iphoneos")
 
 init_log_color
 
@@ -78,12 +69,6 @@ function configure_make() {
     tar xfz "${LIB_NAME}.tar.gz"
     pushd .
     cd "${LIB_NAME}"
-
-    # if [[ "${ARCH}" == "i386" || "${ARCH}" == "x86_64" ]]; then
-    #     echo ""
-    # else
-    #     sed -ie "s!static volatile sig_atomic_t intr_signal;!static volatile intr_signal;!" "crypto/ui/ui_openssl.c"
-    # fi
 
     export CROSS_TOP="${DEVELOPER}/Platforms/${PLATFORM}.platform/Developer"
     export CROSS_SDK="${PLATFORM}${SDK_VERSION}.sdk"
@@ -119,6 +104,12 @@ function configure_make() {
         sed -ie "s!-fno-common!-fno-common -fembed-bitcode !" "Makefile"
 
     elif [[ "${ARCH}" == "arm64" ]]; then
+
+        # openssl1.1.1d can be set normally, 1.1.0f does not take effect
+        ./Configure iphoneos-cross no-shared --prefix="${PREFIX_DIR}"
+        sed -ie "s!-fno-common!-fno-common -fembed-bitcode !" "Makefile"
+
+    elif [[ "${ARCH}" == "arm64e" ]]; then
 
         # openssl1.1.1d can be set normally, 1.1.0f does not take effect
         ./Configure iphoneos-cross no-shared --prefix="${PREFIX_DIR}"
