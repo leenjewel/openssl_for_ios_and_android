@@ -51,6 +51,10 @@ PLATFORMS=("iPhoneOS" "iPhoneOS" "iPhoneSimulator")
 # SDKS=("iphonesimulator")
 # PLATFORMS=("iPhoneSimulator")
 
+source ./build-ios-common.sh
+
+init_log_color
+
 echo "https://www.openssl.org/source/${LIB_NAME}.tar.gz"
 
 # https://github.com/openssl/openssl/archive/OpenSSL_1_1_1d.tar.gz
@@ -60,13 +64,13 @@ SDK_VERSION=$(xcrun -sdk iphoneos --show-sdk-version)
 rm -rf "${LIB_DEST_DIR}" "${LIB_NAME}"
 [ -f "${LIB_NAME}.tar.gz" ] || curl https://www.openssl.org/source/${LIB_NAME}.tar.gz >${LIB_NAME}.tar.gz
 
-configure_make() {
+function configure_make() {
 
     ARCH=$1
     SDK=$2
     PLATFORM=$3
 
-    echo "configure $ARCH start..."
+    log_info "configure $ARCH start..."
 
     if [ -d "${LIB_NAME}" ]; then
         rm -fr "${LIB_NAME}"
@@ -85,19 +89,19 @@ configure_make() {
     export CROSS_SDK="${PLATFORM}${SDK_VERSION}.sdk"
 
     if [ ! -d ${CROSS_TOP}/SDKs/${CROSS_SDK} ]; then
-        echo "ERROR: iOS SDK version:'${SDK_VERSION}' incorrect, SDK in your system is:"
+        log_error "ERROR: iOS SDK version:'${SDK_VERSION}' incorrect, SDK in your system is:"
         xcodebuild -showsdks | grep iOS
         exit -1
     fi
-
-    OUTPUT_ROOT=${TOOLS_ROOT}/../output/ios/openssl-${ARCH}
-    mkdir -p ${OUTPUT_ROOT}/log
 
     PREFIX_DIR="${pwd_path}/../output/ios/openssl-${ARCH}"
     if [ -d "${PREFIX_DIR}" ]; then
         rm -fr "${PREFIX_DIR}"
     fi
     mkdir -p "${PREFIX_DIR}"
+
+    OUTPUT_ROOT=${TOOLS_ROOT}/../output/ios/openssl-${ARCH}
+    mkdir -p ${OUTPUT_ROOT}/log
 
     unset IPHONEOS_DEPLOYMENT_TARGET
 
@@ -137,12 +141,12 @@ configure_make() {
         sed -ie "s!-fno-common!-fno-common -fembed-bitcode !" "Makefile"
 
     else
-        echo "not support" && exit 1
+        log_error "not support" && exit 1
     fi
 
-    echo "make $ARCH start..."
+    log_info "make $ARCH start..."
 
-    make clean &>"${OUTPUT_ROOT}/log/${ARCH}.log"
+    make clean >"${OUTPUT_ROOT}/log/${ARCH}.log"
     if make -j8 >>"${OUTPUT_ROOT}/log/${ARCH}.log" 2>&1; then
         make install_sw >>"${OUTPUT_ROOT}/log/${ARCH}.log" 2>&1
         make install_ssldirs >>"${OUTPUT_ROOT}/log/${ARCH}.log" 2>&1
@@ -157,9 +161,9 @@ for ((i = 0; i < ${#ARCHS[@]}; i++)); do
     fi
 done
 
-echo "lipo start..."
+log_info "lipo start..."
 
-create_lib() {
+function lipo_library() {
     LIB_SRC=$1
     LIB_DST=$2
     LIB_PATHS=("${ARCHS[@]/#/${pwd_path}/../output/ios/openssl-}")
@@ -167,7 +171,7 @@ create_lib() {
     lipo ${LIB_PATHS[@]} -create -output "${LIB_DST}"
 }
 mkdir -p "${LIB_DEST_DIR}"
-create_lib "libcrypto.a" "${LIB_DEST_DIR}/libcrypto-universal.a"
-create_lib "libssl.a" "${LIB_DEST_DIR}/libssl-universal.a"
+lipo_library "libcrypto.a" "${LIB_DEST_DIR}/libcrypto-universal.a"
+lipo_library "libssl.a" "${LIB_DEST_DIR}/libssl-universal.a"
 
-echo "buil ios openssl end..."
+log_info "build ios openssl end..."

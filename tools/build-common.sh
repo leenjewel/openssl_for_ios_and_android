@@ -21,3 +21,35 @@ function get_cpu_count() {
         echo $(nproc)
     fi
 }
+
+function init_log_color() {
+    if test -t 1 && which tput >/dev/null 2>&1; then
+        ncolors=$(tput colors)
+        if test -n "$ncolors" && test $ncolors -ge 8; then
+            bold_color=$(tput bold)
+            warn_color=$(tput setaf 3)
+            error_color=$(tput setaf 1)
+            reset_color=$(tput sgr0)
+        fi
+        # 72 used instead of 80 since that's the default of pr
+        ncols=$(tput cols)
+    fi
+    : ${ncols:=72}
+}
+
+function log_info() {
+    echo "$warn_color$@$reset_color"
+}
+
+function log_warning() {
+    echo "$warn_color$bold_color$@$reset_color"
+}
+
+function log_error() {
+    echo "$error_color$bold_color$@$reset_color"
+}
+
+# init_log_color
+# log_info "info"
+# log_warning "warning"
+# log_error "error"

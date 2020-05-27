@@ -5,11 +5,12 @@
 <tr><td>library</td><td>version</td><td>platform support</td><td>arch support</td><td>pull commit</td></tr>
 </thead>
 <tbody>
-<tr><td>openssl</td><td>1.1.1a</td><td>android</td><td>armeabi armeabi-v7a arm64-v8a x86 x86_64</td><td>682f60</td></tr>
-<tr><td>openssl</td><td>1.1.0f</td><td>ios</td><td>armv7s armv7 i386 x86_64 arm64</td><td>aae1672</td></tr>
-<tr><td></td><td></td><td>android</td><td>armeabi armeabi-v7a arm64-v8a x86 x86_64 mips mips64</td><td>aae1672</td></tr>
-<tr><td>curl</td><td>7.66.0</td><td>ios</td><td>armv7s armv7 i386 x86_64 arm64</td><td>aae1672</td></tr>
-<tr><td></td><td></td><td>android</td><td>armeabi armeabi-v7a arm64-v8a x86 x86_64 mips mips64</td><td>aae1672</td></tr>
+<tr><td>openssl</td><td>1.1.1d</td><td>ios</td><td>armv7 arm64 x86_64 </td><td>aae1672</td></tr>
+<tr><td></td><td></td><td>android</td><td>armeabi-v7a arm64-v8a x86_64 </td><td>aae1672</td></tr>
+<tr><td>nghttp2</td><td>1.40.0</td><td>ios</td><td>armv7 arm64 x86_64 </td><td>aae1672</td></tr>
+<tr><td></td><td></td><td>android</td><td>armeabi-v7a arm64-v8a x86_64 </td><td>aae1672</td></tr>
+<tr><td>curl</td><td>7.68.0</td><td>ios</td><td>armv7 arm64 x86_64 </td><td>aae1672</td></tr>
+<tr><td></td><td></td><td>android</td><td>armeabi-v7a arm64-v8a x86_64 </td><td>aae1672</td></tr>
 </tbody>
 </table>
 
@@ -19,116 +20,81 @@
 
 If you do not want to build it by yourself, you could download our prebuilt library from [there](https://github.com/leenjewel/openssl_for_ios_and_android/releases/tag/20170105)
 
-Android prebuilt library [download from here!!!](https://github.com/leenjewel/openssl_for_ios_and_android/releases/tag/android_openssl-1.1.0f_curl-7.54.1)
-
-Android OpenSSL 1.1.1a library [download here !!!](https://github.com/leenjewel/openssl_for_ios_and_android/releases/tag/android_openssl-1.1.1a)
-
 ## OpenSSL Version
-
-This a static library compile from openssl and cURL for iOS and Android.
 
  - ~~[openssl-1.0.2c.tar.gz](https://www.openssl.org/source/openssl-1.0.2c.tar.gz)~~
  - [openssl-1.1.0f.tar.gz](https://www.openssl.org/source/openssl-1.1.0f.tar.gz)
+ - [openssl-1.1.1d.tar.gz](https://www.openssl.org/source/openssl-1.1.1d.tar.gz)
  - [https://github.com/openssl/openssl](https://github.com/openssl/openssl)
+
+## nghttp2 Version
+
+ - [nghttp2-1.40.0.tar.gz](https://github.com/nghttp2/nghttp2/releases/download/v1.40.0/nghttp2-1.40.0.tar.gz)
+ - [https://nghttp2.org/](https://nghttp2.org/)
 
 ## cURL Version
 
  - ~~[curl-7.47.1.tar.gz](https://curl.haxx.se/download/curl-7.47.1.tar.gz)~~
  - [curl-7.66.0.tar.gz](https://curl.haxx.se/download/curl-7.66.0.tar.gz)
+ - [curl-7.68.0.tar.gz](https://curl.haxx.se/download/curl-7.68.0.tar.gz)
  - [https://github.com/curl/curl](https://github.com/curl/curl)
 
 ## Android NDK Version
 
  - ~~[android-ndk-r13b](https://dl.google.com/android/repository/android-ndk-r13b-darwin-x86_64.zip)~~
- - [android-ndk-r14b](https://dl.google.com/android/repository/android-ndk-r14b-darwin-x86_64.zip)
+ - ~~[android-ndk-r14b](https://dl.google.com/android/repository/android-ndk-r14b-darwin-x86_64.zip)~~
  - ~~android-ndk-r15 (**Do not try to build use 15 It will fail**)~~
-
-## OpenSSL 1.1.1a for Android
-
-Thanks for [https://stackoverflow.com/questions/52717228/how-to-compile-openssl-1-1-1-for-android](https://stackoverflow.com/questions/52717228/how-to-compile-openssl-1-1-1-for-android)
-
-- [openssl-1.1.1a.tar.gz](https://www.openssl.org/source/openssl-1.1.1a.tar.gz)
-
-- Android NDK r19c
-
-> $cd tools
-> 
-> $./build-openssl\_111\_4android.sh
+ - support api 23 above
 
 ## How to build
 
+### ！！！Scripts are compiled and passed on the Mac, not tested on the Linux system
+
+- MacOS info: 10.15.2
+
 ### For iOS
 
-Copy `openssl-1.1.0f.tar.gz` to `tools` file folder and run
-
-```shell
-cd tools
-sh ./build-openssl4ios.sh
+- Xcode info: Version 11.3.1 (11C504) (for reference only)
+- Build dependencies: todo
+- Build order: 1.build openssl, 2.build nghttp2, 3.build curl (curl depend openssl and nghttp2)
+- only build static library(.a)
+- build sh cmd: for example:
 ```
-
-Copy `curl-7.66.0.tar.gz` to `tools` file folder and run
-
-```shell
-cd tools
-sh ./build-curl4ios.sh
-```
-
-### Special things about building i386 architecture on Mojave
-
-If you build `i386` failed for link error on Mojave (macOS 10.14+).
-
-Try to intall the header package of macOS 10.14:
-
-```shell
-sudo installer -pkg /Library/Developer/CommandLineTools/Packages/macOS_SDK_headers_for_macOS_10.14.pkg -target /
+$ cd tools
+$ sh build-ios-openssl.sh
+$ sh build-ios-nghttp2.sh
+$ sh build-ios-curl.sh
 ```
 
 ### For Android
 
-Set ENV `NDK_ROOT`
-
+- Android Studio info: 3.5.3 (for reference only)
+- Build dependencies: todo
+- Build order: 1.build openssl, 2.build nghttp2, 3.build curl (curl depend openssl and nghttp2)
+- build static library(.a) and dynamic library (exclude curl arm64-v8a)
+- env macro: for example:
+```
+export ANDROID_HOME=/Users/userid/Library/Android/sdk
+export ANDROID_NDK_ROOT=$ANDROID_HOME/ndk-bundle
 
 ```
-cd tools
-sh ./build-openssl4android.sh
+- build sh cmd: for example:
+```
+$ cd tools
+$ sh build-android-openssl.sh
+$ sh build-android-nghttp2.sh
+$ sh build-android-curl.sh
 ```
 
-You could build it with ABI like
 
-```
-cd tools
-sh ./build-openssl4android.sh android  # for armeabi
-sh ./build-openssl4android.sh android-armeabi #for armeabi-v7a
-sh ./build-openssl4android.sh android64-arm64 #for arm64_v8a
-sh ./build-openssl4android.sh android-x86  #for x86
-sh ./build-openssl4android.sh android64  #for x86_64
-sh ./build-openssl4android.sh mips  #for mips
-sh ./build-openssl4android.sh mips64 #for mips64
-```
 
-> **You must build openssl first**
-> 
-> **else cURL HTTPS is disable (without ssl)**
+> **You must build openssl and nghttp2(support http2) first**
+
+### Others
 
 OpenSSL for Android is build with `libz` support using dynamic
 link. `libz` is publically provided by Android system.
 
-```
-sh ./build-curl4android.sh
-```
-
-You could build it with ABI like
-
-```
-cd tools
-sh ./build-curl4android.sh android  # for armeabi
-sh ./build-curl4android.sh android-armv7 #for armeabi-v7a
-sh ./build-curl4android.sh android64-arm64 #for arm64_v8a
-sh ./build-curl4android.sh android-x86  #for x86
-sh ./build-curl4android.sh android-x86_64  #for x86_64
-sh ./build-curl4android.sh mips  #for mips
-sh ./build-curl4android.sh mips64 #for mips64
-```
 
 ## How to use
 

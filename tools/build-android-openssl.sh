@@ -44,6 +44,8 @@ ANDROID_API=23
 
 # ARCHS=("arm64")
 
+source ./build-android-common.sh
+
 echo "https://www.openssl.org/source/${LIB_NAME}.tar.gz"
 
 # https://github.com/openssl/openssl/archive/OpenSSL_1_1_1d.tar.gz
@@ -53,18 +55,16 @@ SDK_VERSION=$(xcrun -sdk iphoneos --show-sdk-version)
 rm -rf "${LIB_DEST_DIR}" "${LIB_NAME}"
 [ -f "${LIB_NAME}.tar.gz" ] || curl https://www.openssl.org/source/${LIB_NAME}.tar.gz >${LIB_NAME}.tar.gz
 
-source ./build-android-common.sh
-
 set_android_toolchain_bin
 
-configure_make() {
+function configure_make() {
 
     ARCH=$1
     ABI=$2
     ABI_TRIPLE=$3
 
     # read -n1 -p "Press any key to continue..."
-    echo "configure $ARCH start..."
+    log_info "configure $ARCH start..."
 
     if [ -d "${LIB_NAME}" ]; then
         rm -fr "${LIB_NAME}"
@@ -103,11 +103,11 @@ configure_make() {
         ./Configure android-arm64 --prefix="${PREFIX_DIR}"
 
     else
-        echo "not support" && exit 1
+        log_error "not support" && exit 1
     fi
 
     # read -n1 -p "Press any key to continue..."
-    echo "make $ARCH start..."
+    log_info "make $ARCH start..."
 
     make clean >"${OUTPUT_ROOT}/log/${ARCH}.log"
     if make -j$(get_cpu_count) >>"${OUTPUT_ROOT}/log/${ARCH}.log" 2>&1; then
@@ -126,4 +126,4 @@ for ((i = 0; i < ${#ARCHS[@]}; i++)); do
     fi
 done
 
-echo "build android openssl end..."
+log_info "build android openssl end..."

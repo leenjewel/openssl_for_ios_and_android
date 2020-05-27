@@ -49,6 +49,10 @@ PLATFORMS=("iPhoneOS" "iPhoneOS" "iPhoneSimulator")
 # SDKS=("iphonesimulator")
 # PLATFORMS=("iPhoneSimulator")
 
+source ./build-ios-common.sh
+
+init_log_color
+
 echo "https://github.com/curl/curl/releases/download/${LIB_VERSION}/${LIB_NAME}.tar.gz"
 
 # https://curl.haxx.se/download/${LIB_NAME}.tar.gz
@@ -61,15 +65,15 @@ rm -rf "${LIB_DEST_DIR}" "${LIB_NAME}"
 
 # read -n1 -p "Press any key to continue..."
 
-export PKG_CONFIG_PATH=`which pkg-config`
+export PKG_CONFIG_PATH=$(which pkg-config)
 
-configure_make() {
+function configure_make() {
 
     ARCH=$1
     SDK=$2
     PLATFORM=$3
 
-    echo "configure $ARCH start..."
+    log_info "configure $ARCH start..."
 
     if [ -d "${LIB_NAME}" ]; then
         rm -fr "${LIB_NAME}"
@@ -82,7 +86,7 @@ configure_make() {
     export CROSS_SDK="${PLATFORM}${SDK_VERSION}.sdk"
 
     if [ ! -d ${CROSS_TOP}/SDKs/${CROSS_SDK} ]; then
-        echo "ERROR: iOS SDK version:'${SDK_VERSION}' incorrect, SDK in your system is:"
+        log_error "ERROR: iOS SDK version:'${SDK_VERSION}' incorrect, SDK in your system is:"
         xcodebuild -showsdks | grep iOS
         exit -1
     fi
@@ -127,12 +131,12 @@ configure_make() {
         ./Configure --host=aarch64-ios-darwin --prefix="${PREFIX_DIR}" --disable-shared --enable-static --enable-ipv6 --with-ssl=${OPENSSL_OUT_DIR} --with-nghttp2=${NGHTTP2_OUT_DIR} >"${OUTPUT_ROOT}/log/${ARCH}.log" 2>&1
 
     else
-        echo "not support" && exit 1
+        log_error "not support" && exit 1
     fi
 
     # read -n1 -p "Press any key to continue..."
-    
-    echo "make $ARCH start..."
+
+    log_info "make $ARCH start..."
 
     make clean >>"${OUTPUT_ROOT}/log/${ARCH}.log"
     if make -j8 >>"${OUTPUT_ROOT}/log/${ARCH}.log" 2>&1; then
@@ -150,9 +154,9 @@ done
 
 # read -n1 -p "Press any key to continue..."
 
-echo "lipo start..."
+log_info "lipo start..."
 
-create_lib() {
+function lipo_library() {
     LIB_SRC=$1
     LIB_DST=$2
     LIB_PATHS=("${ARCHS[@]/#/${pwd_path}/../output/ios/curl-}")
@@ -160,6 +164,6 @@ create_lib() {
     lipo ${LIB_PATHS[@]} -create -output "${LIB_DST}"
 }
 mkdir -p "${LIB_DEST_DIR}"
-create_lib "libcurl.a" "${LIB_DEST_DIR}/libcurl-universal.a"
+lipo_library "libcurl.a" "${LIB_DEST_DIR}/libcurl-universal.a"
 
-echo "buil ios openssl end..."
+log_info "build ios openssl end..."
