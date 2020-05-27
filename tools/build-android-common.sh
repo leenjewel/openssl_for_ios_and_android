@@ -170,13 +170,13 @@ function set_android_cpu_feature() {
   case ${arch} in
   arm-v7a | arm-v7a-neon)
     export CFLAGS="-march=armv7-a -mfpu=vfpv3-d16 -mfloat-abi=softfp -Wno-unused-function -fno-integrated-as -fstrict-aliasing -fPIC -DANDROID -D__ANDROID_API__=${api} -Os -ffunction-sections -fdata-sections $(get_common_includes)"
-    export CXXFLAGS="-std=c++11 -fno-exceptions -fno-rtti -Os -ffunction-sections -fdata-sections"
+    export CXXFLAGS="-std=c++14 -Os -ffunction-sections -fdata-sections"
     export LDFLAGS="-march=armv7-a -mfpu=vfpv3-d16 -mfloat-abi=softfp -Wl,--fix-cortex-a8 -Wl,--gc-sections -Os -ffunction-sections -fdata-sections $(get_common_linked_libraries ${api} ${arch})"
     export CPPFLAGS=${CFLAGS}
     ;;
   arm64-v8a)
     export CFLAGS="-march=armv8-a -Wno-unused-function -fno-integrated-as -fstrict-aliasing -fPIC -DANDROID -D__ANDROID_API__=${api} -Os -ffunction-sections -fdata-sections $(get_common_includes)"
-    export CXXFLAGS="-std=c++11 -fno-exceptions -fno-rtti -Os -ffunction-sections -fdata-sections"
+    export CXXFLAGS="-std=c++14 -Os -ffunction-sections -fdata-sections"
     export LDFLAGS="-march=armv8-a -Wl,--gc-sections -Os -ffunction-sections -fdata-sections $(get_common_linked_libraries ${api} ${arch})"
     export CPPFLAGS=${CFLAGS}
     ;;
@@ -185,7 +185,7 @@ function set_android_cpu_feature() {
     ;;
   x86-64)
     export CFLAGS="-march=x86-64 -msse4.2 -mpopcnt -m64 -mtune=intel -Wno-unused-function -fno-integrated-as -fstrict-aliasing -fPIC -DANDROID -D__ANDROID_API__=${api} -Os -ffunction-sections -fdata-sections $(get_common_includes)"
-    export CXXFLAGS="-std=c++11 -fno-exceptions -fno-rtti -Os -ffunction-sections -fdata-sections"
+    export CXXFLAGS="-std=c++14 -Os -ffunction-sections -fdata-sections"
     export LDFLAGS="-march=x86-64 -Wl,--gc-sections -Os -ffunction-sections -fdata-sections $(get_common_linked_libraries ${api} ${arch})"
     export CPPFLAGS=${CFLAGS}
     ;;

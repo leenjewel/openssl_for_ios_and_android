@@ -40,7 +40,7 @@ ABIS=("armeabi-v7a" "arm64-v8a" "x86_64")
 ABI_TRIPLES=("arm-linux-androideabi" "aarch64-linux-android" "x86_64-linux-android")
 ANDROID_API=23
 
-ARCHS=("arm64")
+# ARCHS=("x86_64")
 
 echo "https://github.com/curl/curl/releases/download/${LIB_VERSION}/${LIB_NAME}.tar.gz"
 
@@ -91,28 +91,22 @@ configure_make() {
     NGHTTP2_OUT_DIR="${pwd_path}/../output/android/nghttp2-${ARCH}"
 
     export LDFLAGS="${LDFLAGS} -L${OPENSSL_OUT_DIR}/lib -L${NGHTTP2_OUT_DIR}/lib"
-    # export LD="${LD} -L${OPENSSL_OUT_DIR}/lib -L${NGHTTP2_OUT_DIR}/lib"
-    # export LD_LIBRARY_PATH="-L${OPENSSL_OUT_DIR}/lib -L${NGHTTP2_OUT_DIR}/lib"
-    # export LD="$LD -rpath -L${OPENSSL_OUT_DIR}/lib -L${NGHTTP2_OUT_DIR}/lib -rpath-link -L${OPENSSL_OUT_DIR}/lib -L${NGHTTP2_OUT_DIR}/lib"
-    export LDFLAGS="$LDFLAGS -Wl,-rpath-link,-L${NGHTTP2_OUT_DIR}/lib,-L${OPENSSL_OUT_DIR}/lib"
+    # export LDFLAGS="-Wl,-rpath-link,-L${NGHTTP2_OUT_DIR}/lib,-L${OPENSSL_OUT_DIR}/lib $LDFLAGS "
 
     # read -n1 -p "Press any key to continue..."
 
     if [[ "${ARCH}" == "x86_64" ]]; then
 
-        # ./configure android-x86_64 --prefix="${PREFIX_DIR}"
         ./configure --host=x86_64-linux-android --prefix="${PREFIX_DIR}" --enable-ipv6 --with-ssl=${OPENSSL_OUT_DIR} --with-nghttp2=${NGHTTP2_OUT_DIR} >"${OUTPUT_ROOT}/log/${ARCH}.log" 2>&1
 
     elif [[ "${ARCH}" == "arm" ]]; then
 
-        # ./configure android-arm --prefix="${PREFIX_DIR}"
         ./configure --host=arm-linux-androideabi --prefix="${PREFIX_DIR}" --enable-ipv6 --with-ssl=${OPENSSL_OUT_DIR} --with-nghttp2=${NGHTTP2_OUT_DIR} >"${OUTPUT_ROOT}/log/${ARCH}.log" 2>&1
 
     elif [[ "${ARCH}" == "arm64" ]]; then
 
-        export LDFLAGS="$LDFLAGS -Wl,-rpath,-L${NGHTTP2_OUT_DIR}/lib,-L${OPENSSL_OUT_DIR}/lib"
-        # ./configure android-arm64 --prefix="${PREFIX_DIR}"
-        ./configure --host=aarch64-linux-android --prefix="${PREFIX_DIR}" --enable-ipv6 --with-ssl=${OPENSSL_OUT_DIR} --with-nghttp2=${NGHTTP2_OUT_DIR} >"${OUTPUT_ROOT}/log/${ARCH}.log" 2>&1
+        # --enable-shared need nghttp2 cpp compile
+        ./configure --host=aarch64-linux-android --prefix="${PREFIX_DIR}" --disable-shared --enable-ipv6 --with-ssl=${OPENSSL_OUT_DIR} --with-nghttp2=${NGHTTP2_OUT_DIR} >"${OUTPUT_ROOT}/log/${ARCH}.log" 2>&1
 
     else
         echo "not support" && exit 1

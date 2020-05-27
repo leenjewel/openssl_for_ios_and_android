@@ -88,17 +88,15 @@ configure_make() {
 
     if [[ "${ARCH}" == "x86_64" ]]; then
 
-        # ./configure android-x86_64 --prefix="${PREFIX_DIR}"
         ./configure --host=x86_64-linux-android --prefix="${PREFIX_DIR}" --disable-app --disable-threads --enable-lib-only >"${OUTPUT_ROOT}/log/${ARCH}.log" 2>&1
 
     elif [[ "${ARCH}" == "arm" ]]; then
 
-        # ./configure android-arm --prefix="${PREFIX_DIR}"
         ./configure --host=arm-linux-androideabi --prefix="${PREFIX_DIR}" --disable-app --disable-threads --enable-lib-only >"${OUTPUT_ROOT}/log/${ARCH}.log" 2>&1
 
     elif [[ "${ARCH}" == "arm64" ]]; then
 
-        # ./configure android-arm64 --prefix="${PREFIX_DIR}"
+        # --disable-lib-only need xml2 supc++ stdc++14
         ./configure --host=aarch64-linux-android --prefix="${PREFIX_DIR}" --disable-app --disable-threads --enable-lib-only >"${OUTPUT_ROOT}/log/${ARCH}.log" 2>&1
 
     else

@@ -93,17 +93,14 @@ configure_make() {
     if [[ "${ARCH}" == "x86_64" ]]; then
 
         ./Configure android-x86_64 --prefix="${PREFIX_DIR}"
-        # ./Configure android-x86_64 --host=x86_64-linux-android --prefix="${PREFIX_DIR}"
 
     elif [[ "${ARCH}" == "arm" ]]; then
 
         ./Configure android-arm --prefix="${PREFIX_DIR}"
-        # ./Configure --host=arm-linux-androideabi --prefix="${PREFIX_DIR}"
 
     elif [[ "${ARCH}" == "arm64" ]]; then
 
         ./Configure android-arm64 --prefix="${PREFIX_DIR}"
-        # ./Configure --host=aarch64-linux-android --prefix="${PREFIX_DIR}"
 
     else
         echo "not support" && exit 1
