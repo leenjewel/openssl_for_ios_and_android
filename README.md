@@ -5,11 +5,11 @@
 <tr><td>library</td><td>version</td><td>platform support</td><td>arch support</td><td>pull commit</td></tr>
 </thead>
 <tbody>
-<tr><td>openssl</td><td>1.1.1d</td><td>ios</td><td>armv7 arm64 x86_64 </td><td>aae1672</td></tr>
+<tr><td>openssl</td><td>1.1.1d</td><td>ios</td><td>armv7 arm64 arm64e x86_64 </td><td>aae1672</td></tr>
 <tr><td></td><td></td><td>android</td><td>armeabi-v7a arm64-v8a x86_64 </td><td>aae1672</td></tr>
-<tr><td>nghttp2</td><td>1.40.0</td><td>ios</td><td>armv7 arm64 x86_64 </td><td>aae1672</td></tr>
+<tr><td>nghttp2</td><td>1.40.0</td><td>ios</td><td>armv7 arm64 arm64e x86_64 </td><td>aae1672</td></tr>
 <tr><td></td><td></td><td>android</td><td>armeabi-v7a arm64-v8a x86_64 </td><td>aae1672</td></tr>
-<tr><td>curl</td><td>7.68.0</td><td>ios</td><td>armv7 arm64 x86_64 </td><td>aae1672</td></tr>
+<tr><td>curl</td><td>7.68.0</td><td>ios</td><td>armv7 arm64 arm64e x86_64 </td><td>aae1672</td></tr>
 <tr><td></td><td></td><td>android</td><td>armeabi-v7a arm64-v8a x86_64 </td><td>aae1672</td></tr>
 </tbody>
 </table>
@@ -97,12 +97,17 @@ link. `libz` is publically provided by Android system.
 
 ### iOS
 
- - The latest available example is in the demo folder (/openssl_for_ios_and_android/example/ios/demo2).
+ - Xcode version 11.3.1
+ - The latest available example is in the demo2 folder (/openssl_for_ios_and_android/example/ios/demo2).
  - Copy libcrypto-universal.a, libcurl-universal.a, libnghttp2-universal.a, libssl-universal.a four files to folder (/openssl_for_ios_and_android/example/ios/demo2/test_curl_with_ssl_and_http2_ios/test/lib)
  - Use Xcode open project test.
 
 ### Android
 
+- Android Studio 3.5.3
+- The latest available example is in the demo2 folder (/openssl_for_ios_and_android/example/android/demo2).
+- Copy libcrypto-universal.a, libcurl-universal.a, libnghttp2-universal.a, libssl-universal.a four files to folder (/openssl_for_ios_and_android/example/android/demo2/test_curl_with_ssl_and_http2_android/app/src/main/cpp/test/lib) (armeabi-v7a, arm64-v8a, x86_64)
+- Use Android Studio open project test.
 
 ## How to use
 
