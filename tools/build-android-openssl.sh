@@ -41,11 +41,6 @@ LIB_VERSION="OpenSSL_1_1_1d"
 LIB_NAME="openssl-1.1.1d"
 LIB_DEST_DIR="${pwd_path}/../output/android/openssl-universal"
 
-ARCHS=("arm" "arm64" "x86_64")
-ABIS=("armeabi-v7a" "arm64-v8a" "x86_64")
-ABI_TRIPLES=("arm-linux-androideabi" "aarch64-linux-android" "x86_64-linux-android")
-ANDROID_API=23
-
 # ARCHS=("arm64")
 
 echo "https://www.openssl.org/source/${LIB_NAME}.tar.gz"
@@ -65,7 +60,7 @@ function configure_make() {
     ABI=$2
     ABI_TRIPLE=$3
 
-    log_info "configure $ARCH start..."
+    log_info "configure $ABI start..."
 
     if [ -d "${LIB_NAME}" ]; then
         rm -fr "${LIB_NAME}"
@@ -74,13 +69,13 @@ function configure_make() {
     pushd .
     cd "${LIB_NAME}"
 
-    PREFIX_DIR="${pwd_path}/../output/android/openssl-${ARCH}"
+    PREFIX_DIR="${pwd_path}/../output/android/openssl-${ABI}"
     if [ -d "${PREFIX_DIR}" ]; then
         rm -fr "${PREFIX_DIR}"
     fi
     mkdir -p "${PREFIX_DIR}"
 
-    OUTPUT_ROOT=${TOOLS_ROOT}/../output/android/openssl-${ARCH}
+    OUTPUT_ROOT=${TOOLS_ROOT}/../output/android/openssl-${ABI}
     mkdir -p ${OUTPUT_ROOT}/log
 
     set_android_toolchain "openssl" "${ARCH}" "${ANDROID_API}"
@@ -105,12 +100,12 @@ function configure_make() {
         log_error "not support" && exit 1
     fi
 
-    log_info "make $ARCH start..."
+    log_info "make $ABI start..."
 
-    make clean >"${OUTPUT_ROOT}/log/${ARCH}.log"
-    if make -j$(get_cpu_count) >>"${OUTPUT_ROOT}/log/${ARCH}.log" 2>&1; then
-        make install_sw >>"${OUTPUT_ROOT}/log/${ARCH}.log" 2>&1
-        make install_ssldirs >>"${OUTPUT_ROOT}/log/${ARCH}.log" 2>&1
+    make clean >"${OUTPUT_ROOT}/log/${ABI}.log"
+    if make -j$(get_cpu_count) >>"${OUTPUT_ROOT}/log/${ABI}.log" 2>&1; then
+        make install_sw >>"${OUTPUT_ROOT}/log/${ABI}.log" 2>&1
+        make install_ssldirs >>"${OUTPUT_ROOT}/log/${ABI}.log" 2>&1
     fi
 
     popd

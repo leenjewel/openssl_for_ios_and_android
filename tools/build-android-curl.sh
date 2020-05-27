@@ -39,11 +39,6 @@ LIB_VERSION="curl-7_68_0"
 LIB_NAME="curl-7.68.0"
 LIB_DEST_DIR="${pwd_path}/../output/android/curl-universal"
 
-ARCHS=("arm" "arm64" "x86_64")
-ABIS=("armeabi-v7a" "arm64-v8a" "x86_64")
-ABI_TRIPLES=("arm-linux-androideabi" "aarch64-linux-android" "x86_64-linux-android")
-ANDROID_API=23
-
 # ARCHS=("x86_64")
 
 echo "https://github.com/curl/curl/releases/download/${LIB_VERSION}/${LIB_NAME}.tar.gz"
@@ -64,7 +59,7 @@ function configure_make() {
     ABI=$2
     ABI_TRIPLE=$3
 
-    log_info "configure $ARCH start..."
+    log_info "configure $ABI start..."
 
     if [ -d "${LIB_NAME}" ]; then
         rm -fr "${LIB_NAME}"
@@ -73,13 +68,13 @@ function configure_make() {
     pushd .
     cd "${LIB_NAME}"
 
-    PREFIX_DIR="${pwd_path}/../output/android/curl-${ARCH}"
+    PREFIX_DIR="${pwd_path}/../output/android/curl-${ABI}"
     if [ -d "${PREFIX_DIR}" ]; then
         rm -fr "${PREFIX_DIR}"
     fi
     mkdir -p "${PREFIX_DIR}"
 
-    OUTPUT_ROOT=${TOOLS_ROOT}/../output/android/curl-${ARCH}
+    OUTPUT_ROOT=${TOOLS_ROOT}/../output/android/curl-${ABI}
     mkdir -p ${OUTPUT_ROOT}/log
 
     set_android_toolchain "curl" "${ARCH}" "${ANDROID_API}"
@@ -88,34 +83,34 @@ function configure_make() {
     export ANDROID_NDK_HOME=${ANDROID_NDK_ROOT}
     echo ANDROID_NDK_HOME=${ANDROID_NDK_HOME}
 
-    OPENSSL_OUT_DIR="${pwd_path}/../output/android/openssl-${ARCH}"
-    NGHTTP2_OUT_DIR="${pwd_path}/../output/android/nghttp2-${ARCH}"
+    OPENSSL_OUT_DIR="${pwd_path}/../output/android/openssl-${ABI}"
+    NGHTTP2_OUT_DIR="${pwd_path}/../output/android/nghttp2-${ABI}"
 
     export LDFLAGS="${LDFLAGS} -L${OPENSSL_OUT_DIR}/lib -L${NGHTTP2_OUT_DIR}/lib"
     # export LDFLAGS="-Wl,-rpath-link,-L${NGHTTP2_OUT_DIR}/lib,-L${OPENSSL_OUT_DIR}/lib $LDFLAGS "
 
     if [[ "${ARCH}" == "x86_64" ]]; then
 
-        ./configure --host=x86_64-linux-android --prefix="${PREFIX_DIR}" --enable-ipv6 --with-ssl=${OPENSSL_OUT_DIR} --with-nghttp2=${NGHTTP2_OUT_DIR} >"${OUTPUT_ROOT}/log/${ARCH}.log" 2>&1
+        ./configure --host=x86_64-linux-android --prefix="${PREFIX_DIR}" --enable-ipv6 --with-ssl=${OPENSSL_OUT_DIR} --with-nghttp2=${NGHTTP2_OUT_DIR} >"${OUTPUT_ROOT}/log/${ABI}.log" 2>&1
 
     elif [[ "${ARCH}" == "arm" ]]; then
 
-        ./configure --host=arm-linux-androideabi --prefix="${PREFIX_DIR}" --enable-ipv6 --with-ssl=${OPENSSL_OUT_DIR} --with-nghttp2=${NGHTTP2_OUT_DIR} >"${OUTPUT_ROOT}/log/${ARCH}.log" 2>&1
+        ./configure --host=arm-linux-androideabi --prefix="${PREFIX_DIR}" --enable-ipv6 --with-ssl=${OPENSSL_OUT_DIR} --with-nghttp2=${NGHTTP2_OUT_DIR} >"${OUTPUT_ROOT}/log/${ABI}.log" 2>&1
 
     elif [[ "${ARCH}" == "arm64" ]]; then
 
         # --enable-shared need nghttp2 cpp compile
-        ./configure --host=aarch64-linux-android --prefix="${PREFIX_DIR}" --disable-shared --enable-ipv6 --with-ssl=${OPENSSL_OUT_DIR} --with-nghttp2=${NGHTTP2_OUT_DIR} >"${OUTPUT_ROOT}/log/${ARCH}.log" 2>&1
+        ./configure --host=aarch64-linux-android --prefix="${PREFIX_DIR}" --disable-shared --enable-ipv6 --with-ssl=${OPENSSL_OUT_DIR} --with-nghttp2=${NGHTTP2_OUT_DIR} >"${OUTPUT_ROOT}/log/${ABI}.log" 2>&1
 
     else
         log_error "not support" && exit 1
     fi
 
-    log_info "make $ARCH start..."
+    log_info "make $ABI start..."
 
-    make clean >>"${OUTPUT_ROOT}/log/${ARCH}.log"
-    if make -j$(get_cpu_count) >>"${OUTPUT_ROOT}/log/${ARCH}.log" 2>&1; then
-        make install >>"${OUTPUT_ROOT}/log/${ARCH}.log" 2>&1
+    make clean >>"${OUTPUT_ROOT}/log/${ABI}.log"
+    if make -j$(get_cpu_count) >>"${OUTPUT_ROOT}/log/${ABI}.log" 2>&1; then
+        make install >>"${OUTPUT_ROOT}/log/${ABI}.log" 2>&1
     fi
 
     popd

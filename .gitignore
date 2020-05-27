@@ -15,4 +15,4 @@ nghttp2-*
 openssl-*
 curl-*
 
-*.a
+# *.a

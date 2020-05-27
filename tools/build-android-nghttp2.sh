@@ -39,11 +39,6 @@ LIB_VERSION="v1.40.0"
 LIB_NAME="nghttp2-1.40.0"
 LIB_DEST_DIR="${pwd_path}/../output/android/nghttp2-universal"
 
-ARCHS=("arm" "arm64" "x86_64")
-ABIS=("armeabi-v7a" "arm64-v8a" "x86_64")
-ABI_TRIPLES=("arm-linux-androideabi" "aarch64-linux-android" "x86_64-linux-android")
-ANDROID_API=23
-
 # ARCHS=("arm64")
 
 echo "https://github.com/nghttp2/nghttp2/releases/download/${LIB_VERSION}/${LIB_NAME}.tar.gz"
@@ -61,7 +56,7 @@ function configure_make() {
     ABI=$2
     ABI_TRIPLE=$3
 
-    log_info "configure $ARCH start..."
+    log_info "configure $ABI start..."
 
     if [ -d "${LIB_NAME}" ]; then
         rm -fr "${LIB_NAME}"
@@ -70,13 +65,13 @@ function configure_make() {
     pushd .
     cd "${LIB_NAME}"
 
-    PREFIX_DIR="${pwd_path}/../output/android/nghttp2-${ARCH}"
+    PREFIX_DIR="${pwd_path}/../output/android/nghttp2-${ABI}"
     if [ -d "${PREFIX_DIR}" ]; then
         rm -fr "${PREFIX_DIR}"
     fi
     mkdir -p "${PREFIX_DIR}"
 
-    OUTPUT_ROOT=${TOOLS_ROOT}/../output/android/nghttp2-${ARCH}
+    OUTPUT_ROOT=${TOOLS_ROOT}/../output/android/nghttp2-${ABI}
     mkdir -p ${OUTPUT_ROOT}/log
 
     set_android_toolchain "nghttp2" "${ARCH}" "${ANDROID_API}"
@@ -87,26 +82,26 @@ function configure_make() {
 
     if [[ "${ARCH}" == "x86_64" ]]; then
 
-        ./configure --host=x86_64-linux-android --prefix="${PREFIX_DIR}" --disable-app --disable-threads --enable-lib-only >"${OUTPUT_ROOT}/log/${ARCH}.log" 2>&1
+        ./configure --host=x86_64-linux-android --prefix="${PREFIX_DIR}" --disable-app --disable-threads --enable-lib-only >"${OUTPUT_ROOT}/log/${ABI}.log" 2>&1
 
     elif [[ "${ARCH}" == "arm" ]]; then
 
-        ./configure --host=arm-linux-androideabi --prefix="${PREFIX_DIR}" --disable-app --disable-threads --enable-lib-only >"${OUTPUT_ROOT}/log/${ARCH}.log" 2>&1
+        ./configure --host=arm-linux-androideabi --prefix="${PREFIX_DIR}" --disable-app --disable-threads --enable-lib-only >"${OUTPUT_ROOT}/log/${ABI}.log" 2>&1
 
     elif [[ "${ARCH}" == "arm64" ]]; then
 
         # --disable-lib-only need xml2 supc++ stdc++14
-        ./configure --host=aarch64-linux-android --prefix="${PREFIX_DIR}" --disable-app --disable-threads --enable-lib-only >"${OUTPUT_ROOT}/log/${ARCH}.log" 2>&1
+        ./configure --host=aarch64-linux-android --prefix="${PREFIX_DIR}" --disable-app --disable-threads --enable-lib-only >"${OUTPUT_ROOT}/log/${ABI}.log" 2>&1
 
     else
         log_error "not support" && exit 1
     fi
 
-    log_info "make $ARCH start..."
+    log_info "make $ABI start..."
 
-    make clean >>"${OUTPUT_ROOT}/log/${ARCH}.log"
-    if make -j$(get_cpu_count) >>"${OUTPUT_ROOT}/log/${ARCH}.log" 2>&1; then
-        make install >>"${OUTPUT_ROOT}/log/${ARCH}.log" 2>&1
+    make clean >>"${OUTPUT_ROOT}/log/${ABI}.log"
+    if make -j$(get_cpu_count) >>"${OUTPUT_ROOT}/log/${ABI}.log" 2>&1; then
+        make install >>"${OUTPUT_ROOT}/log/${ABI}.log" 2>&1
     fi
 
     popd

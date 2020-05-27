@@ -17,6 +17,10 @@
 source ./build-common.sh
 
 export PLATFORM_TYPE="Android"
+export ARCHS=("arm" "arm64" "x86_64")
+export ABIS=("armeabi-v7a" "arm64-v8a" "x86_64")
+export ABI_TRIPLES=("arm-linux-androideabi" "aarch64-linux-android" "x86_64-linux-android")
+export ANDROID_API=23
 
 if [[ -z ${ANDROID_NDK_ROOT} ]]; then
   echo "ANDROID_NDK_ROOT not defined"
