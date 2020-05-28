@@ -41,8 +41,6 @@ LIB_VERSION="OpenSSL_1_1_1d"
 LIB_NAME="openssl-1.1.1d"
 LIB_DEST_DIR="${pwd_path}/../output/android/openssl-universal"
 
-# ARCHS=("arm64")
-
 echo "https://www.openssl.org/source/${LIB_NAME}.tar.gz"
 
 # https://github.com/openssl/openssl/archive/OpenSSL_1_1_1d.tar.gz
@@ -84,9 +82,15 @@ function configure_make() {
     export ANDROID_NDK_HOME=${ANDROID_NDK_ROOT}
     echo ANDROID_NDK_HOME=${ANDROID_NDK_HOME}
 
+    android_printf_global_params "$ARCH" "$ABI" "$ABI_TRIPLE" "$PREFIX_DIR" "$OUTPUT_ROOT"
+
     if [[ "${ARCH}" == "x86_64" ]]; then
 
         ./Configure android-x86_64 --prefix="${PREFIX_DIR}"
+
+    elif [[ "${ARCH}" == "x86" ]]; then
+
+        ./Configure android-x86 --prefix="${PREFIX_DIR}"
 
     elif [[ "${ARCH}" == "arm" ]]; then
 

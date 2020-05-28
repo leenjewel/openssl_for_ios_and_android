@@ -17,10 +17,15 @@
 source ./build-common.sh
 
 export PLATFORM_TYPE="Android"
-export ARCHS=("arm" "arm64" "x86_64")
-export ABIS=("armeabi-v7a" "arm64-v8a" "x86_64")
-export ABI_TRIPLES=("arm-linux-androideabi" "aarch64-linux-android" "x86_64-linux-android")
+export ARCHS=("arm" "arm64" "x86" "x86_64")
+export ABIS=("armeabi-v7a" "arm64-v8a" "x86" "x86_64")
+export ABI_TRIPLES=("arm-linux-androideabi" "aarch64-linux-android" "i686-linux-android" "x86_64-linux-android")
 export ANDROID_API=23
+
+# for test
+# export ARCHS=("x86_64")
+# export ABIS=("x86_64")
+# export ABI_TRIPLES=("x86_64-linux-android")
 
 if [[ -z ${ANDROID_NDK_ROOT} ]]; then
   echo "ANDROID_NDK_ROOT not defined"
@@ -86,7 +91,7 @@ function get_target_build() {
   esac
 }
 
-function get_build_host() {
+function get_build_host_internal() {
   local arch=$1
   case ${arch} in
   arm-v7a | arm-v7a-neon)
@@ -102,6 +107,11 @@ function get_build_host() {
     echo "x86_64-linux-android"
     ;;
   esac
+}
+
+function android_get_build_host() {
+  local arch=$(get_android_arch $1)
+  get_build_host_internal $arch
 }
 
 function get_clang_target_host() {
@@ -132,13 +142,8 @@ function set_android_toolchain() {
   local name=$1
   local arch=$(get_android_arch $2)
   local api=$3
-  local build_host=$(get_build_host "$arch")
+  local build_host=$(get_build_host_internal "$arch")
   local clang_target_host=$(get_clang_target_host "$arch" "$api")
-
-  echo name=$name
-  echo arch=$arch
-  echo api=$api
-  echo build_host=$build_host
 
   export AR=${build_host}-ar
   export CC=${clang_target_host}-clang
@@ -147,14 +152,6 @@ function set_android_toolchain() {
   export LD=${build_host}-ld
   export RANLIB=${build_host}-ranlib
   export STRIP=${build_host}-strip
-
-  echo AR=$AR
-  echo CC=$CC
-  echo CXX=$CXX
-  echo AS=$AS
-  echo LD=$LD
-  echo RANLIB=$RANLIB
-  echo STRIP=$STRIP
 }
 
 function get_common_includes() {
@@ -165,7 +162,7 @@ function get_common_linked_libraries() {
   local api=$1
   local arch=$2
   local toolchain=$(get_toolchain)
-  local build_host=$(get_build_host "$arch")
+  local build_host=$(get_build_host_internal "$arch")
   echo "-L${ANDROID_NDK_ROOT}/toolchains/llvm/prebuilt/${toolchain}/${build_host}/lib -L${ANDROID_NDK_ROOT}/toolchains/llvm/prebuilt/${toolchain}/sysroot/usr/lib/${build_host}/${api} -L${ANDROID_NDK_ROOT}/toolchains/llvm/prebuilt/${toolchain}/lib"
 }
 
@@ -187,7 +184,10 @@ function set_android_cpu_feature() {
     export CPPFLAGS=${CFLAGS}
     ;;
   x86)
-    echo "not support" && exit 1
+    export CFLAGS="-march=i686 -mtune=intel -mssse3 -mfpmath=sse -m32 -Wno-unused-function -fno-integrated-as -fstrict-aliasing -fPIC -DANDROID -D__ANDROID_API__=${api} -Os -ffunction-sections -fdata-sections $(get_common_includes)"
+    export CXXFLAGS="-std=c++14 -Os -ffunction-sections -fdata-sections"
+    export LDFLAGS="-march=i686 -Wl,--gc-sections -Os -ffunction-sections -fdata-sections $(get_common_linked_libraries ${api} ${arch})"
+    export CPPFLAGS=${CFLAGS}
     ;;
   x86-64)
     export CFLAGS="-march=x86-64 -msse4.2 -mpopcnt -m64 -mtune=intel -Wno-unused-function -fno-integrated-as -fstrict-aliasing -fPIC -DANDROID -D__ANDROID_API__=${api} -Os -ffunction-sections -fdata-sections $(get_common_includes)"
@@ -196,8 +196,30 @@ function set_android_cpu_feature() {
     export CPPFLAGS=${CFLAGS}
     ;;
   esac
+}
 
-  echo CFLAGS=$CFLAGS
-  echo CXXFLAGS=$CXXFLAGS
-  echo LDFLAGS=$LDFLAGS
+function android_printf_global_params() {
+  local arch=$1
+  local abi=$2
+  local abi_triple=$3
+  local in_dir=$4
+  local out_dir=$5
+  echo -e "arch =           $arch"
+  echo -e "abi =            $abi"
+  echo -e "abi_triple =     $abi_triple"
+  echo -e "PLATFORM_TYPE =  $PLATFORM_TYPE"
+  echo -e "ANDROID_API =    $ANDROID_API"
+  echo -e "in_dir =         $in_dir"
+  echo -e "out_dir =        $out_dir"
+  echo -e "AR =             $AR"
+  echo -e "CC =             $CC"
+  echo -e "CXX =            $CXX"
+  echo -e "AS =             $AS"
+  echo -e "LD =             $LD"
+  echo -e "RANLIB =         $RANLIB"
+  echo -e "STRIP =          $STRIP"
+  echo -e "CFLAGS =         $CFLAGS"
+  echo -e "CXXFLAGS =       $CXXFLAGS"
+  echo -e "LDFLAGS =        $LDFLAGS"
+  echo -e "CPPFLAGS =       $CPPFLAGS"
 }

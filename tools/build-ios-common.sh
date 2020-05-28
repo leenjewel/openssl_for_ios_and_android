@@ -22,6 +22,11 @@ export ARCHS=("armv7" "arm64" "arm64e" "x86_64")
 export SDKS=("iphoneos" "iphoneos" "iphoneos" "iphonesimulator")
 export PLATFORMS=("iPhoneOS" "iPhoneOS" "iphoneos" "iPhoneSimulator")
 
+# for test !!!
+# export ARCHS=("armv7")
+# export SDKS=("iphoneos")
+# export PLATFORMS=("iPhoneOS")
+
 function get_android_arch() {
     local common_arch=$1
     case ${common_arch} in
@@ -35,10 +40,31 @@ function get_android_arch() {
         echo "arm64e"
         ;;
     x86)
-        echo "i*86"
+        echo "x86"
         ;;
     x86_64)
         echo "x86-64"
+        ;;
+    esac
+}
+
+function ios_get_build_host() {
+    local arch=$(get_android_arch $1)
+    case ${arch} in
+    armv7)
+        echo "armv7-ios-darwin"
+        ;;
+    arm64)
+        echo "aarch64-ios-darwin"
+        ;;
+    arm64e)
+        echo "aarch64-ios-darwin"
+        ;;
+    x86)
+        echo "x86-ios-darwin"
+        ;;
+    x86-64)
+        echo "x86_64-ios-darwin"
         ;;
     esac
 }
@@ -71,8 +97,12 @@ function set_android_cpu_feature() {
         export LDFLAGS="-arch arm64e -target aarch64-ios-darwin -isysroot ${sysroot} -fembed-bitcode -L${sysroot}/usr/lib "
         export CXXFLAGS="-std=c++14 -arch arm64e -target aarch64-ios-darwin -fstrict-aliasing -fembed-bitcode -DIOS -miphoneos-version-min=${ios_min_target} -I${sysroot}/usr/include"
         ;;
-    i*86)
-        log_error "not support" && exit 1
+    x86)
+        export CC="xcrun -sdk iphonesimulator clang -arch x86"
+        export CXX="xcrun -sdk iphonesimulator clang++ -arch x86"
+        export CFLAGS="-arch x86 -target x86-ios-darwin -march=i386 -msse4.2 -mpopcnt -m64 -mtune=intel -Wno-unused-function -fstrict-aliasing -O2 -Wno-ignored-optimization-argument -DIOS -isysroot ${sysroot} -mios-simulator-version-min=${ios_min_target} -I${sysroot}/usr/include"
+        export LDFLAGS="-arch x86 -target x86-ios-darwin -march=i386 -isysroot ${sysroot} -L${sysroot}/usr/lib "
+        export CXXFLAGS="-std=c++14 -arch x86 -target x86-ios-darwin -march=i386 -msse4.2 -mpopcnt -m64 -mtune=intel -fstrict-aliasing -DIOS -mios-simulator-version-min=${ios_min_target} -I${sysroot}/usr/include"
         ;;
     x86-64)
         export CC="xcrun -sdk iphonesimulator clang -arch x86_64"
@@ -81,14 +111,28 @@ function set_android_cpu_feature() {
         export LDFLAGS="-arch x86_64 -target x86_64-ios-darwin -march=x86-64 -isysroot ${sysroot} -L${sysroot}/usr/lib "
         export CXXFLAGS="-std=c++14 -arch x86_64 -target x86_64-ios-darwin -march=x86-64 -msse4.2 -mpopcnt -m64 -mtune=intel -fstrict-aliasing -DIOS -mios-simulator-version-min=${ios_min_target} -I${sysroot}/usr/include"
         ;;
-    *) 
+    *)
         log_error "not support" && exit 1
         ;;
     esac
+}
 
-    echo CC=$CC
-    echo CXX=$CXX
-    echo CFLAGS=$CFLAGS
-    echo CXXFLAGS=$CXXFLAGS
-    echo LDFLAGS=$LDFLAGS
+function ios_printf_global_params() {
+    local arch=$1
+    local type=$2
+    local platform=$3
+    local in_dir=$4
+    local out_dir=$5
+    echo -e "arch =           $arch"
+    echo -e "type =           $type"
+    echo -e "platform =       $platform"
+    echo -e "PLATFORM_TYPE =  $PLATFORM_TYPE"
+    echo -e "IOS_MIN_TARGET = $IOS_MIN_TARGET"
+    echo -e "in_dir =         $in_dir"
+    echo -e "out_dir =        $out_dir"
+    echo -e "CC =             $CC"
+    echo -e "CXX =            $CXX"
+    echo -e "CFLAGS =         $CFLAGS"
+    echo -e "CXXFLAGS =       $CXXFLAGS"
+    echo -e "LDFLAGS =        $LDFLAGS"
 }

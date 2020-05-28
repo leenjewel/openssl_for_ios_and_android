@@ -39,11 +39,6 @@ LIB_VERSION="OpenSSL_1_1_1d"
 LIB_NAME="openssl-1.1.1d"
 LIB_DEST_DIR="${pwd_path}/../output/ios/openssl-universal"
 
-# for test
-# ARCHS=("arm64e")
-# SDKS=("iphoneos")
-# PLATFORMS=("iphoneos")
-
 init_log_color
 
 echo "https://www.openssl.org/source/${LIB_NAME}.tar.gz"
@@ -89,6 +84,8 @@ function configure_make() {
     mkdir -p ${OUTPUT_ROOT}/log
 
     set_android_cpu_feature "nghttp2" "${ARCH}" "${IOS_MIN_TARGET}" "${CROSS_TOP}/SDKs/${CROSS_SDK}"
+    
+    ios_printf_global_params "$ARCH" "$SDK" "$PLATFORM" "$PREFIX_DIR" "$OUTPUT_ROOT"
 
     unset IPHONEOS_DEPLOYMENT_TARGET
 
