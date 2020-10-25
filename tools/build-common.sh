@@ -30,31 +30,26 @@ function get_cpu_count() {
     fi
 }
 
+export bold_color="\033[1;m"
+export warn_color="\033[33m"
+export error_color="\033[31m"
+export reset_color="\033[0m"
+export ncols=80
+
 function init_log_color() {
-    if test -t 1 && which tput >/dev/null 2>&1; then
-        ncolors=$(tput colors)
-        if test -n "$ncolors" && test $ncolors -ge 8; then
-            bold_color=$(tput bold)
-            warn_color=$(tput setaf 3)
-            error_color=$(tput setaf 1)
-            reset_color=$(tput sgr0)
-        fi
-        # 72 used instead of 80 since that's the default of pr
-        ncols=$(tput cols)
-    fi
-    : ${ncols:=72}
+    true
 }
 
 function log_info() {
-    echo "$warn_color$@$reset_color"
+    printf "$warn_color$@$reset_color\n"
 }
 
 function log_warning() {
-    echo "$warn_color$bold_color$@$reset_color"
+    printf "$warn_color$bold_color$@$reset_color\n"
 }
 
 function log_error() {
-    echo "$error_color$bold_color$@$reset_color"
+    printf "$error_color$bold_color$@$reset_color\n"
 }
 
 # init_log_color

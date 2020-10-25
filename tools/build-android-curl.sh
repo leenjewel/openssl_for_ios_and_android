@@ -35,8 +35,8 @@ pwd_path="$(cd -P "$(dirname "$SOURCE")" && pwd)"
 echo pwd_path=${pwd_path}
 echo TOOLS_ROOT=${TOOLS_ROOT}
 
-LIB_VERSION="curl-7_68_0"
-LIB_NAME="curl-7.68.0"
+LIB_VERSION="curl-$(echo $version | sed 's/\./_/g')"
+LIB_NAME="curl-$version"
 LIB_DEST_DIR="${pwd_path}/../output/android/curl-universal"
 
 echo "https://github.com/curl/curl/releases/download/${LIB_VERSION}/${LIB_NAME}.tar.gz"
