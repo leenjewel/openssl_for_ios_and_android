@@ -37,8 +37,8 @@ echo TOOLS_ROOT=${TOOLS_ROOT}
 
 # openssl-1.1.0f has a configure bug
 # openssl-1.1.1d has fix configure bug
-LIB_VERSION="OpenSSL_1_1_1d"
-LIB_NAME="openssl-1.1.1d"
+LIB_VERSION="OpenSSL_$(echo $version | sed 's/\./_/g')"
+LIB_NAME="openssl-$version"
 LIB_DEST_DIR="${pwd_path}/../output/android/openssl-universal"
 
 echo "https://www.openssl.org/source/${LIB_NAME}.tar.gz"

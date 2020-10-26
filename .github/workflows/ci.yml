@@ -1,0 +1,199 @@
+#
+#  OpenSSL for iOS and Android - CI Workflow
+#          Created by Leso_KN - 2020
+#
+
+name: CI
+
+on: [push]
+
+##
+
+jobs:
+  generate-release:
+    runs-on: macos-latest
+    steps:
+      - name: Generate Data
+        run: |
+          sha="${{ github.sha }}" && echo "short_sha=${sha:0:8}" >> $GITHUB_ENV
+          dt="${{ github.event.commits[0].timestamp }}" && echo "release_date=${dt:0:10}" >> $GITHUB_ENV
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ci-release-${{ env.short_sha }}
+          release_name: Release ${{ env.release_date }}
+          draft: false
+          prerelease: false
+    outputs:
+      upload_url: ${{ steps.create_release.outputs.upload_url }}
+
+##
+
+  openssl-nghttp2:
+    strategy:
+      matrix:
+        target: [ios, android]
+        component: [openssl, nghttp2]
+        include:
+          
+          # iOS Configuration
+          - target: ios
+            arch: arm64
+            sdk: iphoneos
+            api: "8.0"
+            platform: iPhoneOS
+
+          # Android Configuration
+          - target: android
+            arch: arm64
+            abi: arm64-v8a
+            api: 23
+
+          # OpenSSL version
+          - component: openssl
+            version: "1.1.1d"
+
+          # nghttp2 version
+          - component: nghttp2
+            version: "1.40.0"
+
+      fail-fast: false
+
+    runs-on: macos-latest
+    needs: [generate-release]
+
+    steps:
+      - name: Checkout Sources
+        uses: actions/checkout@v1
+        with:
+          fetch-depth: 1
+      - name: Setup Environment Variables
+        run: |
+          set -x
+          export ANDROID_NDK_ROOT=${ANDROID_SDK_ROOT}/ndk-bundle
+          echo "ANDROID_NDK_ROOT=$ANDROID_NDK_ROOT" >> $GITHUB_ENV
+
+          echo "arch=${{ matrix.arch }}" >> $GITHUB_ENV
+          echo "abi=${{ matrix.abi }}" >> $GITHUB_ENV
+          echo "sdk=${{ matrix.sdk }}" >> $GITHUB_ENV
+          echo "api=${{ matrix.api }}" >> $GITHUB_ENV
+          echo "platform=${{ matrix.platform }}" >> $GITHUB_ENV
+          echo "version=${{ matrix.version }}" >> $GITHUB_ENV
+          
+          echo "product_dir=${{ matrix.component }}_${{ matrix.version }}-${{ matrix.target }}-${{ matrix.arch }}" >> $GITHUB_ENV
+
+          source $GITHUB_ENV
+          set
+      - name: Build ${{ matrix.component }} for ${{ matrix.target }}
+        run: |
+          cd tools
+          ./build-${{ matrix.target }}-${{ matrix.component }}.sh
+          cd ..
+          mkdir -p "$product_dir/"{lib,include}
+          mv "output/${{ matrix.target }}/${{ matrix.component }}-${{ matrix.abi || matrix.arch }}/"{lib,include} "$product_dir/" || true
+        if: always()
+      - name: Upload Binaries
+        uses: actions/upload-artifact@v1
+        with:
+          name: ${{ env.product_dir }}
+          path: ./${{ env.product_dir }}
+        if: always()
+      - name: Zip Binaries
+        run: |
+          cd "$product_dir"
+          zip -r ../$product_dir.zip *
+      - name: Upload Release Asset
+        id: upload-release-asset
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ needs.generate-release.outputs.upload_url }}
+          asset_path: ${{ env.product_dir }}.zip
+          asset_name: ${{ env.product_dir }}.zip
+          asset_content_type: application/zip
+
+##
+
+  curl:
+    strategy:
+      matrix:
+        target: [ios, android]
+        component: [curl]
+        include:
+                    
+          # iOS Configuration
+          - target: ios
+            arch: arm64
+            sdk: iphoneos
+            api: "8.0"
+            platform: iPhoneOS
+
+          # Android Configuration
+          - target: android
+            arch: arm64
+            abi: arm64-v8a
+            api: 23
+
+          # cURL version
+          - component: curl
+            version: "7.68.0"
+
+      fail-fast: false
+
+    runs-on: macos-latest
+    needs: [generate-release, openssl-nghttp2]
+
+    steps:
+      - name: Checkout Sources
+        uses: actions/checkout@v1
+        with:
+          fetch-depth: 1
+      - name: Setup Environment Variables
+        run: |
+          set -x
+          export ANDROID_NDK_ROOT=${ANDROID_SDK_ROOT}/ndk-bundle
+          echo "ANDROID_NDK_ROOT=$ANDROID_NDK_ROOT" >> $GITHUB_ENV
+
+          echo "arch=${{ matrix.arch }}" >> $GITHUB_ENV
+          echo "abi=${{ matrix.abi }}" >> $GITHUB_ENV
+          echo "sdk=${{ matrix.sdk }}" >> $GITHUB_ENV
+          echo "api=${{ matrix.api }}" >> $GITHUB_ENV
+          echo "platform=${{ matrix.platform }}" >> $GITHUB_ENV
+          echo "version=${{ matrix.version }}" >> $GITHUB_ENV
+          
+          echo "product_dir=${{ matrix.component }}_${{ matrix.version }}-${{ matrix.target }}-${{ matrix.arch }}" >> $GITHUB_ENV
+
+          source $GITHUB_ENV
+          set
+      - name: Build ${{ matrix.component }} for ${{ matrix.target }}
+        run: |
+          cd tools
+          ./build-${{ matrix.target }}-${{ matrix.component }}.sh
+          cd ..
+          mkdir -p "$product_dir/"{lib,include}
+          mv "output/${{ matrix.target }}/${{ matrix.component }}-${{ matrix.abi || matrix.arch }}/"{lib,include} "$product_dir/" || true
+        if: always()
+      - name: Upload Binaries
+        uses: actions/upload-artifact@v1
+        with:
+          name: ${{ env.product_dir }}
+          path: ./${{ env.product_dir }}
+        if: always()
+      - name: Zip Binaries
+        run: |
+          cd "$product_dir"
+          zip -r ../$product_dir.zip *
+      - name: Upload Release Asset
+        id: upload-release-asset
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ needs.generate-release.outputs.upload_url }}
+          asset_path: ${{ env.product_dir }}.zip
+          asset_name: ${{ env.product_dir }}.zip
+          asset_content_type: application/zip
