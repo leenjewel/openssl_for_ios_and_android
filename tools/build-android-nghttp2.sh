@@ -20,6 +20,10 @@ set -u
 
 source ./build-android-common.sh
 
+if [ -z ${version+x} ]; then 
+  version="1.40.0"
+fi
+
 init_log_color
 
 TOOLS_ROOT=$(pwd)
@@ -115,7 +119,7 @@ log_info "${PLATFORM_TYPE} ${LIB_NAME} start..."
 
 for ((i = 0; i < ${#ARCHS[@]}; i++)); do
     if [[ $# -eq 0 || "$1" == "${ARCHS[i]}" ]]; then
-        configure_make "${ARCHS[i]}" "${ABIS[i]}" "${ABI_TRIPLES[i]}"
+        configure_make "${ARCHS[i]}" "${ABIS[i]}" "${ARCHS[i]}-linux-android"
     fi
 done
 

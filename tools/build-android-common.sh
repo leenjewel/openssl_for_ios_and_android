@@ -16,16 +16,24 @@
 
 source ./build-common.sh
 
+if [ -z ${arch+x} ]; then 
+  arch=("arm" "arm64" "x86" "x86_64")
+fi
+if [ -z ${abi+x} ]; then 
+  abi=("armeabi-v7a" "arm64-v8a" "x86" "x86_64")
+fi
+if [ -z ${api+x} ]; then 
+  api=23
+fi
+
 export PLATFORM_TYPE="Android"
-export ARCHS=("$arch")
-export ABIS=("$abi")
-export ABI_TRIPLES=("$arch-linux-android")
-export ANDROID_API=$api
+export ARCHS=(${arch[@]})
+export ABIS=(${abi[@]})
+export ANDROID_API=(${api[@]})
 
 # for test
 # export ARCHS=("x86_64")
 # export ABIS=("x86_64")
-# export ABI_TRIPLES=("x86_64-linux-android")
 
 if [[ -z ${ANDROID_NDK_ROOT} ]]; then
   echo "ANDROID_NDK_ROOT not defined"
