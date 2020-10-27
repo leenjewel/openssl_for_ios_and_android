@@ -20,6 +20,10 @@ set -u
 
 source ./build-ios-common.sh
 
+if [ -z ${version+x} ]; then 
+  version="7.68.0"
+fi
+
 TOOLS_ROOT=$(pwd)
 
 SOURCE="$0"
@@ -45,7 +49,6 @@ echo "https://github.com/curl/curl/releases/download/${LIB_VERSION}/${LIB_NAME}.
 # https://github.com/curl/curl/releases/download/curl-7_69_0/curl-7.69.0.tar.gz
 # https://github.com/curl/curl/releases/download/curl-7_68_0/curl-7.68.0.tar.gz
 DEVELOPER=$(xcode-select -print-path)
-SDK_VERSION=$(xcrun -sdk iphoneos --show-sdk-version)
 rm -rf "${LIB_DEST_DIR}" "${LIB_NAME}"
 [ -f "${LIB_NAME}.tar.gz" ] || curl -LO https://github.com/curl/curl/releases/download/${LIB_VERSION}/${LIB_NAME}.tar.gz >${LIB_NAME}.tar.gz
 
@@ -54,6 +57,7 @@ function configure_make() {
     ARCH=$1
     SDK=$2
     PLATFORM=$3
+    SDK_PATH=$(xcrun -sdk ${SDK} --show-sdk-path)
 
     log_info "configure $ARCH start..."
 
@@ -64,15 +68,6 @@ function configure_make() {
     pushd .
     cd "${LIB_NAME}"
 
-    export CROSS_TOP="${DEVELOPER}/Platforms/${PLATFORM}.platform/Developer"
-    export CROSS_SDK="${PLATFORM}${SDK_VERSION}.sdk"
-
-    if [ ! -d ${CROSS_TOP}/SDKs/${CROSS_SDK} ]; then
-        log_error "ERROR: iOS SDK version:'${SDK_VERSION}' incorrect, SDK in your system is:"
-        xcodebuild -showsdks | grep iOS
-        exit -1
-    fi
-
     PREFIX_DIR="${pwd_path}/../output/ios/curl-${ARCH}"
     if [ -d "${PREFIX_DIR}" ]; then
         rm -fr "${PREFIX_DIR}"
@@ -82,7 +77,7 @@ function configure_make() {
     OUTPUT_ROOT=${TOOLS_ROOT}/../output/ios/curl-${ARCH}
     mkdir -p ${OUTPUT_ROOT}/log
 
-    set_android_cpu_feature "nghttp2" "${ARCH}" "${IOS_MIN_TARGET}" "${CROSS_TOP}/SDKs/${CROSS_SDK}"
+    set_ios_cpu_feature "curl" "${ARCH}" "${IOS_MIN_TARGET}" "${SDK_PATH}"
 
     OPENSSL_OUT_DIR="${pwd_path}/../output/ios/openssl-${ARCH}"
     NGHTTP2_OUT_DIR="${pwd_path}/../output/ios/nghttp2-${ARCH}"

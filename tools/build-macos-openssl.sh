@@ -14,17 +14,16 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# # read -n1 -p "Press any key to continue..."
+# read -n1 -p "Press any key to continue..."
 
 set -u
 
-source ./build-android-common.sh
+source ./build-macos-common.sh
 
 if [ -z ${version+x} ]; then 
   version="1.1.1d"
 fi
-
-init_log_color
+echo $version
 
 TOOLS_ROOT=$(pwd)
 
@@ -43,26 +42,26 @@ echo TOOLS_ROOT=${TOOLS_ROOT}
 # openssl-1.1.1d has fix configure bug
 LIB_VERSION="OpenSSL_$(echo $version | sed 's/\./_/g')"
 LIB_NAME="openssl-$version"
-LIB_DEST_DIR="${pwd_path}/../output/android/openssl-universal"
+LIB_DEST_DIR="${pwd_path}/../output/macos/openssl-universal"
+
+init_log_color
 
 echo "https://www.openssl.org/source/${LIB_NAME}.tar.gz"
 
 # https://github.com/openssl/openssl/archive/OpenSSL_1_1_1d.tar.gz
 # https://github.com/openssl/openssl/archive/OpenSSL_1_1_1f.tar.gz
 DEVELOPER=$(xcode-select -print-path)
-SDK_VERSION=$(xcrun -sdk iphoneos --show-sdk-version)
 rm -rf "${LIB_DEST_DIR}" "${LIB_NAME}"
 [ -f "${LIB_NAME}.tar.gz" ] || curl https://www.openssl.org/source/${LIB_NAME}.tar.gz >${LIB_NAME}.tar.gz
-
-set_android_toolchain_bin
 
 function configure_make() {
 
     ARCH=$1
-    ABI=$2
-    ABI_TRIPLE=$3
+    SDK=$2
+    PLATFORM=$3
+    SDK_PATH=$(xcrun -sdk ${SDK} --show-sdk-path)
 
-    log_info "configure $ABI start..."
+    log_info "configure $ARCH start..."
 
     if [ -d "${LIB_NAME}" ]; then
         rm -fr "${LIB_NAME}"
@@ -71,49 +70,36 @@ function configure_make() {
     pushd .
     cd "${LIB_NAME}"
 
-    PREFIX_DIR="${pwd_path}/../output/android/openssl-${ABI}"
+    PREFIX_DIR="${pwd_path}/../output/macos/openssl-${ARCH}"
     if [ -d "${PREFIX_DIR}" ]; then
         rm -fr "${PREFIX_DIR}"
     fi
     mkdir -p "${PREFIX_DIR}"
 
-    OUTPUT_ROOT=${TOOLS_ROOT}/../output/android/openssl-${ABI}
+    OUTPUT_ROOT=${TOOLS_ROOT}/../output/macos/openssl-${ARCH}
     mkdir -p ${OUTPUT_ROOT}/log
 
-    set_android_toolchain "openssl" "${ARCH}" "${ANDROID_API}"
-    set_android_cpu_feature "openssl" "${ARCH}" "${ANDROID_API}"
+    set_macos_cpu_feature "openssl" "${ARCH}" "${MACOS_MIN_TARGET}" "${SDK_PATH}"
+    
+    macos_printf_global_params "$ARCH" "$SDK" "$PLATFORM" "$PREFIX_DIR" "$OUTPUT_ROOT"
 
-    export ANDROID_NDK_HOME=${ANDROID_NDK_ROOT}
-    echo ANDROID_NDK_HOME=${ANDROID_NDK_HOME}
-
-    android_printf_global_params "$ARCH" "$ABI" "$ABI_TRIPLE" "$PREFIX_DIR" "$OUTPUT_ROOT"
+    unset MACOSX_DEPLOYMENT_TARGET
 
     if [[ "${ARCH}" == "x86_64" ]]; then
 
-        ./Configure android-x86_64 --prefix="${PREFIX_DIR}"
-
-    elif [[ "${ARCH}" == "x86" ]]; then
-
-        ./Configure android-x86 --prefix="${PREFIX_DIR}"
-
-    elif [[ "${ARCH}" == "arm" ]]; then
-
-        ./Configure android-arm --prefix="${PREFIX_DIR}"
-
-    elif [[ "${ARCH}" == "arm64" ]]; then
-
-        ./Configure android-arm64 --prefix="${PREFIX_DIR}"
+        # openssl1.1.1d can be set normally, 1.1.0f does not take effect
+        ./Configure darwin64-x86_64-cc no-shared --prefix="${PREFIX_DIR}"
 
     else
         log_error "not support" && exit 1
     fi
 
-    log_info "make $ABI start..."
+    log_info "make $ARCH start..."
 
-    make clean >"${OUTPUT_ROOT}/log/${ABI}.log"
-    if make -j$(get_cpu_count) >>"${OUTPUT_ROOT}/log/${ABI}.log" 2>&1; then
-        make install_sw >>"${OUTPUT_ROOT}/log/${ABI}.log" 2>&1
-        make install_ssldirs >>"${OUTPUT_ROOT}/log/${ABI}.log" 2>&1
+    make clean >"${OUTPUT_ROOT}/log/${ARCH}.log"
+    if make -j8 >>"${OUTPUT_ROOT}/log/${ARCH}.log" 2>&1; then
+        make install_sw >>"${OUTPUT_ROOT}/log/${ARCH}.log" 2>&1
+        make install_ssldirs >>"${OUTPUT_ROOT}/log/${ARCH}.log" 2>&1
     fi
 
     popd
@@ -123,8 +109,21 @@ log_info "${PLATFORM_TYPE} ${LIB_NAME} start..."
 
 for ((i = 0; i < ${#ARCHS[@]}; i++)); do
     if [[ $# -eq 0 || "$1" == "${ARCHS[i]}" ]]; then
-        configure_make "${ARCHS[i]}" "${ABIS[i]}" "${ARCHS[i]}-linux-android"
+        configure_make "${ARCHS[i]}" "${SDKS[i]}" "${PLATFORMS[i]}"
     fi
 done
+
+log_info "lipo start..."
+
+function lipo_library() {
+    LIB_SRC=$1
+    LIB_DST=$2
+    LIB_PATHS=("${ARCHS[@]/#/${pwd_path}/../output/macos/openssl-}")
+    LIB_PATHS=("${LIB_PATHS[@]/%//lib/${LIB_SRC}}")
+    lipo ${LIB_PATHS[@]} -create -output "${LIB_DST}"
+}
+mkdir -p "${LIB_DEST_DIR}"
+lipo_library "libcrypto.a" "${LIB_DEST_DIR}/libcrypto-universal.a"
+lipo_library "libssl.a" "${LIB_DEST_DIR}/libssl-universal.a"
 
 log_info "${PLATFORM_TYPE} ${LIB_NAME} end..."

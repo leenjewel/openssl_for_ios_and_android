@@ -122,7 +122,7 @@ log_info "${PLATFORM_TYPE} ${LIB_NAME} start..."
 
 for ((i = 0; i < ${#ARCHS[@]}; i++)); do
     if [[ $# -eq 0 || "$1" == "${ARCHS[i]}" ]]; then
-        configure_make "${ARCHS[i]}" "${ABIS[i]}" "${ABI_TRIPLES[i]}"
+        configure_make "${ARCHS[i]}" "${ABIS[i]}" "${ARCHS[i]}-linux-android"
     fi
 done
 

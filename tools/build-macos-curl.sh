@@ -14,17 +14,15 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# # read -n1 -p "Press any key to continue..."
+# read -n1 -p "Press any key to continue..."
 
 set -u
 
-source ./build-android-common.sh
+source ./build-macos-common.sh
 
 if [ -z ${version+x} ]; then 
   version="7.68.0"
 fi
-
-init_log_color
 
 TOOLS_ROOT=$(pwd)
 
@@ -41,7 +39,9 @@ echo TOOLS_ROOT=${TOOLS_ROOT}
 
 LIB_VERSION="curl-$(echo $version | sed 's/\./_/g')"
 LIB_NAME="curl-$version"
-LIB_DEST_DIR="${pwd_path}/../output/android/curl-universal"
+LIB_DEST_DIR="${pwd_path}/../output/macos/curl-universal"
+
+init_log_color
 
 echo "https://github.com/curl/curl/releases/download/${LIB_VERSION}/${LIB_NAME}.tar.gz"
 
@@ -49,19 +49,17 @@ echo "https://github.com/curl/curl/releases/download/${LIB_VERSION}/${LIB_NAME}.
 # https://github.com/curl/curl/releases/download/curl-7_69_0/curl-7.69.0.tar.gz
 # https://github.com/curl/curl/releases/download/curl-7_68_0/curl-7.68.0.tar.gz
 DEVELOPER=$(xcode-select -print-path)
-SDK_VERSION=$(xcrun -sdk iphoneos --show-sdk-version)
 rm -rf "${LIB_DEST_DIR}" "${LIB_NAME}"
 [ -f "${LIB_NAME}.tar.gz" ] || curl -LO https://github.com/curl/curl/releases/download/${LIB_VERSION}/${LIB_NAME}.tar.gz >${LIB_NAME}.tar.gz
-
-set_android_toolchain_bin
 
 function configure_make() {
 
     ARCH=$1
-    ABI=$2
-    ABI_TRIPLE=$3
+    SDK=$2
+    PLATFORM=$3
+    SDK_PATH=$(xcrun -sdk ${SDK} --show-sdk-path)
 
-    log_info "configure $ABI start..."
+    log_info "configure $ARCH start..."
 
     if [ -d "${LIB_NAME}" ]; then
         rm -fr "${LIB_NAME}"
@@ -70,55 +68,37 @@ function configure_make() {
     pushd .
     cd "${LIB_NAME}"
 
-    PREFIX_DIR="${pwd_path}/../output/android/curl-${ABI}"
+    PREFIX_DIR="${pwd_path}/../output/macos/curl-${ARCH}"
     if [ -d "${PREFIX_DIR}" ]; then
         rm -fr "${PREFIX_DIR}"
     fi
     mkdir -p "${PREFIX_DIR}"
 
-    OUTPUT_ROOT=${TOOLS_ROOT}/../output/android/curl-${ABI}
+    OUTPUT_ROOT=${TOOLS_ROOT}/../output/macos/curl-${ARCH}
     mkdir -p ${OUTPUT_ROOT}/log
 
-    set_android_toolchain "curl" "${ARCH}" "${ANDROID_API}"
-    set_android_cpu_feature "curl" "${ARCH}" "${ANDROID_API}"
+    set_macos_cpu_feature "curl" "${ARCH}" "${MACOS_MIN_TARGET}" "${SDK_PATH}"
 
-    export ANDROID_NDK_HOME=${ANDROID_NDK_ROOT}
-    echo ANDROID_NDK_HOME=${ANDROID_NDK_HOME}
-
-    OPENSSL_OUT_DIR="${pwd_path}/../output/android/openssl-${ABI}"
-    NGHTTP2_OUT_DIR="${pwd_path}/../output/android/nghttp2-${ABI}"
+    OPENSSL_OUT_DIR="${pwd_path}/../output/macos/openssl-${ARCH}"
+    NGHTTP2_OUT_DIR="${pwd_path}/../output/macos/nghttp2-${ARCH}"
 
     export LDFLAGS="${LDFLAGS} -L${OPENSSL_OUT_DIR}/lib -L${NGHTTP2_OUT_DIR}/lib"
-    # export LDFLAGS="-Wl,-rpath-link,-L${NGHTTP2_OUT_DIR}/lib,-L${OPENSSL_OUT_DIR}/lib $LDFLAGS "
 
-    android_printf_global_params "$ARCH" "$ABI" "$ABI_TRIPLE" "$PREFIX_DIR" "$OUTPUT_ROOT"
+    macos_printf_global_params "$ARCH" "$SDK" "$PLATFORM" "$PREFIX_DIR" "$OUTPUT_ROOT"
 
     if [[ "${ARCH}" == "x86_64" ]]; then
 
-        ./configure --host=$(android_get_build_host "${ARCH}") --prefix="${PREFIX_DIR}" --enable-ipv6 --with-ssl=${OPENSSL_OUT_DIR} --with-nghttp2=${NGHTTP2_OUT_DIR} >"${OUTPUT_ROOT}/log/${ABI}.log" 2>&1
-
-    elif [[ "${ARCH}" == "x86" ]]; then
-
-        ./configure --host=$(android_get_build_host "${ARCH}") --prefix="${PREFIX_DIR}" --enable-ipv6 --with-ssl=${OPENSSL_OUT_DIR} --with-nghttp2=${NGHTTP2_OUT_DIR} >"${OUTPUT_ROOT}/log/${ABI}.log" 2>&1
-
-    elif [[ "${ARCH}" == "arm" ]]; then
-
-        ./configure --host=$(android_get_build_host "${ARCH}") --prefix="${PREFIX_DIR}" --enable-ipv6 --with-ssl=${OPENSSL_OUT_DIR} --with-nghttp2=${NGHTTP2_OUT_DIR} >"${OUTPUT_ROOT}/log/${ABI}.log" 2>&1
-
-    elif [[ "${ARCH}" == "arm64" ]]; then
-
-        # --enable-shared need nghttp2 cpp compile
-        ./configure --host=$(android_get_build_host "${ARCH}") --prefix="${PREFIX_DIR}" --disable-shared --enable-ipv6 --with-ssl=${OPENSSL_OUT_DIR} --with-nghttp2=${NGHTTP2_OUT_DIR} >"${OUTPUT_ROOT}/log/${ABI}.log" 2>&1
+        ./Configure --host=$(macos_get_build_host "$ARCH") --prefix="${PREFIX_DIR}" --disable-shared --enable-static --enable-ipv6 --without-libidn2 --with-ssl=${OPENSSL_OUT_DIR} --with-nghttp2=${NGHTTP2_OUT_DIR} >"${OUTPUT_ROOT}/log/${ARCH}.log" 2>&1
 
     else
         log_error "not support" && exit 1
     fi
 
-    log_info "make $ABI start..."
+    log_info "make $ARCH start..."
 
-    make clean >>"${OUTPUT_ROOT}/log/${ABI}.log"
-    if make -j$(get_cpu_count) >>"${OUTPUT_ROOT}/log/${ABI}.log" 2>&1; then
-        make install >>"${OUTPUT_ROOT}/log/${ABI}.log" 2>&1
+    make clean >>"${OUTPUT_ROOT}/log/${ARCH}.log"
+    if make -j8 >>"${OUTPUT_ROOT}/log/${ARCH}.log" 2>&1; then
+        make install >>"${OUTPUT_ROOT}/log/${ARCH}.log" 2>&1
     fi
 
     popd
@@ -128,8 +108,20 @@ log_info "${PLATFORM_TYPE} ${LIB_NAME} start..."
 
 for ((i = 0; i < ${#ARCHS[@]}; i++)); do
     if [[ $# -eq 0 || "$1" == "${ARCHS[i]}" ]]; then
-        configure_make "${ARCHS[i]}" "${ABIS[i]}" "${ARCHS[i]}-linux-android"
+        configure_make "${ARCHS[i]}" "${SDKS[i]}" "${PLATFORMS[i]}"
     fi
 done
+
+log_info "lipo start..."
+
+function lipo_library() {
+    LIB_SRC=$1
+    LIB_DST=$2
+    LIB_PATHS=("${ARCHS[@]/#/${pwd_path}/../output/macos/curl-}")
+    LIB_PATHS=("${LIB_PATHS[@]/%//lib/${LIB_SRC}}")
+    lipo ${LIB_PATHS[@]} -create -output "${LIB_DST}"
+}
+mkdir -p "${LIB_DEST_DIR}"
+lipo_library "libcurl.a" "${LIB_DEST_DIR}/libcurl-universal.a"
 
 log_info "${PLATFORM_TYPE} ${LIB_NAME} end..."

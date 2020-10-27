@@ -18,10 +18,10 @@
 
 set -u
 
-source ./build-ios-common.sh
+source ./build-macos-common.sh
 
 if [ -z ${version+x} ]; then 
-  version="1.1.1d"
+  version="1.40.0"
 fi
 
 TOOLS_ROOT=$(pwd)
@@ -37,21 +37,17 @@ pwd_path="$(cd -P "$(dirname "$SOURCE")" && pwd)"
 echo pwd_path=${pwd_path}
 echo TOOLS_ROOT=${TOOLS_ROOT}
 
-# openssl-1.1.0f has a configure bug
-# openssl-1.1.1d has fix configure bug
-LIB_VERSION="OpenSSL_$(echo $version | sed 's/\./_/g')"
-LIB_NAME="openssl-$version"
-LIB_DEST_DIR="${pwd_path}/../output/ios/openssl-universal"
+LIB_VERSION="v$version"
+LIB_NAME="nghttp2-$version"
+LIB_DEST_DIR="${pwd_path}/../output/macos/nghttp2-universal"
 
 init_log_color
 
-echo "https://www.openssl.org/source/${LIB_NAME}.tar.gz"
+echo "https://github.com/nghttp2/nghttp2/releases/download/${LIB_VERSION}/${LIB_NAME}.tar.gz"
 
-# https://github.com/openssl/openssl/archive/OpenSSL_1_1_1d.tar.gz
-# https://github.com/openssl/openssl/archive/OpenSSL_1_1_1f.tar.gz
 DEVELOPER=$(xcode-select -print-path)
 rm -rf "${LIB_DEST_DIR}" "${LIB_NAME}"
-[ -f "${LIB_NAME}.tar.gz" ] || curl https://www.openssl.org/source/${LIB_NAME}.tar.gz >${LIB_NAME}.tar.gz
+[ -f "${LIB_NAME}.tar.gz" ] || curl -LO https://github.com/nghttp2/nghttp2/releases/download/${LIB_VERSION}/${LIB_NAME}.tar.gz >${LIB_NAME}.tar.gz
 
 function configure_make() {
 
@@ -69,43 +65,22 @@ function configure_make() {
     pushd .
     cd "${LIB_NAME}"
 
-    PREFIX_DIR="${pwd_path}/../output/ios/openssl-${ARCH}"
+    PREFIX_DIR="${pwd_path}/../output/macos/nghttp2-${ARCH}"
     if [ -d "${PREFIX_DIR}" ]; then
         rm -fr "${PREFIX_DIR}"
     fi
     mkdir -p "${PREFIX_DIR}"
 
-    OUTPUT_ROOT=${TOOLS_ROOT}/../output/ios/openssl-${ARCH}
+    OUTPUT_ROOT=${TOOLS_ROOT}/../output/macos/nghttp2-${ARCH}
     mkdir -p ${OUTPUT_ROOT}/log
 
-    set_ios_cpu_feature "openssl" "${ARCH}" "${IOS_MIN_TARGET}" "${SDK_PATH}"
-    
-    ios_printf_global_params "$ARCH" "$SDK" "$PLATFORM" "$PREFIX_DIR" "$OUTPUT_ROOT"
+    set_macos_cpu_feature "nghttp2" "${ARCH}" "${MACOS_MIN_TARGET}" "${SDK_PATH}"
 
-    unset IPHONEOS_DEPLOYMENT_TARGET
+    macos_printf_global_params "$ARCH" "$SDK" "$PLATFORM" "$PREFIX_DIR" "$OUTPUT_ROOT"
 
     if [[ "${ARCH}" == "x86_64" ]]; then
 
-        # openssl1.1.1d can be set normally, 1.1.0f does not take effect
-        ./Configure darwin64-x86_64-cc no-shared --prefix="${PREFIX_DIR}"
-
-    elif [[ "${ARCH}" == "armv7" ]]; then
-
-        # openssl1.1.1d can be set normally, 1.1.0f does not take effect
-        ./Configure iphoneos-cross no-shared --prefix="${PREFIX_DIR}"
-        sed -ie "s!-fno-common!-fno-common -fembed-bitcode !" "Makefile"
-
-    elif [[ "${ARCH}" == "arm64" ]]; then
-
-        # openssl1.1.1d can be set normally, 1.1.0f does not take effect
-        ./Configure iphoneos-cross no-shared --prefix="${PREFIX_DIR}"
-        sed -ie "s!-fno-common!-fno-common -fembed-bitcode !" "Makefile"
-
-    elif [[ "${ARCH}" == "arm64e" ]]; then
-
-        # openssl1.1.1d can be set normally, 1.1.0f does not take effect
-        ./Configure iphoneos-cross no-shared --prefix="${PREFIX_DIR}"
-        sed -ie "s!-fno-common!-fno-common -fembed-bitcode !" "Makefile"
+        ./configure --host=$(macos_get_build_host "$ARCH") --prefix="${PREFIX_DIR}" --disable-shared --disable-app --disable-threads --enable-lib-only >"${OUTPUT_ROOT}/log/${ARCH}.log" 2>&1
 
     else
         log_error "not support" && exit 1
@@ -113,10 +88,9 @@ function configure_make() {
 
     log_info "make $ARCH start..."
 
-    make clean >"${OUTPUT_ROOT}/log/${ARCH}.log"
+    make clean >>"${OUTPUT_ROOT}/log/${ARCH}.log" 2>&1
     if make -j8 >>"${OUTPUT_ROOT}/log/${ARCH}.log" 2>&1; then
-        make install_sw >>"${OUTPUT_ROOT}/log/${ARCH}.log" 2>&1
-        make install_ssldirs >>"${OUTPUT_ROOT}/log/${ARCH}.log" 2>&1
+        make install >>"${OUTPUT_ROOT}/log/${ARCH}.log" 2>&1
     fi
 
     popd
@@ -135,12 +109,11 @@ log_info "lipo start..."
 function lipo_library() {
     LIB_SRC=$1
     LIB_DST=$2
-    LIB_PATHS=("${ARCHS[@]/#/${pwd_path}/../output/ios/openssl-}")
+    LIB_PATHS=("${ARCHS[@]/#/${pwd_path}/../output/macos/nghttp2-}")
     LIB_PATHS=("${LIB_PATHS[@]/%//lib/${LIB_SRC}}")
     lipo ${LIB_PATHS[@]} -create -output "${LIB_DST}"
 }
 mkdir -p "${LIB_DEST_DIR}"
-lipo_library "libcrypto.a" "${LIB_DEST_DIR}/libcrypto-universal.a"
-lipo_library "libssl.a" "${LIB_DEST_DIR}/libssl-universal.a"
+lipo_library "libnghttp2.a" "${LIB_DEST_DIR}/libnghttp2-universal.a"
 
 log_info "${PLATFORM_TYPE} ${LIB_NAME} end..."
