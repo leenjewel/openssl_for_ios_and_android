@@ -41,8 +41,6 @@ LIB_DEST_DIR="${pwd_path}/../output/android/lz4"
 
 #echo "https://github.com/lz4/lz4/releases/download/${LIB_VERSION}/${LIB_NAME}.tar.gz"
 
-DEVELOPER=$(xcode-select -print-path)
-SDK_VERSION=$(xcrun -sdk iphoneos --show-sdk-version)
 rm -rf "${LIB_DEST_DIR}" "${LIB_NAME}"
 [ -f "${LIB_NAME}.tar.gz" ] || curl -L https://github.com/lz4/lz4/archive/${LIB_VERSION}.tar.gz >${LIB_NAME}.tar.gz
 

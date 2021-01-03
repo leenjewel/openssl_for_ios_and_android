@@ -35,14 +35,12 @@ pwd_path="$(cd -P "$(dirname "$SOURCE")" && pwd)"
 echo pwd_path=${pwd_path}
 echo TOOLS_ROOT=${TOOLS_ROOT}
 
-LIB_VERSION="v1.4.5"
-LIB_NAME="zstd-1.4.5"
+LIB_VERSION="v1.4.8"
+LIB_NAME="zstd-1.4.8"
 LIB_DEST_DIR="${pwd_path}/../output/android/zstd"
 
 #echo "https://github.com/zstd/zstd/releases/download/${LIB_VERSION}/${LIB_NAME}.tar.gz"
 
-DEVELOPER=$(xcode-select -print-path)
-SDK_VERSION=$(xcrun -sdk iphoneos --show-sdk-version)
 rm -rf "${LIB_DEST_DIR}" "${LIB_NAME}"
 [ -f "${LIB_NAME}.tar.gz" ] || curl -L https://github.com/facebook/zstd/archive/${LIB_VERSION}.tar.gz >${LIB_NAME}.tar.gz
 
