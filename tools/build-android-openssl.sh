@@ -21,7 +21,7 @@ set -u
 source ./build-android-common.sh
 
 if [ -z ${version+x} ]; then 
-  version="1.1.1d"
+  version="1.1.1i"
 fi
 
 init_log_color
@@ -49,8 +49,6 @@ echo "https://www.openssl.org/source/${LIB_NAME}.tar.gz"
 
 # https://github.com/openssl/openssl/archive/OpenSSL_1_1_1d.tar.gz
 # https://github.com/openssl/openssl/archive/OpenSSL_1_1_1f.tar.gz
-DEVELOPER=$(xcode-select -print-path)
-SDK_VERSION=$(xcrun -sdk iphoneos --show-sdk-version)
 rm -rf "${LIB_DEST_DIR}" "${LIB_NAME}"
 [ -f "${LIB_NAME}.tar.gz" ] || curl https://www.openssl.org/source/${LIB_NAME}.tar.gz >${LIB_NAME}.tar.gz
 

@@ -40,11 +40,6 @@ if [[ -z ${ANDROID_NDK_ROOT} ]]; then
   exit 1
 fi
 
-if [[ -z ${ANDROID_HOME} ]]; then
-  echo "ANDROID_HOME not defined"
-  exit 1
-fi
-
 function get_toolchain() {
   HOST_OS=$(uname -s)
   case ${HOST_OS} in

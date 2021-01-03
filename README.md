@@ -26,11 +26,13 @@ If you do not want to build it by yourself, you could download our prebuilt libr
  - ~~[openssl-1.0.2c.tar.gz](https://www.openssl.org/source/openssl-1.0.2c.tar.gz)~~
  - [openssl-1.1.0f.tar.gz](https://www.openssl.org/source/openssl-1.1.0f.tar.gz)
  - [openssl-1.1.1d.tar.gz](https://www.openssl.org/source/openssl-1.1.1d.tar.gz)
+ - [openssl-1.1.1i.tar.gz](https://www.openssl.org/source/openssl-1.1.1i.tar.gz)
  - [https://github.com/openssl/openssl](https://github.com/openssl/openssl)
 
 ## nghttp2 Version
 
  - [nghttp2-1.40.0.tar.gz](https://github.com/nghttp2/nghttp2/releases/download/v1.40.0/nghttp2-1.40.0.tar.gz)
+ - [nghttp2-1.42.0.tar.gz](https://github.com/nghttp2/nghttp2/releases/download/v1.42.0/nghttp2-1.42.0.tar.gz)
  - [https://nghttp2.org/](https://nghttp2.org/)
 
 ## cURL Version
@@ -38,6 +40,7 @@ If you do not want to build it by yourself, you could download our prebuilt libr
  - ~~[curl-7.47.1.tar.gz](https://curl.haxx.se/download/curl-7.47.1.tar.gz)~~
  - [curl-7.66.0.tar.gz](https://curl.haxx.se/download/curl-7.66.0.tar.gz)
  - [curl-7.68.0.tar.gz](https://curl.haxx.se/download/curl-7.68.0.tar.gz)
+ - [curl-7.74.0.tar.gz](https://curl.haxx.se/download/curl-7.74.0.tar.gz)
  - [https://github.com/curl/curl](https://github.com/curl/curl)
 
 ## Android NDK Version
@@ -45,6 +48,7 @@ If you do not want to build it by yourself, you could download our prebuilt libr
  - ~~[android-ndk-r13b](https://dl.google.com/android/repository/android-ndk-r13b-darwin-x86_64.zip)~~
  - ~~[android-ndk-r14b](https://dl.google.com/android/repository/android-ndk-r14b-darwin-x86_64.zip)~~
  - ~~android-ndk-r15 (**Do not try to build use 15 It will fail**)~~
+ - [android-ndk-r21d-darwin](https://dl.google.com/android/repository/android-ndk-r21d-darwin-x86_64.zip) [android-ndk-r21d-linux](https://dl.google.com/android/repository/android-ndk-r21d-linux-x86_64.zip)
  - support api 23 above
 
 ## How to build
@@ -69,24 +73,28 @@ $ sh build-ios-curl.sh
 
 ### For Android
 
-- Android Studio info: 3.5.3 (for reference only)
+- Android Studio info: 4.1, November 5, 2020 (for reference only)
+- Android NDK info: r21d
 - Build dependencies: todo
 - Build order: 1.build openssl, 2.build nghttp2, 3.build curl (curl depend openssl and nghttp2)
 - build static library(.a) and dynamic library (exclude curl arm64-v8a)
 - env macro: for example:
 ```
-export ANDROID_HOME=/Users/userid/Library/Android/sdk
-export ANDROID_NDK_ROOT=$ANDROID_HOME/ndk-bundle
+export ANDROID_NDK_ROOT=/Location/where/installed/android-ndk-r21d
 
 ```
 - build sh cmd: for example:
 ```
 $ cd tools
-$ sh build-android-openssl.sh
-$ sh build-android-nghttp2.sh
-$ sh build-android-curl.sh
+$ export api=16
+$ ./build-android-openssl.sh arm
+$ ./build-android-nghttp2.sh arm
+$ ./build-android-curl.sh arm
+$ export api=21
+$ ./build-android-openssl.sh arm64
+$ ./build-android-nghttp2.sh arm64
+$ ./build-android-curl.sh arm64
 ```
-
 
 
 > **You must build openssl and nghttp2(support http2) first**
