@@ -109,8 +109,11 @@ function configure_make() {
     log_info "make $ABI start..."
 
     make clean >"${OUTPUT_ROOT}/log/${ABI}.log"
-    if make -j$(get_cpu_count) >>"${OUTPUT_ROOT}/log/${ABI}.log" 2>&1; then
-        make install_sw >>"${OUTPUT_ROOT}/log/${ABI}.log" 2>&1
+    # ABr: do *not* generate soname; see https://stackoverflow.com/a/33869277
+    make SHLIB_EXT='.so' CALC_VERSIONS="SHLIB_COMPAT=; SHLIB_SOVER=" MAKE="make -e" all >>"${OUTPUT_ROOT}/log/${ABI}.log" 2>&1
+    the_rc=$?
+    if [ $the_rc -eq 0 ] ; then
+        make SHLIB_EXT='.so' install_sw >>"${OUTPUT_ROOT}/log/${ABI}.log" 2>&1
         make install_ssldirs >>"${OUTPUT_ROOT}/log/${ABI}.log" 2>&1
     fi
 
