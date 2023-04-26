@@ -1,0 +1,1200 @@
+checking whether to enable maintainer-specific portions of Makefiles... no
+checking whether make supports nested variables... yes
+checking whether to enable debug build options... no
+checking whether to enable compiler optimizer... (assumed) yes
+checking whether to enable strict compiler warnings... no
+checking whether to enable compiler warnings as errors... no
+checking whether to enable curl debug memory tracking... no
+checking whether to enable hiding of library internal symbols... yes
+checking whether to enable c-ares for DNS lookups... no
+checking whether to disable dependency on -lrt... (assumed no)
+checking whether to enable ECH support... no
+checking for path separator... :
+checking for sed... /usr/bin/sed
+checking for grep... /usr/bin/grep
+checking for egrep... /usr/bin/grep -E
+configure: using CFLAGS: -march=i686 -mtune=intel -mssse3 -mfpmath=sse -m32 -Wno-unused-function -fno-integrated-as -fstrict-aliasing -fPIC -DANDROID -D__ANDROID_API__=21 -Os -ffunction-sections -fdata-sections -I/home/eklim/android-ndk-r21d/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/include -I/home/eklim/android-ndk-r21d/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/local/include
+configure: CFLAGS note: CFLAGS should only be used to specify C compiler flags, not macro definitions. Use CPPFLAGS for: -DANDROID
+configure: CFLAGS note: CFLAGS should only be used to specify C compiler flags, not macro definitions. Use CPPFLAGS for: -D__ANDROID_API__=21
+configure: CFLAGS note: CFLAGS should only be used to specify C compiler flags, not include directories. Use CPPFLAGS for: -I/home/eklim/android-ndk-r21d/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/include
+configure: CFLAGS note: CFLAGS should only be used to specify C compiler flags, not include directories. Use CPPFLAGS for: -I/home/eklim/android-ndk-r21d/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/local/include
+configure: WARNING: Continuing even with errors mentioned immediately above this line.
+checking for a BSD-compatible install... /usr/bin/install -c
+checking for i686-linux-android-gcc... i686-linux-android21-clang
+checking whether the C compiler works... yes
+checking for C compiler default output file name... a.out
+checking for suffix of executables... 
+checking whether we are cross compiling... yes
+checking for suffix of object files... o
+checking whether we are using the GNU C compiler... yes
+checking whether i686-linux-android21-clang accepts -g... yes
+checking for i686-linux-android21-clang option to accept ISO C89... none needed
+checking whether i686-linux-android21-clang understands -c and -o together... yes
+checking how to run the C preprocessor... i686-linux-android21-clang -E
+checking for a sed that does not truncate output... (cached) /usr/bin/sed
+checking for code coverage support... no
+checking whether build environment is sane... yes
+checking for i686-linux-android-strip... i686-linux-android-strip
+checking for a thread-safe mkdir -p... /usr/bin/mkdir -p
+checking for gawk... no
+checking for mawk... mawk
+checking whether make sets $(MAKE)... yes
+checking whether make supports the include directive... yes (GNU style)
+checking dependency style of i686-linux-android21-clang... gcc3
+checking curl version... 7.74.0
+checking build system type... x86_64-pc-linux-gnu
+checking host system type... i686-pc-linux-android
+checking for grep that handles long lines and -e... (cached) /usr/bin/grep
+checking for egrep... /usr/bin/grep -E
+checking if OS is AIX (to define _ALL_SOURCE)... no
+checking if _THREAD_SAFE is already defined... no
+checking if _THREAD_SAFE is actually needed... no
+checking if _THREAD_SAFE is onwards defined... no
+checking if _REENTRANT is already defined... no
+checking if _REENTRANT is actually needed... no
+checking if _REENTRANT is onwards defined... no
+checking for special C compiler options needed for large files... no
+checking for _FILE_OFFSET_BITS value needed for large files... 64
+checking how to print strings... printf
+checking for a sed that does not truncate output... (cached) /usr/bin/sed
+checking for fgrep... /usr/bin/grep -F
+checking for ld used by i686-linux-android21-clang... i686-linux-android-ld
+checking if the linker (i686-linux-android-ld) is GNU ld... yes
+checking for BSD- or MS-compatible name lister (nm)... /home/eklim/android-ndk-r21d/toolchains/llvm/prebuilt/linux-x86_64/bin/i686-linux-android-nm -B
+checking the name lister (/home/eklim/android-ndk-r21d/toolchains/llvm/prebuilt/linux-x86_64/bin/i686-linux-android-nm -B) interface... BSD nm
+checking whether ln -s works... yes
+checking the maximum length of command line arguments... 1572864
+checking how to convert x86_64-pc-linux-gnu file names to i686-pc-linux-android format... func_convert_file_noop
+checking how to convert x86_64-pc-linux-gnu file names to toolchain format... func_convert_file_noop
+checking for i686-linux-android-ld option to reload object files... -r
+checking for i686-linux-android-objdump... i686-linux-android-objdump
+checking how to recognize dependent libraries... pass_all
+checking for i686-linux-android-dlltool... no
+checking for dlltool... no
+checking how to associate runtime and link libraries... printf %s\n
+checking for i686-linux-android-ar... i686-linux-android-ar
+checking for archiver @FILE support... @
+checking for i686-linux-android-strip... (cached) i686-linux-android-strip
+checking for i686-linux-android-ranlib... i686-linux-android-ranlib
+checking command to parse /home/eklim/android-ndk-r21d/toolchains/llvm/prebuilt/linux-x86_64/bin/i686-linux-android-nm -B output from i686-linux-android21-clang object... ok
+checking for sysroot... no
+checking for a working dd... /usr/bin/dd
+checking how to truncate binary pipes... /usr/bin/dd bs=4096 count=1
+checking for i686-linux-android-mt... no
+checking for mt... mt
+configure: WARNING: using cross tools not prefixed with host triplet
+checking if mt is a manifest tool... no
+checking for ANSI C header files... yes
+checking for sys/types.h... yes
+checking for sys/stat.h... yes
+checking for stdlib.h... yes
+checking for string.h... yes
+checking for memory.h... yes
+checking for strings.h... yes
+checking for inttypes.h... yes
+checking for stdint.h... yes
+checking for unistd.h... yes
+checking for dlfcn.h... yes
+checking for objdir... .libs
+checking if i686-linux-android21-clang supports -fno-rtti -fno-exceptions... yes
+checking for i686-linux-android21-clang option to produce PIC... -fPIC -DPIC
+checking if i686-linux-android21-clang PIC flag -fPIC -DPIC works... yes
+checking if i686-linux-android21-clang static flag -static works... yes
+checking if i686-linux-android21-clang supports -c -o file.o... yes
+checking if i686-linux-android21-clang supports -c -o file.o... (cached) yes
+checking whether the i686-linux-android21-clang linker (i686-linux-android-ld) supports shared libraries... yes
+checking whether -lc should be explicitly linked in... no
+checking dynamic linker characteristics... Android linker
+checking how to hardcode library paths into programs... immediate
+checking whether stripping libraries is possible... yes
+checking if libtool supports shared libraries... yes
+checking whether to build shared libraries... yes
+checking whether to build static libraries... yes
+checking whether to build shared libraries with -version-info... no
+checking whether to build shared libraries with -no-undefined... no
+checking whether to build shared libraries with -mimpure-text... no
+checking whether to build shared libraries with PIC... yes
+checking whether to build static libraries with PIC... no
+checking whether to build shared libraries only... no
+checking whether to build static libraries only... no
+checking for inline... inline
+checking if cpp -P is needed... no
+checking if compiler is DEC/Compaq/HP C... no
+checking if compiler is HP-UX C... no
+checking if compiler is IBM C... no
+checking if compiler is Intel C... no
+checking if compiler is clang... yes
+checking if compiler is xlclang... no
+checking if compiler is GNU C... no
+checking if compiler is LCC... no
+checking if compiler is SGI MIPSpro C... no
+checking if compiler is SGI MIPS C... no
+checking if compiler is SunPro C... no
+checking if compiler is Tiny C... no
+checking if compiler is Watcom C... no
+checking if compiler accepts some basic options... yes
+configure: compiler options added: -Qunused-arguments 
+checking if compiler accepts debug disabling options... yes
+configure: compiler options added: 
+checking if compiler optimizer assumed setting might be used... no
+checking if compiler halts on compilation errors... yes
+checking if compiler halts on negative sized arrays... yes
+checking if compiler halts on function prototype mismatch... yes
+checking if compiler supports hiding library internal symbols... yes
+checking for windows.h... no
+checking whether build target is a native Windows one... no
+checking whether build target supports WIN32 file API... no
+checking for good-to-use Mac CFLAGS... no
+checking to see if the compiler supports __builtin_available()... yes
+checking whether to support http... yes
+checking whether to support ftp... yes
+checking whether to support file... yes
+checking whether to support ldap... yes
+checking whether to support ldaps... yes
+checking whether to support rtsp... yes
+checking whether to support proxies... yes
+checking whether to support dict... yes
+checking whether to support telnet... yes
+checking whether to support tftp... yes
+checking whether to support pop3... yes
+checking whether to support imap... yes
+checking whether to support smb... yes
+checking whether to support smtp... yes
+checking whether to support gopher... yes
+checking whether to support mqtt... no
+checking whether to provide built-in manual... yes
+checking whether to enable generation of C code... yes
+checking whether to use libgcc... no
+checking if X/Open network library is required... no
+checking for gethostbyname... yes
+checking for windows.h... (cached) no
+checking for winsock.h... (cached) no
+checking for winsock2.h... (cached) no
+checking for proto/bsdsocket.h... no
+checking for connect in libraries... yes
+checking whether time.h and sys/time.h may both be included... yes
+checking for sys/types.h... (cached) yes
+checking sys/time.h usability... yes
+checking sys/time.h presence... yes
+checking for sys/time.h... yes
+checking time.h usability... yes
+checking time.h presence... yes
+checking for time.h... yes
+checking for monotonic clock_gettime... yes
+checking for clock_gettime in libraries... no additional lib required
+checking for i686-linux-android-pkg-config... no
+checking for pkg-config... /usr/bin/pkg-config
+checking for zlib options with pkg-config... found
+checking zlib.h usability... yes
+checking zlib.h presence... yes
+checking for zlib.h... yes
+configure: found both libz and libz.h header
+checking for BrotliDecoderDecompress in -lbrotlidec... no
+checking brotli/decode.h usability... no
+checking brotli/decode.h presence... no
+checking for brotli/decode.h... no
+checking for ZSTD_createDStream in -lzstd... no
+checking zstd.h usability... no
+checking zstd.h presence... no
+checking for zstd.h... no
+checking for lber.h... no
+checking for ldap.h... no
+checking for ldapssl.h... no
+checking for ldap_ssl.h... no
+checking for LDAP libraries... cannot find LDAP libraries
+configure: WARNING: Cannot find libraries for LDAP support: LDAP disabled
+checking whether to enable IPv6... yes
+checking if struct sockaddr_in6 has sin6_scope_id member... yes
+checking if argv can be written to... no
+configure: WARNING: the previous check could not be made default was used
+checking if GSS-API support is requested... no
+checking whether to enable Windows native SSL/TLS (Windows native builds only)... no
+checking whether to enable Secure Transport... no
+checking whether to enable Amiga native SSL/TLS (AmiSSL)... no
+configure: PKG_CONFIG_LIBDIR will be set to "/home/eklim/openssl_for_ios_and_android/tools/../output/android/openssl-x86/lib/pkgconfig"
+checking for i686-linux-android-pkg-config... /usr/bin/pkg-config
+checking for openssl options with pkg-config... found
+configure: pkg-config: SSL_LIBS: "-lssl -lcrypto"
+configure: pkg-config: SSL_LDFLAGS: "-L/home/eklim/openssl_for_ios_and_android/tools/../output/android/openssl-x86/lib"
+configure: pkg-config: SSL_CPPFLAGS: "-I/home/eklim/openssl_for_ios_and_android/tools/../output/android/openssl-x86/include"
+checking for HMAC_Update in -lcrypto... yes
+checking for SSL_connect in -lssl... yes
+checking openssl/x509.h usability... yes
+checking openssl/x509.h presence... yes
+checking for openssl/x509.h... yes
+checking openssl/rsa.h usability... yes
+checking openssl/rsa.h presence... yes
+checking for openssl/rsa.h... yes
+checking openssl/crypto.h usability... yes
+checking openssl/crypto.h presence... yes
+checking for openssl/crypto.h... yes
+checking openssl/pem.h usability... yes
+checking openssl/pem.h presence... yes
+checking for openssl/pem.h... yes
+checking openssl/ssl.h usability... yes
+checking openssl/ssl.h presence... yes
+checking for openssl/ssl.h... yes
+checking openssl/err.h usability... yes
+checking openssl/err.h presence... yes
+checking for openssl/err.h... yes
+checking for RAND_egd... no
+checking for SSLv2_client_method... no
+checking for OpenSSL_version... yes
+checking for BoringSSL... no
+checking for libressl... no
+checking for OpenSSL >= v3... no
+checking for OpenSSL headers version... 1.1.1 - 0x1010109fL
+checking for OpenSSL library version... 1.1.1
+checking for OpenSSL headers and library versions matching... yes
+configure: WARNING: skipped the /dev/urandom detection when cross-compiling
+checking for SRP_Calc_client_key in -lcrypto... yes
+configure: built with one SSL backend
+checking default CA cert bundle/path... configure: WARNING: skipped the ca-cert path detection when cross-compiling
+no
+checking whether to use builtin CA store of SSL library... no
+checking for library containing psl_builtin... no
+configure: WARNING: libpsl was not found
+checking for RTMP_Init in -lrtmp... no
+checking whether versioned symbols are wanted... no
+checking whether to enable Windows native IDN (Windows native builds only)... no
+checking whether to build with libidn2... (assumed) yes
+checking for i686-linux-android-pkg-config... (cached) /usr/bin/pkg-config
+checking for libidn2 options with pkg-config... no
+configure: IDN_LIBS: "-lidn2"
+configure: IDN_LDFLAGS: ""
+configure: IDN_CPPFLAGS: ""
+configure: IDN_DIR: ""
+checking if idn2_lookup_ul can be linked... no
+checking idn2.h usability... no
+checking idn2.h presence... no
+checking for idn2.h... no
+configure: WARNING: Cannot find libraries for IDN support: IDN disabled
+checking for i686-linux-android-pkg-config... (cached) /usr/bin/pkg-config
+checking for libnghttp2 options with pkg-config... found
+configure: -l is -lnghttp2
+configure: -I is -I/home/eklim/openssl_for_ios_and_android/tools/../output/android/nghttp2-x86/include
+configure: -L is -L/home/eklim/openssl_for_ios_and_android/tools/../output/android/nghttp2-x86/lib
+checking for nghttp2_session_set_local_window_size in -lnghttp2... yes
+checking nghttp2/nghttp2.h usability... yes
+checking nghttp2/nghttp2.h presence... yes
+checking for nghttp2/nghttp2.h... yes
+checking for i686-linux-android-pkg-config... (cached) /usr/bin/pkg-config
+checking for libngtcp2 options with pkg-config... no
+checking for i686-linux-android-pkg-config... (cached) /usr/bin/pkg-config
+checking for quiche options with pkg-config... no
+checking for i686-linux-android-pkg-config... (cached) /usr/bin/pkg-config
+checking for fish options with pkg-config... no
+checking for ANSI C header files... (cached) yes
+checking for malloc.h... yes
+checking for memory.h... yes
+checking for sys/types.h... (cached) yes
+checking for sys/time.h... (cached) yes
+checking for sys/select.h... yes
+checking for sys/socket.h... yes
+checking for sys/ioctl.h... yes
+checking for sys/uio.h... yes
+checking for assert.h... yes
+checking for unistd.h... (cached) yes
+checking for stdlib.h... (cached) yes
+checking for arpa/inet.h... yes
+checking for net/if.h... yes
+checking for netinet/in.h... yes
+checking for netinet/in6.h... yes
+checking for sys/un.h... yes
+checking for linux/tcp.h... yes
+checking for netinet/tcp.h... yes
+checking for netdb.h... yes
+checking for sys/sockio.h... no
+checking for sys/stat.h... (cached) yes
+checking for sys/param.h... yes
+checking for termios.h... yes
+checking for termio.h... yes
+checking for sgtty.h... no
+checking for fcntl.h... yes
+checking for alloca.h... yes
+checking for time.h... (cached) yes
+checking for io.h... no
+checking for pwd.h... yes
+checking for utime.h... yes
+checking for sys/utime.h... no
+checking for sys/poll.h... yes
+checking for poll.h... yes
+checking for socket.h... no
+checking for sys/resource.h... yes
+checking for libgen.h... yes
+checking for locale.h... yes
+checking for errno.h... yes
+checking for stdbool.h... yes
+checking for arpa/tftp.h... yes
+checking for sys/filio.h... no
+checking for sys/wait.h... yes
+checking for setjmp.h... yes
+checking for an ANSI C-conforming const... yes
+checking for compiler support of C99 variadic macro style... yes
+checking for compiler support of old gcc variadic macro style... yes
+checking for size_t... yes
+checking whether time.h and sys/time.h may both be included... (cached) yes
+checking for sys/types.h... (cached) yes
+checking for sys/time.h... (cached) yes
+checking for time.h... (cached) yes
+checking for sys/socket.h... (cached) yes
+checking for struct timeval... yes
+checking size of size_t... 4
+checking size of long... 4
+checking size of int... 4
+checking size of short... 2
+checking size of time_t... 4
+checking size of off_t... 8
+checking size of curl_off_t... 8
+checking for long long... yes
+checking if numberLL works... yes
+checking for ssize_t... yes
+checking for bool... yes
+checking for sa_family_t... yes
+checking for suseconds_t... yes
+checking if time_t is unsigned... no
+checking for sys/types.h... (cached) yes
+checking for poll.h... (cached) yes
+checking for sys/poll.h... (cached) yes
+checking for in_addr_t... yes
+checking for struct sockaddr_storage... yes
+checking signal.h usability... yes
+checking signal.h presence... yes
+checking for signal.h... yes
+checking for sig_atomic_t... yes
+checking if sig_atomic_t is already defined as volatile... no
+checking return type of signal handlers... void
+checking for sys/select.h... (cached) yes
+checking for sys/socket.h... (cached) yes
+checking for select... yes
+checking types of args and return type for select... int,fd_set *,struct timeval *,int
+checking for sys/types.h... (cached) yes
+checking for sys/socket.h... (cached) yes
+checking for recv... yes
+checking types of args and return type for recv... int,void *,size_t,int,int
+checking for sys/types.h... (cached) yes
+checking for sys/socket.h... (cached) yes
+checking for send... yes
+checking types of args and return type for send... int,const void *,size_t,int,int
+checking for sys/types.h... (cached) yes
+checking for sys/socket.h... (cached) yes
+checking for MSG_NOSIGNAL... yes
+checking for sys/types.h... (cached) yes
+checking for unistd.h... (cached) yes
+checking if alarm can be linked... yes
+checking if alarm is prototyped... yes
+checking if alarm is compilable... yes
+checking if alarm usage allowed... yes
+checking if alarm might be used... yes
+checking for sys/types.h... (cached) yes
+checking for string.h... (cached) yes
+checking for strings.h... (cached) yes
+checking for sys/types.h... (cached) yes
+checking for libgen.h... (cached) yes
+checking if basename can be linked... yes
+checking if basename is prototyped... yes
+checking if basename is compilable... yes
+checking if basename usage allowed... yes
+checking if basename might be used... yes
+checking for sys/types.h... (cached) yes
+checking for socket.h... (cached) no
+checking if closesocket can be linked... no
+checking if closesocket might be used... no
+checking for sys/types.h... (cached) yes
+checking for sys/socket.h... (cached) yes
+checking if CloseSocket can be linked... no
+checking if CloseSocket might be used... no
+checking if connect can be linked... yes
+checking if connect is prototyped... yes
+checking if connect is compilable... yes
+checking if connect usage allowed... yes
+checking if connect might be used... yes
+checking for sys/types.h... (cached) yes
+checking for unistd.h... (cached) yes
+checking for fcntl.h... (cached) yes
+checking if fcntl can be linked... yes
+checking if fcntl is prototyped... yes
+checking if fcntl is compilable... yes
+checking if fcntl usage allowed... yes
+checking if fcntl might be used... yes
+checking if fcntl O_NONBLOCK is compilable... yes
+checking if fcntl O_NONBLOCK usage allowed... yes
+checking if fcntl O_NONBLOCK might be used... yes
+checking for windows.h... (cached) no
+checking for winsock2.h... (cached) no
+checking for ws2tcpip.h... (cached) no
+checking for sys/types.h... (cached) yes
+checking for netdb.h... (cached) yes
+checking if freeaddrinfo can be linked... yes
+checking if freeaddrinfo is prototyped... yes
+checking if freeaddrinfo is compilable... yes
+checking if freeaddrinfo usage allowed... yes
+checking if freeaddrinfo might be used... yes
+checking for sys/types.h... (cached) yes
+checking for sys/socket.h... (cached) yes
+checking for netinet/in.h... (cached) yes
+checking for ifaddrs.h... yes
+checking if freeifaddrs can be linked... no
+checking if freeifaddrs might be used... no
+checking for sys/types.h... (cached) yes
+checking for sys/xattr.h... yes
+checking if fsetxattr can be linked... yes
+checking if fsetxattr is prototyped... yes
+checking if fsetxattr takes 5 args.... yes
+checking if fsetxattr is compilable... yes
+checking if fsetxattr usage allowed... yes
+checking if fsetxattr might be used... yes
+checking if ftruncate can be linked... yes
+checking if ftruncate is prototyped... yes
+checking if ftruncate is compilable... yes
+checking if ftruncate usage allowed... yes
+checking if ftruncate might be used... yes
+checking for sys/types.h... (cached) yes
+checking for stdlib.h... (cached) yes
+checking if getaddrinfo can be linked... yes
+checking if getaddrinfo is prototyped... yes
+checking if getaddrinfo is compilable... yes
+checking if getaddrinfo usage allowed... yes
+checking if getaddrinfo might be used... yes
+checking if getaddrinfo is threadsafe... yes
+checking if gai_strerror can be linked... yes
+checking if gai_strerror is prototyped... yes
+checking if gai_strerror is compilable... yes
+checking if gai_strerror usage allowed... yes
+checking if gai_strerror might be used... yes
+checking if gethostbyaddr can be linked... yes
+checking if gethostbyaddr is prototyped... yes
+checking if gethostbyaddr is compilable... yes
+checking if gethostbyaddr usage allowed... yes
+checking if gethostbyaddr might be used... yes
+checking if gethostbyaddr_r can be linked... no
+checking if gethostbyaddr_r might be used... no
+checking if gethostbyname can be linked... yes
+checking if gethostbyname is prototyped... yes
+checking if gethostbyname is compilable... yes
+checking if gethostbyname usage allowed... yes
+checking if gethostbyname might be used... yes
+checking if gethostbyname_r can be linked... yes
+checking if gethostbyname_r is prototyped... yes
+checking if gethostbyname_r takes 3 args.... no
+checking if gethostbyname_r takes 5 args.... no
+checking if gethostbyname_r takes 6 args.... yes
+checking if gethostbyname_r is compilable... yes
+checking if gethostbyname_r usage allowed... yes
+checking if gethostbyname_r might be used... yes
+checking if gethostname can be linked... yes
+checking if gethostname is prototyped... yes
+checking if gethostname is compilable... yes
+checking for gethostname arg 2 data type... unsigned int
+checking if gethostname usage allowed... yes
+checking if gethostname might be used... yes
+checking if getpeername can be linked... yes
+checking if getpeername is prototyped... yes
+checking if getpeername is compilable... yes
+checking if getpeername usage allowed... yes
+checking if getpeername might be used... yes
+checking if getsockname can be linked... yes
+checking if getsockname is prototyped... yes
+checking if getsockname is compilable... yes
+checking if getsockname usage allowed... yes
+checking if getsockname might be used... yes
+checking for net/if.h... (cached) yes
+checking if if_nametoindex can be linked... yes
+checking if if_nametoindex is prototyped... yes
+checking if if_nametoindex is compilable... yes
+checking if if_nametoindex usage allowed... yes
+checking if if_nametoindex might be used... yes
+checking if getifaddrs can be linked... no
+checking if getifaddrs might be used... no
+checking if getservbyport_r can be linked... no
+checking if getservbyport_r might be used... no
+checking for sys/types.h... (cached) yes
+checking for sys/time.h... (cached) yes
+checking for time.h... (cached) yes
+checking if gmtime_r can be linked... yes
+checking if gmtime_r is prototyped... yes
+checking if gmtime_r is compilable... yes
+checking if gmtime_r usage allowed... yes
+checking if gmtime_r might be used... yes
+checking for sys/types.h... (cached) yes
+checking for sys/socket.h... (cached) yes
+checking for netinet/in.h... (cached) yes
+checking for arpa/inet.h... (cached) yes
+checking if inet_ntoa_r can be linked... no
+checking if inet_ntoa_r might be used... no
+checking if inet_ntop can be linked... yes
+checking if inet_ntop is prototyped... yes
+checking if inet_ntop is compilable... yes
+checking if inet_ntop usage allowed... yes
+checking if inet_ntop might be used... yes
+checking if inet_pton can be linked... yes
+checking if inet_pton is prototyped... yes
+checking if inet_pton is compilable... yes
+checking if inet_pton usage allowed... yes
+checking if inet_pton might be used... yes
+checking for sys/types.h... (cached) yes
+checking for unistd.h... (cached) yes
+checking for sys/socket.h... (cached) yes
+checking for sys/ioctl.h... (cached) yes
+checking for stropts.h... no
+checking if ioctl can be linked... yes
+checking if ioctl is prototyped... yes
+checking if ioctl is compilable... yes
+checking if ioctl usage allowed... yes
+checking if ioctl might be used... yes
+checking if ioctl FIONBIO is compilable... yes
+checking if ioctl FIONBIO usage allowed... yes
+checking if ioctl FIONBIO might be used... yes
+checking if ioctl SIOCGIFADDR is compilable... yes
+checking if ioctl SIOCGIFADDR usage allowed... yes
+checking if ioctl SIOCGIFADDR might be used... yes
+checking if ioctlsocket can be linked... no
+checking if ioctlsocket might be used... no
+checking if IoctlSocket can be linked... no
+checking if IoctlSocket might be used... no
+checking if localtime_r can be linked... yes
+checking if localtime_r is prototyped... yes
+checking if localtime_r is compilable... yes
+checking if localtime_r usage allowed... yes
+checking if localtime_r might be used... yes
+checking if memrchr can be linked... yes
+checking if memrchr is prototyped... yes
+checking if memrchr is compilable... yes
+checking if memrchr usage allowed... yes
+checking if memrchr might be used... yes
+checking if poll can be linked... yes
+checking if poll is prototyped... yes
+checking if poll is compilable... yes
+checking if poll usage allowed... yes
+checking if poll might be used... yes
+checking if setsockopt can be linked... yes
+checking if setsockopt is prototyped... yes
+checking if setsockopt is compilable... yes
+checking if setsockopt usage allowed... yes
+checking if setsockopt might be used... yes
+checking if setsockopt SO_NONBLOCK is compilable... no
+checking if setsockopt SO_NONBLOCK might be used... no
+checking for sys/types.h... (cached) yes
+checking for signal.h... (cached) yes
+checking if sigaction can be linked... yes
+checking if sigaction is prototyped... yes
+checking if sigaction is compilable... yes
+checking if sigaction usage allowed... yes
+checking if sigaction might be used... yes
+checking if siginterrupt can be linked... yes
+checking if siginterrupt is prototyped... yes
+checking if siginterrupt is compilable... yes
+checking if siginterrupt usage allowed... yes
+checking if siginterrupt might be used... yes
+checking if signal can be linked... yes
+checking if signal is prototyped... yes
+checking if signal is compilable... yes
+checking if signal usage allowed... yes
+checking if signal might be used... yes
+checking for sys/types.h... (cached) yes
+checking for setjmp.h... (cached) yes
+checking if sigsetjmp can be linked... yes
+checking if sigsetjmp is prototyped... yes
+checking if sigsetjmp is compilable... yes
+checking if sigsetjmp usage allowed... yes
+checking if sigsetjmp might be used... yes
+checking if socket can be linked... yes
+checking if socket is prototyped... yes
+checking if socket is compilable... yes
+checking if socket usage allowed... yes
+checking if socket might be used... yes
+checking if socketpair can be linked... yes
+checking if socketpair is prototyped... yes
+checking if socketpair is compilable... yes
+checking if socketpair usage allowed... yes
+checking if socketpair might be used... yes
+checking if strcasecmp can be linked... yes
+checking if strcasecmp is prototyped... yes
+checking if strcasecmp is compilable... yes
+checking if strcasecmp usage allowed... yes
+checking if strcasecmp might be used... yes
+checking if strcmpi can be linked... no
+checking if strcmpi might be used... no
+checking if strdup can be linked... yes
+checking if strdup is prototyped... yes
+checking if strdup is compilable... yes
+checking if strdup usage allowed... yes
+checking if strdup might be used... yes
+checking if strerror_r can be linked... yes
+checking if strerror_r is prototyped... yes
+checking if strerror_r is compilable... yes
+checking if strerror_r is glibc like... no
+checking if strerror_r is POSIX like... yes
+checking if strerror_r usage allowed... yes
+checking if strerror_r might be used... yes
+checking if stricmp can be linked... no
+checking if stricmp might be used... no
+checking if strncasecmp can be linked... yes
+checking if strncasecmp is prototyped... yes
+checking if strncasecmp is compilable... yes
+checking if strncasecmp usage allowed... yes
+checking if strncasecmp might be used... yes
+checking if strncmpi can be linked... no
+checking if strncmpi might be used... no
+checking if strnicmp can be linked... no
+checking if strnicmp might be used... no
+checking if strstr can be linked... yes
+checking if strstr is prototyped... yes
+checking if strstr is compilable... yes
+checking if strstr usage allowed... yes
+checking if strstr might be used... yes
+checking if strtok_r can be linked... yes
+checking if strtok_r is prototyped... yes
+checking if strtok_r is compilable... yes
+checking if strtok_r usage allowed... yes
+checking if strtok_r might be used... yes
+checking if strtoll can be linked... yes
+checking if strtoll is prototyped... yes
+checking if strtoll is compilable... yes
+checking if strtoll usage allowed... yes
+checking if strtoll might be used... yes
+checking for sys/types.h... (cached) yes
+checking for sys/uio.h... (cached) yes
+checking if writev can be linked... yes
+checking if writev is prototyped... yes
+checking if writev is compilable... yes
+checking if writev usage allowed... yes
+checking if writev might be used... yes
+checking whether getpwuid_r is declared... yes
+checking for fnmatch... yes
+checking for geteuid... yes
+checking for getpass_r... no
+checking deeper for getpass_r... but still no
+checking for getppid... yes
+checking for getpwuid... yes
+checking for getpwuid_r... yes
+checking for getrlimit... yes
+checking for gettimeofday... yes
+checking for if_nametoindex... yes
+checking for mach_absolute_time... no
+checking deeper for mach_absolute_time... but still no
+checking for pipe... yes
+checking for setlocale... yes
+checking for setmode... no
+checking deeper for setmode... but still no
+checking for setrlimit... yes
+checking for usleep... yes
+checking for utime... yes
+checking for utimes... yes
+checking how to set a socket into non-blocking mode... fcntl O_NONBLOCK
+checking for perl... /usr/bin/perl
+checking for gnroff... no
+checking for nroff... /usr/bin/nroff
+checking how to use *nroff to get plain text from man pages... -man
+checking whether to enable the threaded resolver... yes
+checking whether to use POSIX threads for threaded resolver... auto
+checking pthread.h usability... yes
+checking pthread.h presence... yes
+checking for pthread.h... yes
+checking for pthread_create... yes
+checking convert -I options to -isystem... yes
+checking whether to enable verbose strings... yes
+checking whether to enable SSPI support (Windows native builds only)... no
+checking whether to enable cryptographic authentication methods... yes
+checking whether to enable NTLM delegation to winbind's helper... yes
+checking whether to enable TLS-SRP authentication... yes
+checking whether to enable Unix domain sockets... auto
+checking for struct sockaddr_un.sun_path... yes
+checking whether to support cookies... yes
+checking whether to support socketpair... yes
+checking whether to support HTTP authentication... yes
+checking whether to support DoH... yes
+checking whether to support the MIME API... yes
+checking whether to support date parsing... yes
+checking whether to support netrc parsing... yes
+checking whether to support progress-meter... yes
+checking whether to support DNS shuffling... yes
+checking whether to support curl_easy_option*... yes
+checking whether to support alt-svc... no
+checking whether to support HSTS... no
+checking whether hiding of library internal symbols will actually happen... yes
+configure: using CFLAGS: -march=i686 -mtune=intel -mssse3 -mfpmath=sse -m32 -Wno-unused-function -fno-integrated-as -fstrict-aliasing -fPIC -DANDROID -D__ANDROID_API__=21 -Os -ffunction-sections -fdata-sections -isystem /home/eklim/android-ndk-r21d/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/include -isystem /home/eklim/android-ndk-r21d/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/local/include -Qunused-arguments
+configure: CFLAGS note: CFLAGS should only be used to specify C compiler flags, not macro definitions. Use CPPFLAGS for: -DANDROID
+configure: CFLAGS note: CFLAGS should only be used to specify C compiler flags, not macro definitions. Use CPPFLAGS for: -D__ANDROID_API__=21
+configure: WARNING: Continuing even with errors mentioned immediately above this line.
+checking that generated files are newer than configure... done
+configure: creating ./config.status
+config.status: creating Makefile
+config.status: creating docs/Makefile
+config.status: creating docs/examples/Makefile
+config.status: creating docs/libcurl/Makefile
+config.status: creating docs/libcurl/opts/Makefile
+config.status: creating docs/cmdline-opts/Makefile
+config.status: creating include/Makefile
+config.status: creating include/curl/Makefile
+config.status: creating src/Makefile
+config.status: creating lib/Makefile
+config.status: creating scripts/Makefile
+config.status: creating lib/libcurl.vers
+config.status: creating tests/Makefile
+config.status: creating tests/certs/Makefile
+config.status: creating tests/certs/scripts/Makefile
+config.status: creating tests/data/Makefile
+config.status: creating tests/server/Makefile
+config.status: creating tests/libtest/Makefile
+config.status: creating tests/unit/Makefile
+config.status: creating packages/Makefile
+config.status: creating packages/vms/Makefile
+config.status: creating curl-config
+config.status: creating libcurl.pc
+config.status: creating lib/curl_config.h
+config.status: executing depfiles commands
+config.status: executing libtool commands
+configure: amending lib/Makefile
+configure: amending src/Makefile
+configure: amending tests/unit/Makefile
+configure: amending tests/server/Makefile
+configure: amending tests/libtest/Makefile
+configure: amending docs/examples/Makefile
+configure: Configured to build curl/libcurl:
+
+  Host setup:       i686-pc-linux-android
+  Install prefix:   /home/eklim/openssl_for_ios_and_android/tools/../output/android/curl-x86
+  Compiler:         i686-linux-android21-clang
+   CFLAGS:          -march=i686 -mtune=intel -mssse3 -mfpmath=sse -m32 -Wno-unused-function -fno-integrated-as -fstrict-aliasing -fPIC -DANDROID -D__ANDROID_API__=21 -Os -ffunction-sections -fdata-sections -isystem /home/eklim/android-ndk-r21d/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/include -isystem /home/eklim/android-ndk-r21d/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/local/include -Qunused-arguments
+   CPPFLAGS:        -march=i686 -mtune=intel -mssse3 -mfpmath=sse -m32 -Wno-unused-function -fno-integrated-as -fstrict-aliasing -fPIC -DANDROID -D__ANDROID_API__=21 -Os -ffunction-sections -fdata-sections -isystem /home/eklim/android-ndk-r21d/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/include -isystem /home/eklim/android-ndk-r21d/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/local/include -isystem /home/eklim/openssl_for_ios_and_android/tools/../output/android/openssl-x86/include -isystem /home/eklim/openssl_for_ios_and_android/tools/../output/android/nghttp2-x86/include
+   LDFLAGS:         -march=i686 -Wl,--gc-sections -Os -ffunction-sections -fdata-sections -L/home/eklim/android-ndk-r21d/toolchains/llvm/prebuilt/linux-x86_64/i686-linux-android/lib -L/home/eklim/android-ndk-r21d/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/lib/i686-linux-android/21 -L/home/eklim/android-ndk-r21d/toolchains/llvm/prebuilt/linux-x86_64/lib -L/home/eklim/openssl_for_ios_and_android/tools/../output/android/openssl-x86/lib -L/home/eklim/openssl_for_ios_and_android/tools/../output/android/nghttp2-x86/lib -L/home/eklim/openssl_for_ios_and_android/tools/../output/android/openssl-x86/lib -L/home/eklim/openssl_for_ios_and_android/tools/../output/android/nghttp2-x86/lib
+   LIBS:            -lnghttp2 -lssl -lcrypto -lssl -lcrypto -lz
+
+  curl version:     7.74.0
+  SSL:              enabled (OpenSSL)
+  SSH:              no      (--with-{libssh,libssh2})
+  zlib:             enabled
+  brotli:           no      (--with-brotli)
+  zstd:             no      (--with-zstd)
+  GSS-API:          no      (--with-gssapi)
+  TLS-SRP:          enabled
+  resolver:         POSIX threaded
+  IPv6:             enabled
+  Unix sockets:     enabled
+  IDN:              no      (--with-{libidn2,winidn})
+  Build libcurl:    Shared=yes, Static=yes
+  Built-in manual:  enabled
+  --libcurl option: enabled (--disable-libcurl-option)
+  Verbose errors:   enabled (--disable-verbose)
+  Code coverage:    disabled
+  SSPI:             no      (--enable-sspi)
+  ca cert bundle:   no
+  ca cert path:     no
+  ca fallback:      no
+  LDAP:             no      (--enable-ldap / --with-ldap-lib / --with-lber-lib)
+  LDAPS:            no      (--enable-ldaps)
+  RTSP:             enabled
+  RTMP:             no      (--with-librtmp)
+  Metalink:         no      (--with-libmetalink)
+  PSL:              no      (libpsl not found)
+  Alt-svc:          enabled
+  HTTP2:            enabled (nghttp2)
+  HTTP3:            no      (--with-ngtcp2, --with-quiche)
+  ECH:              no      (--enable-ech)
+  Protocols:        DICT FILE FTP FTPS GOPHER HTTP HTTPS IMAP IMAPS MQTT POP3 POP3S RTSP SMB SMBS SMTP SMTPS TELNET TFTP
+  Features:         AsynchDNS HTTP2 HTTPS-proxy IPv6 NTLM NTLM_WB SSL TLS-SRP UnixSockets alt-svc libz
+
+Making clean in lib
+make[1]: 디렉터리 '/home/eklim/openssl_for_ios_and_android/tools/curl-7.74.0/lib' 들어감
+test -z "libcurl.la" || rm -f libcurl.la
+rm -f ./so_locations
+rm -rf .libs _libs
+rm -rf vauth/.libs vauth/_libs
+rm -rf vquic/.libs vquic/_libs
+rm -rf vssh/.libs vssh/_libs
+rm -rf vtls/.libs vtls/_libs
+test -z "" || rm -f 
+rm -f *.o
+rm -f vauth/*.o
+rm -f vauth/*.lo
+rm -f vquic/*.o
+rm -f vquic/*.lo
+rm -f vssh/*.o
+rm -f vssh/*.lo
+rm -f vtls/*.o
+rm -f vtls/*.lo
+rm -f *.lo
+make[1]: 디렉터리 '/home/eklim/openssl_for_ios_and_android/tools/curl-7.74.0/lib' 나감
+Making clean in src
+make[1]: 디렉터리 '/home/eklim/openssl_for_ios_and_android/tools/curl-7.74.0/src' 들어감
+Making clean in ../docs
+make[2]: 디렉터리 '/home/eklim/openssl_for_ios_and_android/tools/curl-7.74.0/docs' 들어감
+Making clean in .
+make[3]: 디렉터리 '/home/eklim/openssl_for_ios_and_android/tools/curl-7.74.0/docs' 들어감
+test -z "curl.html curl-config.html mk-ca-bundle.html curl.pdf curl-config.pdf mk-ca-bundle.pdf curl.1.dist curl-config.1.dist curl.1" || rm -f curl.html curl-config.html mk-ca-bundle.html curl.pdf curl-config.pdf mk-ca-bundle.pdf curl.1.dist curl-config.1.dist curl.1
+rm -rf .libs _libs
+rm -f *.lo
+make[3]: 디렉터리 '/home/eklim/openssl_for_ios_and_android/tools/curl-7.74.0/docs' 나감
+Making clean in cmdline-opts
+make[3]: 디렉터리 '/home/eklim/openssl_for_ios_and_android/tools/curl-7.74.0/docs/cmdline-opts' 들어감
+rm -rf .libs _libs
+rm -f *.lo
+make[3]: 디렉터리 '/home/eklim/openssl_for_ios_and_android/tools/curl-7.74.0/docs/cmdline-opts' 나감
+make[2]: 디렉터리 '/home/eklim/openssl_for_ios_and_android/tools/curl-7.74.0/docs' 나감
+make[2]: 디렉터리 '/home/eklim/openssl_for_ios_and_android/tools/curl-7.74.0/src' 들어감
+ rm -f curl
+test -z "tool_hugehelp.c" || rm -f tool_hugehelp.c
+rm -rf .libs _libs
+rm -rf ../lib/.libs ../lib/_libs
+test -z "" || rm -f 
+rm -f *.o
+rm -f ../lib/*.o
+rm -f ../lib/*.lo
+rm -f *.lo
+make[2]: 디렉터리 '/home/eklim/openssl_for_ios_and_android/tools/curl-7.74.0/src' 나감
+make[1]: 디렉터리 '/home/eklim/openssl_for_ios_and_android/tools/curl-7.74.0/src' 나감
+make[1]: 디렉터리 '/home/eklim/openssl_for_ios_and_android/tools/curl-7.74.0' 들어감
+test -z "projects/Windows/VC6/lib/libcurl.dsp.dist projects/Windows/VC6/src/curl.dsp.dist projects/Windows/VC7/lib/libcurl.vcproj.dist projects/Windows/VC7/src/curl.vcproj.dist projects/Windows/VC7.1/lib/libcurl.vcproj.dist projects/Windows/VC7.1/src/curl.vcproj.dist projects/Windows/VC8/lib/libcurl.vcproj.dist projects/Windows/VC8/src/curl.vcproj.dist projects/Windows/VC9/lib/libcurl.vcproj.dist projects/Windows/VC9/src/curl.vcproj.dist projects/Windows/VC10/lib/libcurl.vcxproj.dist projects/Windows/VC10/src/curl.vcxproj.dist projects/Windows/VC11/lib/libcurl.vcxproj.dist projects/Windows/VC11/src/curl.vcxproj.dist projects/Windows/VC12/lib/libcurl.vcxproj.dist projects/Windows/VC12/src/curl.vcxproj.dist projects/Windows/VC14/lib/libcurl.vcxproj.dist projects/Windows/VC14/src/curl.vcxproj.dist projects/Windows/VC15/lib/libcurl.vcxproj.dist projects/Windows/VC15/src/curl.vcxproj.dist" || rm -f projects/Windows/VC6/lib/libcurl.dsp.dist projects/Windows/VC6/src/curl.dsp.dist projects/Windows/VC7/lib/libcurl.vcproj.dist projects/Windows/VC7/src/curl.vcproj.dist projects/Windows/VC7.1/lib/libcurl.vcproj.dist projects/Windows/VC7.1/src/curl.vcproj.dist projects/Windows/VC8/lib/libcurl.vcproj.dist projects/Windows/VC8/src/curl.vcproj.dist projects/Windows/VC9/lib/libcurl.vcproj.dist projects/Windows/VC9/src/curl.vcproj.dist projects/Windows/VC10/lib/libcurl.vcxproj.dist projects/Windows/VC10/src/curl.vcxproj.dist projects/Windows/VC11/lib/libcurl.vcxproj.dist projects/Windows/VC11/src/curl.vcxproj.dist projects/Windows/VC12/lib/libcurl.vcxproj.dist projects/Windows/VC12/src/curl.vcxproj.dist projects/Windows/VC14/lib/libcurl.vcxproj.dist projects/Windows/VC14/src/curl.vcxproj.dist projects/Windows/VC15/lib/libcurl.vcxproj.dist projects/Windows/VC15/src/curl.vcxproj.dist
+rm -rf .libs _libs
+rm -f *.lo
+make[1]: 디렉터리 '/home/eklim/openssl_for_ios_and_android/tools/curl-7.74.0' 나감
+Making all in lib
+make[1]: 디렉터리 '/home/eklim/openssl_for_ios_and_android/tools/curl-7.74.0/lib' 들어감
+make  all-am
+make[2]: 디렉터리 '/home/eklim/openssl_for_ios_and_android/tools/curl-7.74.0/lib' 들어감
+  CC       libcurl_la-altsvc.lo
+  CC       libcurl_la-amigaos.lo
+  CC       libcurl_la-asyn-ares.lo
+  CC       libcurl_la-asyn-thread.lo
+  CC       libcurl_la-base64.lo
+  CC       libcurl_la-conncache.lo
+  CC       libcurl_la-connect.lo
+  CC       libcurl_la-content_encoding.lo
+  CC       libcurl_la-cookie.lo
+  CC       libcurl_la-curl_addrinfo.lo
+  CC       libcurl_la-curl_ctype.lo
+  CC       libcurl_la-curl_des.lo
+  CC       libcurl_la-curl_endian.lo
+  CC       libcurl_la-curl_fnmatch.lo
+  CC       libcurl_la-curl_get_line.lo
+  CC       libcurl_la-curl_gethostname.lo
+  CC       libcurl_la-curl_gssapi.lo
+  CC       libcurl_la-curl_memrchr.lo
+  CC       libcurl_la-curl_multibyte.lo
+  CC       libcurl_la-curl_ntlm_core.lo
+  CC       libcurl_la-curl_ntlm_wb.lo
+  CC       libcurl_la-curl_path.lo
+  CC       libcurl_la-curl_range.lo
+  CC       libcurl_la-curl_rtmp.lo
+  CC       libcurl_la-curl_sasl.lo
+  CC       libcurl_la-curl_sspi.lo
+  CC       libcurl_la-curl_threads.lo
+  CC       libcurl_la-dict.lo
+  CC       libcurl_la-dotdot.lo
+  CC       libcurl_la-easy.lo
+  CC       libcurl_la-escape.lo
+  CC       libcurl_la-file.lo
+  CC       libcurl_la-fileinfo.lo
+  CC       libcurl_la-formdata.lo
+  CC       libcurl_la-ftp.lo
+  CC       libcurl_la-url.lo
+  CC       libcurl_la-ftplistparser.lo
+  CC       libcurl_la-getenv.lo
+  CC       libcurl_la-getinfo.lo
+  CC       libcurl_la-gopher.lo
+  CC       libcurl_la-hash.lo
+  CC       libcurl_la-hmac.lo
+  CC       libcurl_la-hostasyn.lo
+  CC       libcurl_la-hostcheck.lo
+  CC       libcurl_la-hostip.lo
+  CC       libcurl_la-hostip4.lo
+  CC       libcurl_la-hostip6.lo
+  CC       libcurl_la-hostsyn.lo
+  CC       libcurl_la-http.lo
+  CC       libcurl_la-http2.lo
+  CC       libcurl_la-http_chunks.lo
+  CC       libcurl_la-http_digest.lo
+  CC       libcurl_la-http_negotiate.lo
+  CC       libcurl_la-http_ntlm.lo
+  CC       libcurl_la-http_proxy.lo
+  CC       libcurl_la-idn_win32.lo
+  CC       libcurl_la-if2ip.lo
+  CC       libcurl_la-imap.lo
+  CC       libcurl_la-inet_ntop.lo
+  CC       libcurl_la-inet_pton.lo
+  CC       libcurl_la-krb5.lo
+  CC       libcurl_la-ldap.lo
+  CC       libcurl_la-llist.lo
+  CC       libcurl_la-md4.lo
+  CC       libcurl_la-md5.lo
+  CC       libcurl_la-memdebug.lo
+  CC       libcurl_la-mime.lo
+  CC       libcurl_la-mprintf.lo
+  CC       libcurl_la-mqtt.lo
+  CC       libcurl_la-multi.lo
+  CC       libcurl_la-netrc.lo
+  CC       libcurl_la-non-ascii.lo
+  CC       libcurl_la-nonblock.lo
+  CC       libcurl_la-openldap.lo
+  CC       libcurl_la-parsedate.lo
+  CC       libcurl_la-pingpong.lo
+  CC       libcurl_la-pop3.lo
+  CC       libcurl_la-progress.lo
+  CC       libcurl_la-psl.lo
+  CC       libcurl_la-doh.lo
+  CC       libcurl_la-rand.lo
+  CC       libcurl_la-rename.lo
+  CC       libcurl_la-rtsp.lo
+  CC       libcurl_la-select.lo
+  CC       libcurl_la-sendf.lo
+  CC       libcurl_la-setopt.lo
+  CC       libcurl_la-sha256.lo
+  CC       libcurl_la-share.lo
+  CC       libcurl_la-slist.lo
+  CC       libcurl_la-smb.lo
+  CC       libcurl_la-smtp.lo
+  CC       libcurl_la-socketpair.lo
+  CC       libcurl_la-socks.lo
+  CC       libcurl_la-socks_gssapi.lo
+  CC       libcurl_la-socks_sspi.lo
+  CC       libcurl_la-speedcheck.lo
+  CC       libcurl_la-splay.lo
+  CC       libcurl_la-strcase.lo
+  CC       libcurl_la-strdup.lo
+  CC       libcurl_la-strerror.lo
+  CC       libcurl_la-strtok.lo
+  CC       libcurl_la-strtoofft.lo
+  CC       libcurl_la-system_win32.lo
+  CC       libcurl_la-telnet.lo
+  CC       libcurl_la-tftp.lo
+  CC       libcurl_la-timeval.lo
+  CC       libcurl_la-transfer.lo
+  CC       libcurl_la-urlapi.lo
+  CC       libcurl_la-version.lo
+  CC       libcurl_la-warnless.lo
+  CC       libcurl_la-wildcard.lo
+  CC       libcurl_la-x509asn1.lo
+  CC       libcurl_la-dynbuf.lo
+  CC       libcurl_la-version_win32.lo
+  CC       libcurl_la-easyoptions.lo
+  CC       libcurl_la-easygetopt.lo
+  CC       libcurl_la-hsts.lo
+  CC       vauth/libcurl_la-cleartext.lo
+  CC       vauth/libcurl_la-cram.lo
+  CC       vauth/libcurl_la-digest.lo
+  CC       vauth/libcurl_la-digest_sspi.lo
+  CC       vauth/libcurl_la-krb5_gssapi.lo
+  CC       vauth/libcurl_la-krb5_sspi.lo
+  CC       vauth/libcurl_la-ntlm.lo
+  CC       vauth/libcurl_la-ntlm_sspi.lo
+  CC       vauth/libcurl_la-oauth2.lo
+  CC       vauth/libcurl_la-spnego_gssapi.lo
+  CC       vauth/libcurl_la-spnego_sspi.lo
+  CC       vauth/libcurl_la-vauth.lo
+  CC       vtls/libcurl_la-bearssl.lo
+  CC       vtls/libcurl_la-gskit.lo
+  CC       vtls/libcurl_la-gtls.lo
+  CC       vtls/libcurl_la-keylog.lo
+  CC       vtls/libcurl_la-mbedtls.lo
+  CC       vtls/libcurl_la-mbedtls_threadlock.lo
+  CC       vtls/libcurl_la-mesalink.lo
+  CC       vtls/libcurl_la-nss.lo
+  CC       vtls/libcurl_la-openssl.lo
+  CC       vtls/libcurl_la-schannel.lo
+  CC       vtls/libcurl_la-schannel_verify.lo
+  CC       vtls/libcurl_la-sectransp.lo
+  CC       vtls/libcurl_la-vtls.lo
+  CC       vtls/libcurl_la-wolfssl.lo
+  CC       vquic/libcurl_la-ngtcp2.lo
+  CC       vquic/libcurl_la-quiche.lo
+  CC       vquic/libcurl_la-vquic.lo
+  CC       vssh/libcurl_la-libssh.lo
+  CC       vssh/libcurl_la-libssh2.lo
+  CC       vssh/libcurl_la-wolfssh.lo
+  CCLD     libcurl.la
+make[2]: 디렉터리 '/home/eklim/openssl_for_ios_and_android/tools/curl-7.74.0/lib' 나감
+make[1]: 디렉터리 '/home/eklim/openssl_for_ios_and_android/tools/curl-7.74.0/lib' 나감
+Making all in src
+make[1]: 디렉터리 '/home/eklim/openssl_for_ios_and_android/tools/curl-7.74.0/src' 들어감
+Making all in ../docs
+make[2]: 디렉터리 '/home/eklim/openssl_for_ios_and_android/tools/curl-7.74.0/docs' 들어감
+Making all in .
+make[3]: 디렉터리 '/home/eklim/openssl_for_ios_and_android/tools/curl-7.74.0/docs' 들어감
+if test "..x" != "..x" -a -e "./curl.1"; then \
+	/usr/bin/install -c -m 644 "./curl.1" /home/eklim/openssl_for_ios_and_android/tools/curl-7.74.0/docs/curl.1; fi
+cd cmdline-opts && make
+make[4]: 디렉터리 '/home/eklim/openssl_for_ios_and_android/tools/curl-7.74.0/docs/cmdline-opts' 들어감
+generate ../../docs/curl.1
+make[4]: 디렉터리 '/home/eklim/openssl_for_ios_and_android/tools/curl-7.74.0/docs/cmdline-opts' 나감
+make[3]: 디렉터리 '/home/eklim/openssl_for_ios_and_android/tools/curl-7.74.0/docs' 나감
+Making all in cmdline-opts
+make[3]: 디렉터리 '/home/eklim/openssl_for_ios_and_android/tools/curl-7.74.0/docs/cmdline-opts' 들어감
+make[3]: 'all'을(를) 위해 할 일이 없습니다.
+make[3]: 디렉터리 '/home/eklim/openssl_for_ios_and_android/tools/curl-7.74.0/docs/cmdline-opts' 나감
+make[2]: 디렉터리 '/home/eklim/openssl_for_ios_and_android/tools/curl-7.74.0/docs' 나감
+make[2]: 디렉터리 '/home/eklim/openssl_for_ios_and_android/tools/curl-7.74.0/src' 들어감
+  CC       curl-slist_wc.o
+  CC       curl-tool_binmode.o
+  CC       curl-tool_bname.o
+  CC       curl-tool_cb_dbg.o
+  CC       curl-tool_cb_hdr.o
+  CC       curl-tool_cb_prg.o
+  CC       curl-tool_cb_rea.o
+  CC       curl-tool_cb_see.o
+  CC       curl-tool_cb_wrt.o
+  CC       curl-tool_cfgable.o
+  CC       curl-tool_convert.o
+  CC       curl-tool_dirhie.o
+  CC       curl-tool_doswin.o
+  CC       curl-tool_easysrc.o
+  CC       curl-tool_filetime.o
+  CC       curl-tool_formparse.o
+  CC       curl-tool_getparam.o
+  CC       curl-tool_getpass.o
+  CC       curl-tool_help.o
+  CC       curl-tool_helpers.o
+  CC       curl-tool_homedir.o
+  HUGE     tool_hugehelp.c
+  CC       curl-tool_hugehelp.o
+  CC       curl-tool_libinfo.o
+  CC       curl-tool_main.o
+  CC       curl-tool_metalink.o
+  CC       curl-tool_msgs.o
+  CC       curl-tool_operate.o
+  CC       curl-tool_operhlp.o
+  CC       curl-tool_panykey.o
+  CC       curl-tool_paramhlp.o
+  CC       curl-tool_parsecfg.o
+  CC       curl-tool_progress.o
+  CC       curl-tool_strdup.o
+  CC       curl-tool_setopt.o
+  CC       curl-tool_sleep.o
+  CC       curl-tool_urlglob.o
+  CC       curl-tool_util.o
+  CC       curl-tool_vms.o
+  CC       curl-tool_writeout.o
+  CC       curl-tool_writeout_json.o
+  CC       curl-tool_xattr.o
+  CC       ../lib/curl-strtoofft.o
+  CC       ../lib/curl-nonblock.o
+  CC       ../lib/curl-warnless.o
+  CC       ../lib/curl-curl_ctype.o
+  CC       ../lib/curl-curl_multibyte.o
+  CC       ../lib/curl-version_win32.o
+  CC       ../lib/curl-dynbuf.o
+  CCLD     curl
+make[2]: 디렉터리 '/home/eklim/openssl_for_ios_and_android/tools/curl-7.74.0/src' 나감
+make[1]: 디렉터리 '/home/eklim/openssl_for_ios_and_android/tools/curl-7.74.0/src' 나감
+make[1]: 디렉터리 '/home/eklim/openssl_for_ios_and_android/tools/curl-7.74.0' 들어감
+make[1]: 'all-am'을(를) 위해 할 일이 없습니다.
+make[1]: 디렉터리 '/home/eklim/openssl_for_ios_and_android/tools/curl-7.74.0' 나감
+Making install in lib
+make[1]: 디렉터리 '/home/eklim/openssl_for_ios_and_android/tools/curl-7.74.0/lib' 들어감
+make[2]: 디렉터리 '/home/eklim/openssl_for_ios_and_android/tools/curl-7.74.0/lib' 들어감
+ /usr/bin/mkdir -p '/home/eklim/openssl_for_ios_and_android/tools/../output/android/curl-x86/lib'
+ /bin/bash ../libtool   --mode=install /usr/bin/install -c   libcurl.la '/home/eklim/openssl_for_ios_and_android/tools/../output/android/curl-x86/lib'
+libtool: install: /usr/bin/install -c .libs/libcurl.so /home/eklim/openssl_for_ios_and_android/tools/../output/android/curl-x86/lib/libcurl.so
+libtool: install: /usr/bin/install -c .libs/libcurl.lai /home/eklim/openssl_for_ios_and_android/tools/../output/android/curl-x86/lib/libcurl.la
+libtool: install: /usr/bin/install -c .libs/libcurl.a /home/eklim/openssl_for_ios_and_android/tools/../output/android/curl-x86/lib/libcurl.a
+libtool: install: chmod 644 /home/eklim/openssl_for_ios_and_android/tools/../output/android/curl-x86/lib/libcurl.a
+libtool: install: i686-linux-android-ranlib /home/eklim/openssl_for_ios_and_android/tools/../output/android/curl-x86/lib/libcurl.a
+make[2]: 'install-data-am'을(를) 위해 할 일이 없습니다.
+make[2]: 디렉터리 '/home/eklim/openssl_for_ios_and_android/tools/curl-7.74.0/lib' 나감
+make[1]: 디렉터리 '/home/eklim/openssl_for_ios_and_android/tools/curl-7.74.0/lib' 나감
+Making install in src
+make[1]: 디렉터리 '/home/eklim/openssl_for_ios_and_android/tools/curl-7.74.0/src' 들어감
+Making install in ../docs
+make[2]: 디렉터리 '/home/eklim/openssl_for_ios_and_android/tools/curl-7.74.0/docs' 들어감
+Making install in .
+make[3]: 디렉터리 '/home/eklim/openssl_for_ios_and_android/tools/curl-7.74.0/docs' 들어감
+make[4]: 디렉터리 '/home/eklim/openssl_for_ios_and_android/tools/curl-7.74.0/docs' 들어감
+make[4]: 'install-exec-am'을(를) 위해 할 일이 없습니다.
+ /usr/bin/mkdir -p '/home/eklim/openssl_for_ios_and_android/tools/../output/android/curl-x86/share/man/man1'
+ /usr/bin/install -c -m 644 curl-config.1 /home/eklim/openssl_for_ios_and_android/tools/curl-7.74.0/docs/curl.1 '/home/eklim/openssl_for_ios_and_android/tools/../output/android/curl-x86/share/man/man1'
+make[4]: 디렉터리 '/home/eklim/openssl_for_ios_and_android/tools/curl-7.74.0/docs' 나감
+make[3]: 디렉터리 '/home/eklim/openssl_for_ios_and_android/tools/curl-7.74.0/docs' 나감
+Making install in cmdline-opts
+make[3]: 디렉터리 '/home/eklim/openssl_for_ios_and_android/tools/curl-7.74.0/docs/cmdline-opts' 들어감
+make[4]: 디렉터리 '/home/eklim/openssl_for_ios_and_android/tools/curl-7.74.0/docs/cmdline-opts' 들어감
+make[4]: 'install-exec-am'을(를) 위해 할 일이 없습니다.
+make[4]: 'install-data-am'을(를) 위해 할 일이 없습니다.
+make[4]: 디렉터리 '/home/eklim/openssl_for_ios_and_android/tools/curl-7.74.0/docs/cmdline-opts' 나감
+make[3]: 디렉터리 '/home/eklim/openssl_for_ios_and_android/tools/curl-7.74.0/docs/cmdline-opts' 나감
+make[2]: 디렉터리 '/home/eklim/openssl_for_ios_and_android/tools/curl-7.74.0/docs' 나감
+make[2]: 디렉터리 '/home/eklim/openssl_for_ios_and_android/tools/curl-7.74.0/src' 들어감
+make[3]: 디렉터리 '/home/eklim/openssl_for_ios_and_android/tools/curl-7.74.0/src' 들어감
+ /usr/bin/mkdir -p '/home/eklim/openssl_for_ios_and_android/tools/../output/android/curl-x86/bin'
+  /bin/bash ../libtool   --mode=install /usr/bin/install -c curl '/home/eklim/openssl_for_ios_and_android/tools/../output/android/curl-x86/bin'
+libtool: install: /usr/bin/install -c .libs/curl /home/eklim/openssl_for_ios_and_android/tools/../output/android/curl-x86/bin/curl
+make[3]: 'install-data-am'을(를) 위해 할 일이 없습니다.
+make[3]: 디렉터리 '/home/eklim/openssl_for_ios_and_android/tools/curl-7.74.0/src' 나감
+make[2]: 디렉터리 '/home/eklim/openssl_for_ios_and_android/tools/curl-7.74.0/src' 나감
+make[1]: 디렉터리 '/home/eklim/openssl_for_ios_and_android/tools/curl-7.74.0/src' 나감
+make[1]: 디렉터리 '/home/eklim/openssl_for_ios_and_android/tools/curl-7.74.0' 들어감
+make[2]: 디렉터리 '/home/eklim/openssl_for_ios_and_android/tools/curl-7.74.0' 들어감
+ /usr/bin/mkdir -p '/home/eklim/openssl_for_ios_and_android/tools/../output/android/curl-x86/bin'
+ /usr/bin/install -c curl-config '/home/eklim/openssl_for_ios_and_android/tools/../output/android/curl-x86/bin'
+ /usr/bin/mkdir -p '/home/eklim/openssl_for_ios_and_android/tools/../output/android/curl-x86/lib/pkgconfig'
+ /usr/bin/install -c -m 644 libcurl.pc '/home/eklim/openssl_for_ios_and_android/tools/../output/android/curl-x86/lib/pkgconfig'
+make  install-data-hook
+make[3]: 디렉터리 '/home/eklim/openssl_for_ios_and_android/tools/curl-7.74.0' 들어감
+(cd include && make install)
+make[4]: 디렉터리 '/home/eklim/openssl_for_ios_and_android/tools/curl-7.74.0/include' 들어감
+Making install in curl
+make[5]: 디렉터리 '/home/eklim/openssl_for_ios_and_android/tools/curl-7.74.0/include/curl' 들어감
+make[6]: 디렉터리 '/home/eklim/openssl_for_ios_and_android/tools/curl-7.74.0/include/curl' 들어감
+make[6]: 'install-exec-am'을(를) 위해 할 일이 없습니다.
+ /usr/bin/mkdir -p '/home/eklim/openssl_for_ios_and_android/tools/../output/android/curl-x86/include/curl'
+ /usr/bin/install -c -m 644 curl.h curlver.h easy.h mprintf.h stdcheaders.h multi.h typecheck-gcc.h system.h urlapi.h options.h '/home/eklim/openssl_for_ios_and_android/tools/../output/android/curl-x86/include/curl'
+make[6]: 디렉터리 '/home/eklim/openssl_for_ios_and_android/tools/curl-7.74.0/include/curl' 나감
+make[5]: 디렉터리 '/home/eklim/openssl_for_ios_and_android/tools/curl-7.74.0/include/curl' 나감
+make[5]: 디렉터리 '/home/eklim/openssl_for_ios_and_android/tools/curl-7.74.0/include' 들어감
+make[6]: 디렉터리 '/home/eklim/openssl_for_ios_and_android/tools/curl-7.74.0/include' 들어감
+make[6]: 'install-exec-am'을(를) 위해 할 일이 없습니다.
+make[6]: 'install-data-am'을(를) 위해 할 일이 없습니다.
+make[6]: 디렉터리 '/home/eklim/openssl_for_ios_and_android/tools/curl-7.74.0/include' 나감
+make[5]: 디렉터리 '/home/eklim/openssl_for_ios_and_android/tools/curl-7.74.0/include' 나감
+make[4]: 디렉터리 '/home/eklim/openssl_for_ios_and_android/tools/curl-7.74.0/include' 나감
+(cd docs && make install)
+make[4]: 디렉터리 '/home/eklim/openssl_for_ios_and_android/tools/curl-7.74.0/docs' 들어감
+Making install in .
+make[5]: 디렉터리 '/home/eklim/openssl_for_ios_and_android/tools/curl-7.74.0/docs' 들어감
+make[6]: 디렉터리 '/home/eklim/openssl_for_ios_and_android/tools/curl-7.74.0/docs' 들어감
+make[6]: 'install-exec-am'을(를) 위해 할 일이 없습니다.
+ /usr/bin/mkdir -p '/home/eklim/openssl_for_ios_and_android/tools/../output/android/curl-x86/share/man/man1'
+ /usr/bin/install -c -m 644 curl-config.1 /home/eklim/openssl_for_ios_and_android/tools/curl-7.74.0/docs/curl.1 '/home/eklim/openssl_for_ios_and_android/tools/../output/android/curl-x86/share/man/man1'
+make[6]: 디렉터리 '/home/eklim/openssl_for_ios_and_android/tools/curl-7.74.0/docs' 나감
+make[5]: 디렉터리 '/home/eklim/openssl_for_ios_and_android/tools/curl-7.74.0/docs' 나감
+Making install in cmdline-opts
+make[5]: 디렉터리 '/home/eklim/openssl_for_ios_and_android/tools/curl-7.74.0/docs/cmdline-opts' 들어감
+make[6]: 디렉터리 '/home/eklim/openssl_for_ios_and_android/tools/curl-7.74.0/docs/cmdline-opts' 들어감
+make[6]: 'install-exec-am'을(를) 위해 할 일이 없습니다.
+make[6]: 'install-data-am'을(를) 위해 할 일이 없습니다.
+make[6]: 디렉터리 '/home/eklim/openssl_for_ios_and_android/tools/curl-7.74.0/docs/cmdline-opts' 나감
+make[5]: 디렉터리 '/home/eklim/openssl_for_ios_and_android/tools/curl-7.74.0/docs/cmdline-opts' 나감
+make[4]: 디렉터리 '/home/eklim/openssl_for_ios_and_android/tools/curl-7.74.0/docs' 나감
+(cd docs/libcurl && make install)
+make[4]: 디렉터리 '/home/eklim/openssl_for_ios_and_android/tools/curl-7.74.0/docs/libcurl' 들어감
+Making install in opts
+make[5]: 디렉터리 '/home/eklim/openssl_for_ios_and_android/tools/curl-7.74.0/docs/libcurl/opts' 들어감
+make[6]: 디렉터리 '/home/eklim/openssl_for_ios_and_android/tools/curl-7.74.0/docs/libcurl/opts' 들어감
+make[6]: 'install-exec-am'을(를) 위해 할 일이 없습니다.
+ /usr/bin/mkdir -p '/home/eklim/openssl_for_ios_and_android/tools/../output/android/curl-x86/share/man/man3'
+ /usr/bin/install -c -m 644 CURLINFO_ACTIVESOCKET.3 CURLINFO_APPCONNECT_TIME.3 CURLINFO_APPCONNECT_TIME_T.3 CURLINFO_CERTINFO.3 CURLINFO_CONDITION_UNMET.3 CURLINFO_CONNECT_TIME.3 CURLINFO_CONNECT_TIME_T.3 CURLINFO_CONTENT_LENGTH_DOWNLOAD.3 CURLINFO_CONTENT_LENGTH_DOWNLOAD_T.3 CURLINFO_CONTENT_LENGTH_UPLOAD.3 CURLINFO_CONTENT_LENGTH_UPLOAD_T.3 CURLINFO_CONTENT_TYPE.3 CURLINFO_COOKIELIST.3 CURLINFO_EFFECTIVE_METHOD.3 CURLINFO_EFFECTIVE_URL.3 CURLINFO_FILETIME.3 CURLINFO_FILETIME_T.3 CURLINFO_FTP_ENTRY_PATH.3 CURLINFO_HEADER_SIZE.3 CURLINFO_HTTPAUTH_AVAIL.3 CURLINFO_HTTP_CONNECTCODE.3 CURLINFO_HTTP_VERSION.3 CURLINFO_LASTSOCKET.3 CURLINFO_LOCAL_IP.3 CURLINFO_LOCAL_PORT.3 CURLINFO_NAMELOOKUP_TIME.3 CURLINFO_NAMELOOKUP_TIME_T.3 CURLINFO_NUM_CONNECTS.3 CURLINFO_OS_ERRNO.3 CURLINFO_PRETRANSFER_TIME.3 CURLINFO_PRETRANSFER_TIME_T.3 CURLINFO_PRIMARY_IP.3 CURLINFO_PRIMARY_PORT.3 CURLINFO_PRIVATE.3 CURLINFO_PROTOCOL.3 CURLINFO_PROXY_ERROR.3 CURLINFO_PROXY_SSL_VERIFYRESULT.3 CURLINFO_PROXYAUTH_AVAIL.3 CURLINFO_REDIRECT_COUNT.3 CURLINFO_REDIRECT_TIME.3 '/home/eklim/openssl_for_ios_and_android/tools/../output/android/curl-x86/share/man/man3'
+ /usr/bin/install -c -m 644 CURLINFO_REDIRECT_TIME_T.3 CURLINFO_REDIRECT_URL.3 CURLINFO_REQUEST_SIZE.3 CURLINFO_RESPONSE_CODE.3 CURLINFO_RETRY_AFTER.3 CURLINFO_RTSP_CLIENT_CSEQ.3 CURLINFO_RTSP_CSEQ_RECV.3 CURLINFO_RTSP_SERVER_CSEQ.3 CURLINFO_RTSP_SESSION_ID.3 CURLINFO_SCHEME.3 CURLINFO_SIZE_DOWNLOAD.3 CURLINFO_SIZE_DOWNLOAD_T.3 CURLINFO_SIZE_UPLOAD.3 CURLINFO_SIZE_UPLOAD_T.3 CURLINFO_SPEED_DOWNLOAD.3 CURLINFO_SPEED_DOWNLOAD_T.3 CURLINFO_SPEED_UPLOAD.3 CURLINFO_SPEED_UPLOAD_T.3 CURLINFO_SSL_ENGINES.3 CURLINFO_SSL_VERIFYRESULT.3 CURLINFO_STARTTRANSFER_TIME.3 CURLINFO_STARTTRANSFER_TIME_T.3 CURLINFO_TLS_SESSION.3 CURLINFO_TLS_SSL_PTR.3 CURLINFO_TOTAL_TIME.3 CURLINFO_TOTAL_TIME_T.3 CURLMOPT_CHUNK_LENGTH_PENALTY_SIZE.3 CURLMOPT_CONTENT_LENGTH_PENALTY_SIZE.3 CURLMOPT_MAXCONNECTS.3 CURLMOPT_MAX_CONCURRENT_STREAMS.3 CURLMOPT_MAX_HOST_CONNECTIONS.3 CURLMOPT_MAX_PIPELINE_LENGTH.3 CURLMOPT_MAX_TOTAL_CONNECTIONS.3 CURLMOPT_PIPELINING.3 CURLMOPT_PIPELINING_SERVER_BL.3 CURLMOPT_PIPELINING_SITE_BL.3 CURLMOPT_PUSHDATA.3 CURLMOPT_PUSHFUNCTION.3 CURLMOPT_SOCKETDATA.3 CURLMOPT_SOCKETFUNCTION.3 '/home/eklim/openssl_for_ios_and_android/tools/../output/android/curl-x86/share/man/man3'
+ /usr/bin/install -c -m 644 CURLMOPT_TIMERDATA.3 CURLMOPT_TIMERFUNCTION.3 CURLOPT_ABSTRACT_UNIX_SOCKET.3 CURLOPT_ACCEPTTIMEOUT_MS.3 CURLOPT_ACCEPT_ENCODING.3 CURLOPT_ADDRESS_SCOPE.3 CURLOPT_ALTSVC.3 CURLOPT_ALTSVC_CTRL.3 CURLOPT_APPEND.3 CURLOPT_AUTOREFERER.3 CURLOPT_BUFFERSIZE.3 CURLOPT_CAINFO.3 CURLOPT_CAPATH.3 CURLOPT_CERTINFO.3 CURLOPT_CHUNK_BGN_FUNCTION.3 CURLOPT_CHUNK_DATA.3 CURLOPT_CHUNK_END_FUNCTION.3 CURLOPT_CLOSESOCKETDATA.3 CURLOPT_CLOSESOCKETFUNCTION.3 CURLOPT_CONNECTTIMEOUT.3 CURLOPT_CONNECTTIMEOUT_MS.3 CURLOPT_CONNECT_ONLY.3 CURLOPT_CONNECT_TO.3 CURLOPT_CONV_FROM_NETWORK_FUNCTION.3 CURLOPT_CONV_FROM_UTF8_FUNCTION.3 CURLOPT_CONV_TO_NETWORK_FUNCTION.3 CURLOPT_COOKIE.3 CURLOPT_COOKIEFILE.3 CURLOPT_COOKIEJAR.3 CURLOPT_COOKIELIST.3 CURLOPT_COOKIESESSION.3 CURLOPT_COPYPOSTFIELDS.3 CURLOPT_CRLF.3 CURLOPT_CRLFILE.3 CURLOPT_CURLU.3 CURLOPT_CUSTOMREQUEST.3 CURLOPT_DEBUGDATA.3 CURLOPT_DEBUGFUNCTION.3 CURLOPT_DEFAULT_PROTOCOL.3 CURLOPT_DIRLISTONLY.3 '/home/eklim/openssl_for_ios_and_android/tools/../output/android/curl-x86/share/man/man3'
+ /usr/bin/install -c -m 644 CURLOPT_DISALLOW_USERNAME_IN_URL.3 CURLOPT_DNS_CACHE_TIMEOUT.3 CURLOPT_DNS_INTERFACE.3 CURLOPT_DNS_LOCAL_IP4.3 CURLOPT_DNS_LOCAL_IP6.3 CURLOPT_DNS_SERVERS.3 CURLOPT_DNS_SHUFFLE_ADDRESSES.3 CURLOPT_DNS_USE_GLOBAL_CACHE.3 CURLOPT_DOH_URL.3 CURLOPT_EGDSOCKET.3 CURLOPT_ERRORBUFFER.3 CURLOPT_EXPECT_100_TIMEOUT_MS.3 CURLOPT_FAILONERROR.3 CURLOPT_FILETIME.3 CURLOPT_FNMATCH_DATA.3 CURLOPT_FNMATCH_FUNCTION.3 CURLOPT_FOLLOWLOCATION.3 CURLOPT_FORBID_REUSE.3 CURLOPT_FRESH_CONNECT.3 CURLOPT_FTPPORT.3 CURLOPT_FTPSSLAUTH.3 CURLOPT_FTP_ACCOUNT.3 CURLOPT_FTP_ALTERNATIVE_TO_USER.3 CURLOPT_FTP_CREATE_MISSING_DIRS.3 CURLOPT_FTP_FILEMETHOD.3 CURLOPT_FTP_RESPONSE_TIMEOUT.3 CURLOPT_FTP_SKIP_PASV_IP.3 CURLOPT_FTP_SSL_CCC.3 CURLOPT_FTP_USE_EPRT.3 CURLOPT_FTP_USE_EPSV.3 CURLOPT_FTP_USE_PRET.3 CURLOPT_GSSAPI_DELEGATION.3 CURLOPT_HAPPY_EYEBALLS_TIMEOUT_MS.3 CURLOPT_HAPROXYPROTOCOL.3 CURLOPT_HEADER.3 CURLOPT_HEADERDATA.3 CURLOPT_HEADERFUNCTION.3 CURLOPT_HEADEROPT.3 CURLOPT_HSTS.3 CURLOPT_HSTSREADDATA.3 '/home/eklim/openssl_for_ios_and_android/tools/../output/android/curl-x86/share/man/man3'
+ /usr/bin/install -c -m 644 CURLOPT_HSTSREADFUNCTION.3 CURLOPT_HSTSWRITEDATA.3 CURLOPT_HSTSWRITEFUNCTION.3 CURLOPT_HSTS_CTRL.3 CURLOPT_HTTP09_ALLOWED.3 CURLOPT_HTTP200ALIASES.3 CURLOPT_HTTPAUTH.3 CURLOPT_HTTPGET.3 CURLOPT_HTTPHEADER.3 CURLOPT_HTTPPOST.3 CURLOPT_HTTPPROXYTUNNEL.3 CURLOPT_HTTP_CONTENT_DECODING.3 CURLOPT_HTTP_TRANSFER_DECODING.3 CURLOPT_HTTP_VERSION.3 CURLOPT_IGNORE_CONTENT_LENGTH.3 CURLOPT_INFILESIZE.3 CURLOPT_INFILESIZE_LARGE.3 CURLOPT_INTERFACE.3 CURLOPT_INTERLEAVEDATA.3 CURLOPT_INTERLEAVEFUNCTION.3 CURLOPT_IOCTLDATA.3 CURLOPT_IOCTLFUNCTION.3 CURLOPT_IPRESOLVE.3 CURLOPT_ISSUERCERT.3 CURLOPT_ISSUERCERT_BLOB.3 CURLOPT_KEEP_SENDING_ON_ERROR.3 CURLOPT_KEYPASSWD.3 CURLOPT_KRBLEVEL.3 CURLOPT_LOCALPORT.3 CURLOPT_LOCALPORTRANGE.3 CURLOPT_LOGIN_OPTIONS.3 CURLOPT_LOW_SPEED_LIMIT.3 CURLOPT_LOW_SPEED_TIME.3 CURLOPT_MAIL_AUTH.3 CURLOPT_MAIL_FROM.3 CURLOPT_MAIL_RCPT.3 CURLOPT_MAIL_RCPT_ALLLOWFAILS.3 CURLOPT_MAXAGE_CONN.3 CURLOPT_MAXCONNECTS.3 CURLOPT_MAXFILESIZE.3 '/home/eklim/openssl_for_ios_and_android/tools/../output/android/curl-x86/share/man/man3'
+ /usr/bin/install -c -m 644 CURLOPT_MAXFILESIZE_LARGE.3 CURLOPT_MAXREDIRS.3 CURLOPT_MAX_RECV_SPEED_LARGE.3 CURLOPT_MAX_SEND_SPEED_LARGE.3 CURLOPT_MIMEPOST.3 CURLOPT_NETRC.3 CURLOPT_NETRC_FILE.3 CURLOPT_NEW_DIRECTORY_PERMS.3 CURLOPT_NEW_FILE_PERMS.3 CURLOPT_NOBODY.3 CURLOPT_NOPROGRESS.3 CURLOPT_NOPROXY.3 CURLOPT_NOSIGNAL.3 CURLOPT_OPENSOCKETDATA.3 CURLOPT_OPENSOCKETFUNCTION.3 CURLOPT_PASSWORD.3 CURLOPT_PATH_AS_IS.3 CURLOPT_PINNEDPUBLICKEY.3 CURLOPT_PIPEWAIT.3 CURLOPT_PORT.3 CURLOPT_POST.3 CURLOPT_POSTFIELDS.3 CURLOPT_POSTFIELDSIZE.3 CURLOPT_POSTFIELDSIZE_LARGE.3 CURLOPT_POSTQUOTE.3 CURLOPT_POSTREDIR.3 CURLOPT_PREQUOTE.3 CURLOPT_PRE_PROXY.3 CURLOPT_PRIVATE.3 CURLOPT_PROGRESSDATA.3 CURLOPT_PROGRESSFUNCTION.3 CURLOPT_PROTOCOLS.3 CURLOPT_PROXY.3 CURLOPT_PROXYAUTH.3 CURLOPT_PROXYHEADER.3 CURLOPT_PROXYPASSWORD.3 CURLOPT_PROXYPORT.3 CURLOPT_PROXYTYPE.3 CURLOPT_PROXYUSERNAME.3 CURLOPT_PROXYUSERPWD.3 '/home/eklim/openssl_for_ios_and_android/tools/../output/android/curl-x86/share/man/man3'
+ /usr/bin/install -c -m 644 CURLOPT_PROXY_CAINFO.3 CURLOPT_PROXY_CAPATH.3 CURLOPT_PROXY_CRLFILE.3 CURLOPT_PROXY_KEYPASSWD.3 CURLOPT_PROXY_ISSUERCERT.3 CURLOPT_PROXY_ISSUERCERT_BLOB.3 CURLOPT_PROXY_PINNEDPUBLICKEY.3 CURLOPT_PROXY_SERVICE_NAME.3 CURLOPT_PROXY_SSLCERT.3 CURLOPT_PROXY_SSLCERT_BLOB.3 CURLOPT_PROXY_SSLCERTTYPE.3 CURLOPT_PROXY_SSLKEY.3 CURLOPT_PROXY_SSLKEY_BLOB.3 CURLOPT_PROXY_SSLKEYTYPE.3 CURLOPT_PROXY_SSLVERSION.3 CURLOPT_PROXY_SSL_CIPHER_LIST.3 CURLOPT_PROXY_SSL_OPTIONS.3 CURLOPT_PROXY_SSL_VERIFYHOST.3 CURLOPT_PROXY_SSL_VERIFYPEER.3 CURLOPT_PROXY_TLS13_CIPHERS.3 CURLOPT_PROXY_TLSAUTH_PASSWORD.3 CURLOPT_PROXY_TLSAUTH_TYPE.3 CURLOPT_PROXY_TLSAUTH_USERNAME.3 CURLOPT_PROXY_TRANSFER_MODE.3 CURLOPT_PUT.3 CURLOPT_QUOTE.3 CURLOPT_RANDOM_FILE.3 CURLOPT_RANGE.3 CURLOPT_READDATA.3 CURLOPT_READFUNCTION.3 CURLOPT_REDIR_PROTOCOLS.3 CURLOPT_REFERER.3 CURLOPT_REQUEST_TARGET.3 CURLOPT_RESOLVE.3 CURLOPT_RESOLVER_START_DATA.3 CURLOPT_RESOLVER_START_FUNCTION.3 CURLOPT_RESUME_FROM.3 CURLOPT_RESUME_FROM_LARGE.3 CURLOPT_RTSP_CLIENT_CSEQ.3 CURLOPT_RTSP_REQUEST.3 '/home/eklim/openssl_for_ios_and_android/tools/../output/android/curl-x86/share/man/man3'
+ /usr/bin/install -c -m 644 CURLOPT_RTSP_SERVER_CSEQ.3 CURLOPT_RTSP_SESSION_ID.3 CURLOPT_RTSP_STREAM_URI.3 CURLOPT_RTSP_TRANSPORT.3 CURLOPT_SASL_AUTHZID.3 CURLOPT_SASL_IR.3 CURLOPT_SEEKDATA.3 CURLOPT_SEEKFUNCTION.3 CURLOPT_SERVICE_NAME.3 CURLOPT_SHARE.3 CURLOPT_SOCKOPTDATA.3 CURLOPT_SOCKOPTFUNCTION.3 CURLOPT_SOCKS5_AUTH.3 CURLOPT_SOCKS5_GSSAPI_NEC.3 CURLOPT_SOCKS5_GSSAPI_SERVICE.3 CURLOPT_SSH_AUTH_TYPES.3 CURLOPT_SSH_COMPRESSION.3 CURLOPT_SSH_HOST_PUBLIC_KEY_MD5.3 CURLOPT_SSH_KEYDATA.3 CURLOPT_SSH_KEYFUNCTION.3 CURLOPT_SSH_KNOWNHOSTS.3 CURLOPT_SSH_PRIVATE_KEYFILE.3 CURLOPT_SSH_PUBLIC_KEYFILE.3 CURLOPT_SSLCERT.3 CURLOPT_SSLCERT_BLOB.3 CURLOPT_SSLCERTTYPE.3 CURLOPT_SSLENGINE.3 CURLOPT_SSLENGINE_DEFAULT.3 CURLOPT_SSLKEY.3 CURLOPT_SSLKEY_BLOB.3 CURLOPT_SSLKEYTYPE.3 CURLOPT_SSLVERSION.3 CURLOPT_SSL_CIPHER_LIST.3 CURLOPT_SSL_CTX_DATA.3 CURLOPT_SSL_CTX_FUNCTION.3 CURLOPT_SSL_EC_CURVES.3 CURLOPT_SSL_ENABLE_ALPN.3 CURLOPT_SSL_ENABLE_NPN.3 CURLOPT_SSL_FALSESTART.3 CURLOPT_SSL_OPTIONS.3 '/home/eklim/openssl_for_ios_and_android/tools/../output/android/curl-x86/share/man/man3'
+ /usr/bin/install -c -m 644 CURLOPT_SSL_SESSIONID_CACHE.3 CURLOPT_SSL_VERIFYHOST.3 CURLOPT_SSL_VERIFYPEER.3 CURLOPT_SSL_VERIFYSTATUS.3 CURLOPT_STDERR.3 CURLOPT_STREAM_DEPENDS.3 CURLOPT_STREAM_DEPENDS_E.3 CURLOPT_STREAM_WEIGHT.3 CURLOPT_SUPPRESS_CONNECT_HEADERS.3 CURLOPT_TCP_FASTOPEN.3 CURLOPT_TCP_KEEPALIVE.3 CURLOPT_TCP_KEEPIDLE.3 CURLOPT_TCP_KEEPINTVL.3 CURLOPT_TCP_NODELAY.3 CURLOPT_TELNETOPTIONS.3 CURLOPT_TFTP_BLKSIZE.3 CURLOPT_TFTP_NO_OPTIONS.3 CURLOPT_TIMECONDITION.3 CURLOPT_TIMEOUT.3 CURLOPT_TIMEOUT_MS.3 CURLOPT_TIMEVALUE.3 CURLOPT_TIMEVALUE_LARGE.3 CURLOPT_TLS13_CIPHERS.3 CURLOPT_TLSAUTH_PASSWORD.3 CURLOPT_TLSAUTH_TYPE.3 CURLOPT_TLSAUTH_USERNAME.3 CURLOPT_TRAILERDATA.3 CURLOPT_TRAILERFUNCTION.3 CURLOPT_TRANSFERTEXT.3 CURLOPT_TRANSFER_ENCODING.3 CURLOPT_UNIX_SOCKET_PATH.3 CURLOPT_UNRESTRICTED_AUTH.3 CURLOPT_UPKEEP_INTERVAL_MS.3 CURLOPT_UPLOAD.3 CURLOPT_UPLOAD_BUFFERSIZE.3 CURLOPT_URL.3 CURLOPT_USERAGENT.3 CURLOPT_USERNAME.3 CURLOPT_USERPWD.3 CURLOPT_USE_SSL.3 '/home/eklim/openssl_for_ios_and_android/tools/../output/android/curl-x86/share/man/man3'
+ /usr/bin/install -c -m 644 CURLOPT_VERBOSE.3 CURLOPT_WILDCARDMATCH.3 CURLOPT_WRITEDATA.3 CURLOPT_WRITEFUNCTION.3 CURLOPT_XFERINFODATA.3 CURLOPT_XFERINFOFUNCTION.3 CURLOPT_XOAUTH2_BEARER.3 '/home/eklim/openssl_for_ios_and_android/tools/../output/android/curl-x86/share/man/man3'
+make[6]: 디렉터리 '/home/eklim/openssl_for_ios_and_android/tools/curl-7.74.0/docs/libcurl/opts' 나감
+make[5]: 디렉터리 '/home/eklim/openssl_for_ios_and_android/tools/curl-7.74.0/docs/libcurl/opts' 나감
+make[5]: 디렉터리 '/home/eklim/openssl_for_ios_and_android/tools/curl-7.74.0/docs/libcurl' 들어감
+make[6]: 디렉터리 '/home/eklim/openssl_for_ios_and_android/tools/curl-7.74.0/docs/libcurl' 들어감
+make[6]: 'install-exec-am'을(를) 위해 할 일이 없습니다.
+ /usr/bin/mkdir -p '/home/eklim/openssl_for_ios_and_android/tools/../output/android/curl-x86/share/aclocal'
+ /usr/bin/install -c -m 644 libcurl.m4 '/home/eklim/openssl_for_ios_and_android/tools/../output/android/curl-x86/share/aclocal'
+ /usr/bin/mkdir -p '/home/eklim/openssl_for_ios_and_android/tools/../output/android/curl-x86/share/man/man3'
+ /usr/bin/install -c -m 644 curl_easy_cleanup.3 curl_easy_duphandle.3 curl_easy_escape.3 curl_easy_getinfo.3 curl_easy_init.3 curl_easy_option_by_id.3 curl_easy_option_by_name.3 curl_easy_option_next.3 curl_easy_pause.3 curl_easy_perform.3 curl_easy_recv.3 curl_easy_reset.3 curl_easy_send.3 curl_easy_setopt.3 curl_easy_strerror.3 curl_easy_unescape.3 curl_easy_upkeep.3 curl_escape.3 curl_formadd.3 curl_formfree.3 curl_formget.3 curl_free.3 curl_getdate.3 curl_getenv.3 curl_global_cleanup.3 curl_global_init.3 curl_global_init_mem.3 curl_global_sslset.3 curl_mime_addpart.3 curl_mime_data.3 curl_mime_data_cb.3 curl_mime_encoder.3 curl_mime_filedata.3 curl_mime_filename.3 curl_mime_free.3 curl_mime_headers.3 curl_mime_init.3 curl_mime_name.3 curl_mime_subparts.3 curl_mime_type.3 '/home/eklim/openssl_for_ios_and_android/tools/../output/android/curl-x86/share/man/man3'
+ /usr/bin/install -c -m 644 curl_mprintf.3 curl_multi_add_handle.3 curl_multi_assign.3 curl_multi_cleanup.3 curl_multi_fdset.3 curl_multi_info_read.3 curl_multi_init.3 curl_multi_perform.3 curl_multi_poll.3 curl_multi_remove_handle.3 curl_multi_setopt.3 curl_multi_socket.3 curl_multi_socket_action.3 curl_multi_socket_all.3 curl_multi_strerror.3 curl_multi_timeout.3 curl_multi_wakeup.3 curl_multi_wait.3 curl_share_cleanup.3 curl_share_init.3 curl_share_setopt.3 curl_share_strerror.3 curl_slist_append.3 curl_slist_free_all.3 curl_strequal.3 curl_strnequal.3 curl_unescape.3 curl_url.3 curl_url_cleanup.3 curl_url_dup.3 curl_url_get.3 curl_url_set.3 curl_version.3 curl_version_info.3 libcurl-easy.3 libcurl-env.3 libcurl-errors.3 libcurl-multi.3 libcurl-security.3 libcurl-share.3 '/home/eklim/openssl_for_ios_and_android/tools/../output/android/curl-x86/share/man/man3'
+ /usr/bin/install -c -m 644 libcurl-symbols.3 libcurl-thread.3 libcurl-tutorial.3 libcurl-url.3 libcurl.3 '/home/eklim/openssl_for_ios_and_android/tools/../output/android/curl-x86/share/man/man3'
+make[6]: 디렉터리 '/home/eklim/openssl_for_ios_and_android/tools/curl-7.74.0/docs/libcurl' 나감
+make[5]: 디렉터리 '/home/eklim/openssl_for_ios_and_android/tools/curl-7.74.0/docs/libcurl' 나감
+make[4]: 디렉터리 '/home/eklim/openssl_for_ios_and_android/tools/curl-7.74.0/docs/libcurl' 나감
+make[3]: 디렉터리 '/home/eklim/openssl_for_ios_and_android/tools/curl-7.74.0' 나감
+make[2]: 디렉터리 '/home/eklim/openssl_for_ios_and_android/tools/curl-7.74.0' 나감
+make[1]: 디렉터리 '/home/eklim/openssl_for_ios_and_android/tools/curl-7.74.0' 나감

@@ -1,0 +1,5 @@
+#!/buildbot/src/android/ndk-release-r21/out/linux/python/linux-x86_64/install/host-tools/bin/python2.7
+
+from idlelib.PyShell import main
+if __name__ == '__main__':
+    main()

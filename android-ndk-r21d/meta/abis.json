@@ -1,0 +1,22 @@
+{
+  "armeabi-v7a": {
+    "bitness": 32,
+    "default": true,
+    "deprecated": false
+  },
+  "arm64-v8a": {
+    "bitness": 64,
+    "default": true,
+    "deprecated": false
+  },
+  "x86": {
+    "bitness": 32,
+    "default": true,
+    "deprecated": false
+  },
+  "x86_64": {
+    "bitness": 64,
+    "default": true,
+    "deprecated": false
+  }
+}

@@ -1,0 +1,4 @@
+NDK_MAJOR := 21
+NDK_MINOR := 3
+NDK_BETA := 0
+NDK_CANARY := false

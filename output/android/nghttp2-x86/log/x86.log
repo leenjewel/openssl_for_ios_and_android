@@ -1,0 +1,662 @@
+checking for i686-linux-android-gcc... i686-linux-android21-clang
+checking whether the C compiler works... yes
+checking for C compiler default output file name... a.out
+checking for suffix of executables... 
+checking whether we are cross compiling... yes
+checking for suffix of object files... o
+checking whether we are using the GNU C compiler... yes
+checking whether i686-linux-android21-clang accepts -g... yes
+checking for i686-linux-android21-clang option to accept ISO C89... none needed
+checking whether i686-linux-android21-clang understands -c and -o together... yes
+checking how to run the C preprocessor... i686-linux-android21-clang -E
+checking for grep that handles long lines and -e... /usr/bin/grep
+checking for egrep... /usr/bin/grep -E
+checking for ANSI C header files... yes
+checking for sys/types.h... yes
+checking for sys/stat.h... yes
+checking for stdlib.h... yes
+checking for string.h... yes
+checking for memory.h... yes
+checking for strings.h... yes
+checking for inttypes.h... yes
+checking for stdint.h... yes
+checking for unistd.h... yes
+checking minix/config.h usability... no
+checking minix/config.h presence... no
+checking for minix/config.h... no
+checking whether it is safe to define __EXTENSIONS__... yes
+checking build system type... x86_64-pc-linux-gnu
+checking host system type... i686-pc-linux-android
+checking how to print strings... printf
+checking for a sed that does not truncate output... /usr/bin/sed
+checking for fgrep... /usr/bin/grep -F
+checking for ld used by i686-linux-android21-clang... i686-linux-android-ld
+checking if the linker (i686-linux-android-ld) is GNU ld... yes
+checking for BSD- or MS-compatible name lister (nm)... /home/eklim/android-ndk-r21d/toolchains/llvm/prebuilt/linux-x86_64/bin/i686-linux-android-nm -B
+checking the name lister (/home/eklim/android-ndk-r21d/toolchains/llvm/prebuilt/linux-x86_64/bin/i686-linux-android-nm -B) interface... BSD nm
+checking whether ln -s works... yes
+checking the maximum length of command line arguments... 1572864
+checking how to convert x86_64-pc-linux-gnu file names to i686-pc-linux-android format... func_convert_file_noop
+checking how to convert x86_64-pc-linux-gnu file names to toolchain format... func_convert_file_noop
+checking for i686-linux-android-ld option to reload object files... -r
+checking for i686-linux-android-objdump... i686-linux-android-objdump
+checking how to recognize dependent libraries... pass_all
+checking for i686-linux-android-dlltool... no
+checking for dlltool... no
+checking how to associate runtime and link libraries... printf %s\n
+checking for i686-linux-android-ar... i686-linux-android-ar
+checking for archiver @FILE support... @
+checking for i686-linux-android-strip... i686-linux-android-strip
+checking for i686-linux-android-ranlib... i686-linux-android-ranlib
+checking for gawk... no
+checking for mawk... mawk
+checking command to parse /home/eklim/android-ndk-r21d/toolchains/llvm/prebuilt/linux-x86_64/bin/i686-linux-android-nm -B output from i686-linux-android21-clang object... ok
+checking for sysroot... no
+checking for a working dd... /usr/bin/dd
+checking how to truncate binary pipes... /usr/bin/dd bs=4096 count=1
+checking for i686-linux-android-mt... no
+checking for mt... mt
+configure: WARNING: using cross tools not prefixed with host triplet
+checking if mt is a manifest tool... no
+checking for dlfcn.h... yes
+checking for objdir... .libs
+checking if i686-linux-android21-clang supports -fno-rtti -fno-exceptions... yes
+checking for i686-linux-android21-clang option to produce PIC... -fPIC -DPIC
+checking if i686-linux-android21-clang PIC flag -fPIC -DPIC works... yes
+checking if i686-linux-android21-clang static flag -static works... yes
+checking if i686-linux-android21-clang supports -c -o file.o... yes
+checking if i686-linux-android21-clang supports -c -o file.o... (cached) yes
+checking whether the i686-linux-android21-clang linker (i686-linux-android-ld) supports shared libraries... yes
+checking whether -lc should be explicitly linked in... no
+checking dynamic linker characteristics... Android linker
+checking how to hardcode library paths into programs... immediate
+checking whether stripping libraries is possible... yes
+checking if libtool supports shared libraries... yes
+checking whether to build shared libraries... yes
+checking whether to build static libraries... yes
+checking target system type... i686-pc-linux-android
+checking for a BSD-compatible install... /usr/bin/install -c
+checking whether build environment is sane... yes
+checking for i686-linux-android-strip... (cached) i686-linux-android-strip
+checking for a thread-safe mkdir -p... /usr/bin/mkdir -p
+checking whether make sets $(MAKE)... yes
+checking whether make supports the include directive... yes (GNU style)
+checking whether make supports nested variables... yes
+checking dependency style of i686-linux-android21-clang... gcc3
+checking whether make supports nested variables... (cached) yes
+checking for i686-linux-android-gcc... (cached) i686-linux-android21-clang
+checking whether we are using the GNU C compiler... (cached) yes
+checking whether i686-linux-android21-clang accepts -g... (cached) yes
+checking for i686-linux-android21-clang option to accept ISO C89... (cached) none needed
+checking whether i686-linux-android21-clang understands -c and -o together... (cached) yes
+checking whether we are using the GNU C++ compiler... yes
+checking whether i686-linux-android21-clang++ accepts -g... yes
+checking how to run the C++ preprocessor... i686-linux-android21-clang++ -E
+checking for ld used by i686-linux-android21-clang++... i686-linux-android-ld
+checking if the linker (i686-linux-android-ld) is GNU ld... yes
+checking whether the i686-linux-android21-clang++ linker (i686-linux-android-ld) supports shared libraries... yes
+checking for i686-linux-android21-clang++ option to produce PIC... -fPIC -DPIC
+checking if i686-linux-android21-clang++ PIC flag -fPIC -DPIC works... yes
+checking if i686-linux-android21-clang++ static flag -static works... yes
+checking if i686-linux-android21-clang++ supports -c -o file.o... yes
+checking if i686-linux-android21-clang++ supports -c -o file.o... (cached) yes
+checking whether the i686-linux-android21-clang++ linker (i686-linux-android-ld) supports shared libraries... yes
+checking dynamic linker characteristics... Android linker
+checking how to hardcode library paths into programs... immediate
+checking dependency style of i686-linux-android21-clang++... gcc3
+checking how to run the C preprocessor... i686-linux-android21-clang -E
+checking whether ln -s works... yes
+checking whether make sets $(MAKE)... (cached) yes
+checking for i686-linux-android-pkg-config... no
+checking for pkg-config... /usr/bin/pkg-config
+checking pkg-config is at least version 0.20... yes
+checking for a Python interpreter with version >= 2.7... python3
+checking for python3... /usr/bin/python3
+checking for python3 version... 3.8
+checking for python3 platform... linux
+checking for python3 script directory... ${prefix}/lib/python3.8/site-packages
+checking for python3 extension module directory... ${exec_prefix}/lib/python3.8/site-packages
+checking for cython.py... no
+checking for cython... no
+checking whether i686-linux-android21-clang++ supports C++14 features with -std=c++14... yes
+checking whether std::future is available... yes
+checking whether std::map::emplace is available... yes
+checking whether std::atomic_* overloads for std::shared_ptr are available... yes
+checking whether thread_local storage class specifier is available.... yes
+checking for zlib >= 1.2.3... yes
+checking for library containing dlopen... none required
+checking for cunit >= 2.1... no
+configure: WARNING: No package 'cunit' found
+checking for CU_initialize_registry in -lcunit... no
+checking for ev_time in -lev... no
+checking for openssl >= 1.0.1... no
+configure: No package 'openssl' found
+checking for libcares >= 1.7.5... no
+configure: No package 'libcares' found
+checking for libevent_openssl >= 2.0.8... no
+configure: No package 'libevent_openssl' found
+checking for jansson >= 2.5... no
+configure: No package 'jansson' found
+checking for libsystemd >= 209... no
+configure: No package 'libsystemd' found
+checking for libxml-2.0 >= 2.6.26... no
+configure: No package 'libxml-2.0' found
+checking for library containing malloc_stats_print... no
+checking for library containing je_malloc_stats_print... no
+checking whether to enable assertions... yes
+checking arpa/inet.h usability... yes
+checking arpa/inet.h presence... yes
+checking for arpa/inet.h... yes
+checking fcntl.h usability... yes
+checking fcntl.h presence... yes
+checking for fcntl.h... yes
+checking for inttypes.h... (cached) yes
+checking limits.h usability... yes
+checking limits.h presence... yes
+checking for limits.h... yes
+checking netdb.h usability... yes
+checking netdb.h presence... yes
+checking for netdb.h... yes
+checking netinet/in.h usability... yes
+checking netinet/in.h presence... yes
+checking for netinet/in.h... yes
+checking pwd.h usability... yes
+checking pwd.h presence... yes
+checking for pwd.h... yes
+checking stddef.h usability... yes
+checking stddef.h presence... yes
+checking for stddef.h... yes
+checking for stdint.h... (cached) yes
+checking for stdlib.h... (cached) yes
+checking for string.h... (cached) yes
+checking sys/socket.h usability... yes
+checking sys/socket.h presence... yes
+checking for sys/socket.h... yes
+checking sys/time.h usability... yes
+checking sys/time.h presence... yes
+checking for sys/time.h... yes
+checking syslog.h usability... yes
+checking syslog.h presence... yes
+checking for syslog.h... yes
+checking time.h usability... yes
+checking time.h presence... yes
+checking for time.h... yes
+checking for unistd.h... (cached) yes
+checking for size_t... yes
+checking for ssize_t... yes
+checking for uint8_t... yes
+checking for uint16_t... yes
+checking for uint32_t... yes
+checking for uint64_t... yes
+checking for int8_t... yes
+checking for int16_t... yes
+checking for int32_t... yes
+checking for int64_t... yes
+checking for off_t... yes
+checking for pid_t... yes
+checking for uid_t in sys/types.h... yes
+checking for ptrdiff_t... yes
+checking whether byte ordering is bigendian... no
+checking for inline... inline
+checking for special C compiler options needed for large files... no
+checking for _FILE_OFFSET_BITS value needed for large files... 64
+checking for struct tm.tm_gmtoff... yes
+checking for struct sockaddr_in.sin_len... no
+checking for struct sockaddr_in6.sin6_len... no
+checking size of int *... 4
+checking size of time_t... 4
+checking for unistd.h... (cached) yes
+checking for working chown... no
+checking for error_at_line... no
+checking vfork.h usability... no
+checking vfork.h presence... no
+checking for vfork.h... no
+checking for fork... yes
+checking for vfork... yes
+checking for working fork... cross
+configure: WARNING: result yes guessed because of cross compilation
+checking for working vfork... (cached) yes
+checking whether strerror_r is declared... yes
+checking for strerror_r... yes
+checking whether strerror_r returns char *... no
+checking for working strnlen... yes
+checking for _Exit... yes
+checking for accept4... yes
+checking for dup2... yes
+checking for getcwd... yes
+checking for getpwnam... yes
+checking for localtime_r... yes
+checking for memchr... yes
+checking for memmove... yes
+checking for memset... yes
+checking for mkostemp... no
+checking for socket... yes
+checking for sqrt... no
+checking for strchr... yes
+checking for strdup... yes
+checking for strerror... yes
+checking for strndup... yes
+checking for strstr... yes
+checking for strtol... yes
+checking for strtoul... yes
+checking for timegm... yes
+checking for timerfd_create... yes
+checking whether initgroups is declared... yes
+checking whether C compiler accepts -fvisibility=hidden... yes
+checking that generated files are newer than configure... done
+configure: creating ./config.status
+config.status: creating Makefile
+config.status: creating lib/Makefile
+config.status: creating lib/libnghttp2.pc
+config.status: creating lib/includes/Makefile
+config.status: creating lib/includes/nghttp2/nghttp2ver.h
+config.status: creating tests/Makefile
+config.status: creating tests/testdata/Makefile
+config.status: creating third-party/Makefile
+config.status: creating src/Makefile
+config.status: creating src/includes/Makefile
+config.status: creating src/libnghttp2_asio.pc
+config.status: creating examples/Makefile
+config.status: creating python/Makefile
+config.status: creating python/setup.py
+config.status: creating integration-tests/Makefile
+config.status: creating integration-tests/config.go
+config.status: creating integration-tests/setenv
+config.status: creating doc/Makefile
+config.status: creating doc/conf.py
+config.status: creating doc/index.rst
+config.status: creating doc/package_README.rst
+config.status: creating doc/tutorial-client.rst
+config.status: creating doc/tutorial-server.rst
+config.status: creating doc/tutorial-hpack.rst
+config.status: creating doc/nghttpx-howto.rst
+config.status: creating doc/h2load-howto.rst
+config.status: creating doc/libnghttp2_asio.rst
+config.status: creating doc/python-apiref.rst
+config.status: creating doc/building-android-binary.rst
+config.status: creating doc/nghttp2.h.rst
+config.status: creating doc/nghttp2ver.h.rst
+config.status: creating doc/asio_http2.h.rst
+config.status: creating doc/asio_http2_server.h.rst
+config.status: creating doc/asio_http2_client.h.rst
+config.status: creating doc/contribute.rst
+config.status: creating contrib/Makefile
+config.status: creating script/Makefile
+config.status: creating config.h
+config.status: executing libtool commands
+config.status: executing depfiles commands
+configure: summary of build options:
+
+    Package version: 1.42.0
+    Library version: 34:1:20
+    Install prefix:  /home/eklim/openssl_for_ios_and_android/tools/../output/android/nghttp2-x86
+    System types:
+      Build:         x86_64-pc-linux-gnu
+      Host:          i686-pc-linux-android
+      Target:        i686-pc-linux-android
+    Compiler:
+      C compiler:     i686-linux-android21-clang
+      CFLAGS:         -march=i686 -mtune=intel -mssse3 -mfpmath=sse -m32 -Wno-unused-function -fno-integrated-as -fstrict-aliasing -fPIC -DANDROID -D__ANDROID_API__=21 -Os -ffunction-sections -fdata-sections -I/home/eklim/android-ndk-r21d/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/include -I/home/eklim/android-ndk-r21d/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/local/include
+      LDFLAGS:        -march=i686 -Wl,--gc-sections -Os -ffunction-sections -fdata-sections -L/home/eklim/android-ndk-r21d/toolchains/llvm/prebuilt/linux-x86_64/i686-linux-android/lib -L/home/eklim/android-ndk-r21d/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/lib/i686-linux-android/21 -L/home/eklim/android-ndk-r21d/toolchains/llvm/prebuilt/linux-x86_64/lib
+      C++ compiler:   i686-linux-android21-clang++ -std=c++14
+      CXXFLAGS:       -std=c++11 -Os -ffunction-sections -fdata-sections
+      CXXCPP:         i686-linux-android21-clang++ -E -std=c++14
+      C preprocessor: i686-linux-android21-clang -E
+      CPPFLAGS:       -march=i686 -mtune=intel -mssse3 -mfpmath=sse -m32 -Wno-unused-function -fno-integrated-as -fstrict-aliasing -fPIC -DANDROID -D__ANDROID_API__=21 -Os -ffunction-sections -fdata-sections -I/home/eklim/android-ndk-r21d/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/include -I/home/eklim/android-ndk-r21d/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/local/include
+      WARNCFLAGS:     
+      WARNCXXFLAGS:   
+      CXX1XCXXFLAGS:  
+      EXTRACFLAG:     -fvisibility=hidden
+      LIBS:           
+    Library:
+      Shared:         yes
+      Static:         yes
+    Python:
+      Python:         /usr/bin/python3
+      PYTHON_VERSION: 3.8
+      pyexecdir:      ${exec_prefix}/lib/python3.8/site-packages
+      Python-dev:     
+      PYTHON_CPPFLAGS:
+      PYTHON_LDFLAGS: 
+      Cython:         
+    Test:
+      CUnit:          no (CFLAGS='' LIBS='')
+      Failmalloc:     yes
+    Libs:
+      OpenSSL:        no (CFLAGS='' LIBS='')
+      Libxml2:        no (CFLAGS='' LIBS='')
+      Libev:          no (CFLAGS='' LIBS='')
+      Libc-ares:      no (CFLAGS='' LIBS='')
+      Libevent(SSL):  no (CFLAGS='' LIBS='')
+      Jansson:        no (CFLAGS='' LIBS='')
+      Jemalloc:       no (LIBS='')
+      Zlib:           yes (CFLAGS='' LIBS='-lz')
+      Systemd:        no (CFLAGS='' LIBS='')
+      Boost CPPFLAGS: 
+      Boost LDFLAGS:  
+      Boost::ASIO:    
+      Boost::System:  
+      Boost::Thread:  
+    Third-party:
+      http-parser:    no
+      MRuby:          no (CFLAGS='' LIBS='')
+      Neverbleed:     no
+    Features:
+      Applications:   no
+      HPACK tools:    no
+      Libnghttp2_asio:no
+      Examples:       no
+      Python bindings:no
+      Threading:      no
+
+Making clean in lib
+make[1]: 디렉터리 '/home/eklim/openssl_for_ios_and_android/tools/nghttp2-1.42.0/lib' 들어감
+Making clean in includes
+make[2]: 디렉터리 '/home/eklim/openssl_for_ios_and_android/tools/nghttp2-1.42.0/lib/includes' 들어감
+rm -rf .libs _libs
+rm -f *.lo
+make[2]: 디렉터리 '/home/eklim/openssl_for_ios_and_android/tools/nghttp2-1.42.0/lib/includes' 나감
+make[2]: 디렉터리 '/home/eklim/openssl_for_ios_and_android/tools/nghttp2-1.42.0/lib' 들어감
+test -z "libnghttp2.la" || rm -f libnghttp2.la
+rm -f ./so_locations
+rm -rf .libs _libs
+rm -f *.o
+rm -f *.lo
+make[2]: 디렉터리 '/home/eklim/openssl_for_ios_and_android/tools/nghttp2-1.42.0/lib' 나감
+make[1]: 디렉터리 '/home/eklim/openssl_for_ios_and_android/tools/nghttp2-1.42.0/lib' 나감
+Making clean in third-party
+make[1]: 디렉터리 '/home/eklim/openssl_for_ios_and_android/tools/nghttp2-1.42.0/third-party' 들어감
+rm -rf .libs _libs
+rm -rf llhttp/src/.libs llhttp/src/_libs
+rm -rf neverbleed/.libs neverbleed/_libs
+rm -rf url-parser/.libs url-parser/_libs
+test -z "" || rm -f 
+rm -f *.o
+rm -f llhttp/src/*.o
+rm -f llhttp/src/*.lo
+rm -f neverbleed/*.o
+rm -f neverbleed/*.lo
+rm -f url-parser/*.o
+rm -f url-parser/*.lo
+rm -f *.lo
+make[1]: 디렉터리 '/home/eklim/openssl_for_ios_and_android/tools/nghttp2-1.42.0/third-party' 나감
+Making clean in src
+make[1]: 디렉터리 '/home/eklim/openssl_for_ios_and_android/tools/nghttp2-1.42.0/src' 들어감
+Making clean in includes
+make[2]: 디렉터리 '/home/eklim/openssl_for_ios_and_android/tools/nghttp2-1.42.0/src/includes' 들어감
+rm -rf .libs _libs
+rm -f *.lo
+make[2]: 디렉터리 '/home/eklim/openssl_for_ios_and_android/tools/nghttp2-1.42.0/src/includes' 나감
+make[2]: 디렉터리 '/home/eklim/openssl_for_ios_and_android/tools/nghttp2-1.42.0/src' 들어감
+ rm -f
+test -z "" || rm -f 
+rm -rf .libs _libs
+test -z "" || rm -f 
+rm -f *.o
+test -z "" || rm -f 
+test -z "" || rm -f 
+test -z "test-suite.log" || rm -f test-suite.log
+rm -f *.lo
+make[2]: 디렉터리 '/home/eklim/openssl_for_ios_and_android/tools/nghttp2-1.42.0/src' 나감
+make[1]: 디렉터리 '/home/eklim/openssl_for_ios_and_android/tools/nghttp2-1.42.0/src' 나감
+Making clean in examples
+make[1]: 디렉터리 '/home/eklim/openssl_for_ios_and_android/tools/nghttp2-1.42.0/examples' 들어감
+rm -rf .libs _libs
+rm -f *.o
+rm -f *.lo
+make[1]: 디렉터리 '/home/eklim/openssl_for_ios_and_android/tools/nghttp2-1.42.0/examples' 나감
+Making clean in python
+make[1]: 디렉터리 '/home/eklim/openssl_for_ios_and_android/tools/nghttp2-1.42.0/python' 들어감
+rm -rf .libs _libs
+rm -f *.lo
+make[1]: 디렉터리 '/home/eklim/openssl_for_ios_and_android/tools/nghttp2-1.42.0/python' 나감
+Making clean in tests
+make[1]: 디렉터리 '/home/eklim/openssl_for_ios_and_android/tools/nghttp2-1.42.0/tests' 들어감
+Making clean in testdata
+make[2]: 디렉터리 '/home/eklim/openssl_for_ios_and_android/tools/nghttp2-1.42.0/tests/testdata' 들어감
+rm -rf .libs _libs
+rm -f *.lo
+make[2]: 디렉터리 '/home/eklim/openssl_for_ios_and_android/tools/nghttp2-1.42.0/tests/testdata' 나감
+make[2]: 디렉터리 '/home/eklim/openssl_for_ios_and_android/tools/nghttp2-1.42.0/tests' 들어감
+rm -rf .libs _libs
+rm -f *.o
+test -z "" || rm -f 
+test -z "" || rm -f 
+test -z "test-suite.log" || rm -f test-suite.log
+rm -f *.lo
+make[2]: 디렉터리 '/home/eklim/openssl_for_ios_and_android/tools/nghttp2-1.42.0/tests' 나감
+make[1]: 디렉터리 '/home/eklim/openssl_for_ios_and_android/tools/nghttp2-1.42.0/tests' 나감
+Making clean in integration-tests
+make[1]: 디렉터리 '/home/eklim/openssl_for_ios_and_android/tools/nghttp2-1.42.0/integration-tests' 들어감
+rm -rf .libs _libs
+rm -f *.lo
+make[1]: 디렉터리 '/home/eklim/openssl_for_ios_and_android/tools/nghttp2-1.42.0/integration-tests' 나감
+Making clean in doc
+make[1]: 디렉터리 '/home/eklim/openssl_for_ios_and_android/tools/nghttp2-1.42.0/doc' 들어감
+rm -rf .libs _libs
+if [ . != . ]; then for i in README.rst programmers-guide.rst nghttp.1.rst nghttpd.1.rst nghttpx.1.rst h2load.1.rst; do rm -f ./$i; done fi
+rm -f apiref.rst
+rm -f macros.rst enums.rst types.rst nghttp2_check_authority.rst nghttp2_check_header_name.rst nghttp2_check_header_value.rst nghttp2_hd_deflate_bound.rst nghttp2_hd_deflate_change_table_size.rst nghttp2_hd_deflate_del.rst nghttp2_hd_deflate_get_dynamic_table_size.rst nghttp2_hd_deflate_get_max_dynamic_table_size.rst nghttp2_hd_deflate_get_num_table_entries.rst nghttp2_hd_deflate_get_table_entry.rst nghttp2_hd_deflate_hd.rst nghttp2_hd_deflate_hd_vec.rst nghttp2_hd_deflate_new.rst nghttp2_hd_deflate_new2.rst nghttp2_hd_inflate_change_table_size.rst nghttp2_hd_inflate_del.rst nghttp2_hd_inflate_end_headers.rst nghttp2_hd_inflate_get_dynamic_table_size.rst nghttp2_hd_inflate_get_max_dynamic_table_size.rst nghttp2_hd_inflate_get_num_table_entries.rst nghttp2_hd_inflate_get_table_entry.rst nghttp2_hd_inflate_hd.rst nghttp2_hd_inflate_hd2.rst nghttp2_hd_inflate_new.rst nghttp2_hd_inflate_new2.rst nghttp2_http2_strerror.rst nghttp2_is_fatal.rst nghttp2_nv_compare_name.rst nghttp2_option_del.rst nghttp2_option_new.rst nghttp2_option_set_builtin_recv_extension_type.rst nghttp2_option_set_max_deflate_dynamic_table_size.rst nghttp2_option_set_max_reserved_remote_streams.rst nghttp2_option_set_max_send_header_block_length.rst nghttp2_option_set_no_auto_ping_ack.rst nghttp2_option_set_no_auto_window_update.rst nghttp2_option_set_no_closed_streams.rst nghttp2_option_set_no_http_messaging.rst nghttp2_option_set_no_recv_client_magic.rst nghttp2_option_set_peer_max_concurrent_streams.rst nghttp2_option_set_user_recv_extension_type.rst nghttp2_option_set_max_outbound_ack.rst nghttp2_option_set_max_settings.rst nghttp2_pack_settings_payload.rst nghttp2_priority_spec_check_default.rst nghttp2_priority_spec_default_init.rst nghttp2_priority_spec_init.rst nghttp2_rcbuf_decref.rst nghttp2_rcbuf_get_buf.rst nghttp2_rcbuf_incref.rst nghttp2_rcbuf_is_static.rst nghttp2_select_next_protocol.rst nghttp2_session_callbacks_del.rst nghttp2_session_callbacks_new.rst nghttp2_session_callbacks_set_before_frame_send_callback.rst nghttp2_session_callbacks_set_data_source_read_length_callback.rst nghttp2_session_callbacks_set_error_callback.rst nghttp2_session_callbacks_set_error_callback2.rst nghttp2_session_callbacks_set_on_begin_frame_callback.rst nghttp2_session_callbacks_set_on_begin_headers_callback.rst nghttp2_session_callbacks_set_on_data_chunk_recv_callback.rst nghttp2_session_callbacks_set_on_extension_chunk_recv_callback.rst nghttp2_session_callbacks_set_on_frame_not_send_callback.rst nghttp2_session_callbacks_set_on_frame_recv_callback.rst nghttp2_session_callbacks_set_on_frame_send_callback.rst nghttp2_session_callbacks_set_on_header_callback.rst nghttp2_session_callbacks_set_on_header_callback2.rst nghttp2_session_callbacks_set_on_invalid_frame_recv_callback.rst nghttp2_session_callbacks_set_on_invalid_header_callback.rst nghttp2_session_callbacks_set_on_invalid_header_callback2.rst nghttp2_session_callbacks_set_on_stream_close_callback.rst nghttp2_session_callbacks_set_pack_extension_callback.rst nghttp2_session_callbacks_set_recv_callback.rst nghttp2_session_callbacks_set_select_padding_callback.rst nghttp2_session_callbacks_set_send_callback.rst nghttp2_session_callbacks_set_send_data_callback.rst nghttp2_session_callbacks_set_unpack_extension_callback.rst nghttp2_session_change_stream_priority.rst nghttp2_session_check_request_allowed.rst nghttp2_session_check_server_session.rst nghttp2_session_client_new.rst nghttp2_session_client_new2.rst nghttp2_session_client_new3.rst nghttp2_session_consume.rst nghttp2_session_consume_connection.rst nghttp2_session_consume_stream.rst nghttp2_session_create_idle_stream.rst nghttp2_session_del.rst nghttp2_session_find_stream.rst nghttp2_session_get_effective_local_window_size.rst nghttp2_session_get_effective_recv_data_length.rst nghttp2_session_get_hd_deflate_dynamic_table_size.rst nghttp2_session_get_hd_inflate_dynamic_table_size.rst nghttp2_session_get_last_proc_stream_id.rst nghttp2_session_get_local_settings.rst nghttp2_session_get_local_window_size.rst nghttp2_session_get_next_stream_id.rst nghttp2_session_get_outbound_queue_size.rst nghttp2_session_get_remote_settings.rst nghttp2_session_get_remote_window_size.rst nghttp2_session_get_root_stream.rst nghttp2_session_get_stream_effective_local_window_size.rst nghttp2_session_get_stream_effective_recv_data_length.rst nghttp2_session_get_stream_local_close.rst nghttp2_session_get_stream_local_window_size.rst nghttp2_session_get_stream_remote_close.rst nghttp2_session_get_stream_remote_window_size.rst nghttp2_session_get_stream_user_data.rst nghttp2_session_mem_recv.rst nghttp2_session_mem_send.rst nghttp2_session_recv.rst nghttp2_session_resume_data.rst nghttp2_session_send.rst nghttp2_session_server_new.rst nghttp2_session_server_new2.rst nghttp2_session_server_new3.rst nghttp2_session_set_local_window_size.rst nghttp2_session_set_next_stream_id.rst nghttp2_session_set_stream_user_data.rst nghttp2_session_set_user_data.rst nghttp2_session_terminate_session.rst nghttp2_session_terminate_session2.rst nghttp2_session_upgrade.rst nghttp2_session_upgrade2.rst nghttp2_session_want_read.rst nghttp2_session_want_write.rst nghttp2_set_debug_vprintf_callback.rst nghttp2_stream_get_first_child.rst nghttp2_stream_get_next_sibling.rst nghttp2_stream_get_parent.rst nghttp2_stream_get_previous_sibling.rst nghttp2_stream_get_state.rst nghttp2_stream_get_sum_dependency_weight.rst nghttp2_stream_get_weight.rst nghttp2_strerror.rst nghttp2_submit_altsvc.rst nghttp2_submit_data.rst nghttp2_submit_extension.rst nghttp2_submit_goaway.rst nghttp2_submit_headers.rst nghttp2_submit_origin.rst nghttp2_submit_ping.rst nghttp2_submit_priority.rst nghttp2_submit_push_promise.rst nghttp2_submit_request.rst nghttp2_submit_response.rst nghttp2_submit_rst_stream.rst nghttp2_submit_settings.rst nghttp2_submit_shutdown_notice.rst nghttp2_submit_trailer.rst nghttp2_submit_window_update.rst nghttp2_version.rst
+rm -rf manual/*
+rm -f *.lo
+make[1]: 디렉터리 '/home/eklim/openssl_for_ios_and_android/tools/nghttp2-1.42.0/doc' 나감
+Making clean in contrib
+make[1]: 디렉터리 '/home/eklim/openssl_for_ios_and_android/tools/nghttp2-1.42.0/contrib' 들어감
+rm -rf .libs _libs
+rm -f nghttpx-init.tmp nghttpx-init nghttpx.service nghttpx-upstart.conf
+rm -f *.lo
+make[1]: 디렉터리 '/home/eklim/openssl_for_ios_and_android/tools/nghttp2-1.42.0/contrib' 나감
+Making clean in script
+make[1]: 디렉터리 '/home/eklim/openssl_for_ios_and_android/tools/nghttp2-1.42.0/script' 들어감
+rm -rf .libs _libs
+rm -f *.lo
+make[1]: 디렉터리 '/home/eklim/openssl_for_ios_and_android/tools/nghttp2-1.42.0/script' 나감
+make[1]: 디렉터리 '/home/eklim/openssl_for_ios_and_android/tools/nghttp2-1.42.0' 들어감
+rm -rf .libs _libs
+rm -f *.lo
+make[1]: 디렉터리 '/home/eklim/openssl_for_ios_and_android/tools/nghttp2-1.42.0' 나감
+make  all-recursive
+make[1]: 디렉터리 '/home/eklim/openssl_for_ios_and_android/tools/nghttp2-1.42.0' 들어감
+Making all in lib
+make[2]: 디렉터리 '/home/eklim/openssl_for_ios_and_android/tools/nghttp2-1.42.0/lib' 들어감
+Making all in includes
+make[3]: 디렉터리 '/home/eklim/openssl_for_ios_and_android/tools/nghttp2-1.42.0/lib/includes' 들어감
+make[3]: 'all'을(를) 위해 할 일이 없습니다.
+make[3]: 디렉터리 '/home/eklim/openssl_for_ios_and_android/tools/nghttp2-1.42.0/lib/includes' 나감
+make[3]: 디렉터리 '/home/eklim/openssl_for_ios_and_android/tools/nghttp2-1.42.0/lib' 들어감
+  CC       nghttp2_pq.lo
+  CC       nghttp2_map.lo
+  CC       nghttp2_queue.lo
+  CC       nghttp2_frame.lo
+  CC       nghttp2_buf.lo
+  CC       nghttp2_stream.lo
+  CC       nghttp2_outbound_item.lo
+  CC       nghttp2_session.lo
+  CC       nghttp2_submit.lo
+  CC       nghttp2_helper.lo
+  CC       nghttp2_npn.lo
+  CC       nghttp2_hd.lo
+  CC       nghttp2_hd_huffman.lo
+  CC       nghttp2_hd_huffman_data.lo
+  CC       nghttp2_version.lo
+  CC       nghttp2_priority_spec.lo
+  CC       nghttp2_option.lo
+  CC       nghttp2_callbacks.lo
+  CC       nghttp2_mem.lo
+  CC       nghttp2_http.lo
+  CC       nghttp2_rcbuf.lo
+  CC       nghttp2_debug.lo
+  CC       nghttp2_ksl.lo
+  CCLD     libnghttp2.la
+make[3]: 디렉터리 '/home/eklim/openssl_for_ios_and_android/tools/nghttp2-1.42.0/lib' 나감
+make[2]: 디렉터리 '/home/eklim/openssl_for_ios_and_android/tools/nghttp2-1.42.0/lib' 나감
+Making all in third-party
+make[2]: 디렉터리 '/home/eklim/openssl_for_ios_and_android/tools/nghttp2-1.42.0/third-party' 들어감
+make[2]: 'all'을(를) 위해 할 일이 없습니다.
+make[2]: 디렉터리 '/home/eklim/openssl_for_ios_and_android/tools/nghttp2-1.42.0/third-party' 나감
+Making all in src
+make[2]: 디렉터리 '/home/eklim/openssl_for_ios_and_android/tools/nghttp2-1.42.0/src' 들어감
+Making all in includes
+make[3]: 디렉터리 '/home/eklim/openssl_for_ios_and_android/tools/nghttp2-1.42.0/src/includes' 들어감
+make[3]: 'all'을(를) 위해 할 일이 없습니다.
+make[3]: 디렉터리 '/home/eklim/openssl_for_ios_and_android/tools/nghttp2-1.42.0/src/includes' 나감
+make[3]: 디렉터리 '/home/eklim/openssl_for_ios_and_android/tools/nghttp2-1.42.0/src' 들어감
+make[3]: 'all-am'을(를) 위해 할 일이 없습니다.
+make[3]: 디렉터리 '/home/eklim/openssl_for_ios_and_android/tools/nghttp2-1.42.0/src' 나감
+make[2]: 디렉터리 '/home/eklim/openssl_for_ios_and_android/tools/nghttp2-1.42.0/src' 나감
+Making all in examples
+make[2]: 디렉터리 '/home/eklim/openssl_for_ios_and_android/tools/nghttp2-1.42.0/examples' 들어감
+make[2]: 'all'을(를) 위해 할 일이 없습니다.
+make[2]: 디렉터리 '/home/eklim/openssl_for_ios_and_android/tools/nghttp2-1.42.0/examples' 나감
+Making all in python
+make[2]: 디렉터리 '/home/eklim/openssl_for_ios_and_android/tools/nghttp2-1.42.0/python' 들어감
+make[2]: 'all'을(를) 위해 할 일이 없습니다.
+make[2]: 디렉터리 '/home/eklim/openssl_for_ios_and_android/tools/nghttp2-1.42.0/python' 나감
+Making all in tests
+make[2]: 디렉터리 '/home/eklim/openssl_for_ios_and_android/tools/nghttp2-1.42.0/tests' 들어감
+Making all in testdata
+make[3]: 디렉터리 '/home/eklim/openssl_for_ios_and_android/tools/nghttp2-1.42.0/tests/testdata' 들어감
+make[3]: 'all'을(를) 위해 할 일이 없습니다.
+make[3]: 디렉터리 '/home/eklim/openssl_for_ios_and_android/tools/nghttp2-1.42.0/tests/testdata' 나감
+make[3]: 디렉터리 '/home/eklim/openssl_for_ios_and_android/tools/nghttp2-1.42.0/tests' 들어감
+make[3]: 'all-am'을(를) 위해 할 일이 없습니다.
+make[3]: 디렉터리 '/home/eklim/openssl_for_ios_and_android/tools/nghttp2-1.42.0/tests' 나감
+make[2]: 디렉터리 '/home/eklim/openssl_for_ios_and_android/tools/nghttp2-1.42.0/tests' 나감
+Making all in integration-tests
+make[2]: 디렉터리 '/home/eklim/openssl_for_ios_and_android/tools/nghttp2-1.42.0/integration-tests' 들어감
+make[2]: 'all'을(를) 위해 할 일이 없습니다.
+make[2]: 디렉터리 '/home/eklim/openssl_for_ios_and_android/tools/nghttp2-1.42.0/integration-tests' 나감
+Making all in doc
+make[2]: 디렉터리 '/home/eklim/openssl_for_ios_and_android/tools/nghttp2-1.42.0/doc' 들어감
+make[2]: 'all'을(를) 위해 할 일이 없습니다.
+make[2]: 디렉터리 '/home/eklim/openssl_for_ios_and_android/tools/nghttp2-1.42.0/doc' 나감
+Making all in contrib
+make[2]: 디렉터리 '/home/eklim/openssl_for_ios_and_android/tools/nghttp2-1.42.0/contrib' 들어감
+rm -f nghttpx-init nghttpx-init.tmp
+sed -e 's|@bindir[@]|/home/eklim/openssl_for_ios_and_android/tools/../output/android/nghttp2-x86/bin|g' nghttpx-init.in > nghttpx-init.tmp
+chmod +x nghttpx-init.tmp
+mv nghttpx-init.tmp nghttpx-init
+sed -e 's|@bindir[@]|/home/eklim/openssl_for_ios_and_android/tools/../output/android/nghttp2-x86/bin|g' nghttpx.service.in > nghttpx.service
+sed -e 's|@bindir[@]|/home/eklim/openssl_for_ios_and_android/tools/../output/android/nghttp2-x86/bin|g' nghttpx-upstart.conf.in > nghttpx-upstart.conf
+make[2]: 디렉터리 '/home/eklim/openssl_for_ios_and_android/tools/nghttp2-1.42.0/contrib' 나감
+Making all in script
+make[2]: 디렉터리 '/home/eklim/openssl_for_ios_and_android/tools/nghttp2-1.42.0/script' 들어감
+make[2]: 'all'을(를) 위해 할 일이 없습니다.
+make[2]: 디렉터리 '/home/eklim/openssl_for_ios_and_android/tools/nghttp2-1.42.0/script' 나감
+make[2]: 디렉터리 '/home/eklim/openssl_for_ios_and_android/tools/nghttp2-1.42.0' 들어감
+make[2]: 'all-am'을(를) 위해 할 일이 없습니다.
+make[2]: 디렉터리 '/home/eklim/openssl_for_ios_and_android/tools/nghttp2-1.42.0' 나감
+make[1]: 디렉터리 '/home/eklim/openssl_for_ios_and_android/tools/nghttp2-1.42.0' 나감
+Making install in lib
+make[1]: 디렉터리 '/home/eklim/openssl_for_ios_and_android/tools/nghttp2-1.42.0/lib' 들어감
+Making install in includes
+make[2]: 디렉터리 '/home/eklim/openssl_for_ios_and_android/tools/nghttp2-1.42.0/lib/includes' 들어감
+make[3]: 디렉터리 '/home/eklim/openssl_for_ios_and_android/tools/nghttp2-1.42.0/lib/includes' 들어감
+make[3]: 'install-exec-am'을(를) 위해 할 일이 없습니다.
+ /usr/bin/mkdir -p '/home/eklim/openssl_for_ios_and_android/tools/../output/android/nghttp2-x86/include'
+ /usr/bin/mkdir -p '/home/eklim/openssl_for_ios_and_android/tools/../output/android/nghttp2-x86/include/nghttp2'
+ /usr/bin/install -c -m 644  nghttp2/nghttp2.h nghttp2/nghttp2ver.h '/home/eklim/openssl_for_ios_and_android/tools/../output/android/nghttp2-x86/include/nghttp2'
+make[3]: 디렉터리 '/home/eklim/openssl_for_ios_and_android/tools/nghttp2-1.42.0/lib/includes' 나감
+make[2]: 디렉터리 '/home/eklim/openssl_for_ios_and_android/tools/nghttp2-1.42.0/lib/includes' 나감
+make[2]: 디렉터리 '/home/eklim/openssl_for_ios_and_android/tools/nghttp2-1.42.0/lib' 들어감
+make[3]: 디렉터리 '/home/eklim/openssl_for_ios_and_android/tools/nghttp2-1.42.0/lib' 들어감
+ /usr/bin/mkdir -p '/home/eklim/openssl_for_ios_and_android/tools/../output/android/nghttp2-x86/lib'
+ /bin/bash ../libtool   --mode=install /usr/bin/install -c   libnghttp2.la '/home/eklim/openssl_for_ios_and_android/tools/../output/android/nghttp2-x86/lib'
+libtool: install: /usr/bin/install -c .libs/libnghttp2.so /home/eklim/openssl_for_ios_and_android/tools/../output/android/nghttp2-x86/lib/libnghttp2.so
+libtool: install: /usr/bin/install -c .libs/libnghttp2.lai /home/eklim/openssl_for_ios_and_android/tools/../output/android/nghttp2-x86/lib/libnghttp2.la
+libtool: install: /usr/bin/install -c .libs/libnghttp2.a /home/eklim/openssl_for_ios_and_android/tools/../output/android/nghttp2-x86/lib/libnghttp2.a
+libtool: install: chmod 644 /home/eklim/openssl_for_ios_and_android/tools/../output/android/nghttp2-x86/lib/libnghttp2.a
+libtool: install: i686-linux-android-ranlib /home/eklim/openssl_for_ios_and_android/tools/../output/android/nghttp2-x86/lib/libnghttp2.a
+ /usr/bin/mkdir -p '/home/eklim/openssl_for_ios_and_android/tools/../output/android/nghttp2-x86/lib/pkgconfig'
+ /usr/bin/install -c -m 644 libnghttp2.pc '/home/eklim/openssl_for_ios_and_android/tools/../output/android/nghttp2-x86/lib/pkgconfig'
+make[3]: 디렉터리 '/home/eklim/openssl_for_ios_and_android/tools/nghttp2-1.42.0/lib' 나감
+make[2]: 디렉터리 '/home/eklim/openssl_for_ios_and_android/tools/nghttp2-1.42.0/lib' 나감
+make[1]: 디렉터리 '/home/eklim/openssl_for_ios_and_android/tools/nghttp2-1.42.0/lib' 나감
+Making install in third-party
+make[1]: 디렉터리 '/home/eklim/openssl_for_ios_and_android/tools/nghttp2-1.42.0/third-party' 들어감
+make[2]: 디렉터리 '/home/eklim/openssl_for_ios_and_android/tools/nghttp2-1.42.0/third-party' 들어감
+make[2]: 'install-exec-am'을(를) 위해 할 일이 없습니다.
+make[2]: 'install-data-am'을(를) 위해 할 일이 없습니다.
+make[2]: 디렉터리 '/home/eklim/openssl_for_ios_and_android/tools/nghttp2-1.42.0/third-party' 나감
+make[1]: 디렉터리 '/home/eklim/openssl_for_ios_and_android/tools/nghttp2-1.42.0/third-party' 나감
+Making install in src
+make[1]: 디렉터리 '/home/eklim/openssl_for_ios_and_android/tools/nghttp2-1.42.0/src' 들어감
+Making install in includes
+make[2]: 디렉터리 '/home/eklim/openssl_for_ios_and_android/tools/nghttp2-1.42.0/src/includes' 들어감
+make[3]: 디렉터리 '/home/eklim/openssl_for_ios_and_android/tools/nghttp2-1.42.0/src/includes' 들어감
+make[3]: 'install-exec-am'을(를) 위해 할 일이 없습니다.
+make[3]: 디렉터리 '/home/eklim/openssl_for_ios_and_android/tools/nghttp2-1.42.0/src/includes' 나감
+make[2]: 디렉터리 '/home/eklim/openssl_for_ios_and_android/tools/nghttp2-1.42.0/src/includes' 나감
+make[2]: 디렉터리 '/home/eklim/openssl_for_ios_and_android/tools/nghttp2-1.42.0/src' 들어감
+make[3]: 디렉터리 '/home/eklim/openssl_for_ios_and_android/tools/nghttp2-1.42.0/src' 들어감
+ /usr/bin/mkdir -p '/home/eklim/openssl_for_ios_and_android/tools/../output/android/nghttp2-x86/bin'
+make[3]: 디렉터리 '/home/eklim/openssl_for_ios_and_android/tools/nghttp2-1.42.0/src' 나감
+make[2]: 디렉터리 '/home/eklim/openssl_for_ios_and_android/tools/nghttp2-1.42.0/src' 나감
+make[1]: 디렉터리 '/home/eklim/openssl_for_ios_and_android/tools/nghttp2-1.42.0/src' 나감
+Making install in examples
+make[1]: 디렉터리 '/home/eklim/openssl_for_ios_and_android/tools/nghttp2-1.42.0/examples' 들어감
+make[2]: 디렉터리 '/home/eklim/openssl_for_ios_and_android/tools/nghttp2-1.42.0/examples' 들어감
+make[2]: 'install-exec-am'을(를) 위해 할 일이 없습니다.
+make[2]: 'install-data-am'을(를) 위해 할 일이 없습니다.
+make[2]: 디렉터리 '/home/eklim/openssl_for_ios_and_android/tools/nghttp2-1.42.0/examples' 나감
+make[1]: 디렉터리 '/home/eklim/openssl_for_ios_and_android/tools/nghttp2-1.42.0/examples' 나감
+Making install in python
+make[1]: 디렉터리 '/home/eklim/openssl_for_ios_and_android/tools/nghttp2-1.42.0/python' 들어감
+make[2]: 디렉터리 '/home/eklim/openssl_for_ios_and_android/tools/nghttp2-1.42.0/python' 들어감
+make[2]: 'install-exec-am'을(를) 위해 할 일이 없습니다.
+make[2]: 'install-data-am'을(를) 위해 할 일이 없습니다.
+make[2]: 디렉터리 '/home/eklim/openssl_for_ios_and_android/tools/nghttp2-1.42.0/python' 나감
+make[1]: 디렉터리 '/home/eklim/openssl_for_ios_and_android/tools/nghttp2-1.42.0/python' 나감
+Making install in tests
+make[1]: 디렉터리 '/home/eklim/openssl_for_ios_and_android/tools/nghttp2-1.42.0/tests' 들어감
+Making install in testdata
+make[2]: 디렉터리 '/home/eklim/openssl_for_ios_and_android/tools/nghttp2-1.42.0/tests/testdata' 들어감
+make[3]: 디렉터리 '/home/eklim/openssl_for_ios_and_android/tools/nghttp2-1.42.0/tests/testdata' 들어감
+make[3]: 'install-exec-am'을(를) 위해 할 일이 없습니다.
+make[3]: 'install-data-am'을(를) 위해 할 일이 없습니다.
+make[3]: 디렉터리 '/home/eklim/openssl_for_ios_and_android/tools/nghttp2-1.42.0/tests/testdata' 나감
+make[2]: 디렉터리 '/home/eklim/openssl_for_ios_and_android/tools/nghttp2-1.42.0/tests/testdata' 나감
+make[2]: 디렉터리 '/home/eklim/openssl_for_ios_and_android/tools/nghttp2-1.42.0/tests' 들어감
+make[3]: 디렉터리 '/home/eklim/openssl_for_ios_and_android/tools/nghttp2-1.42.0/tests' 들어감
+make[3]: 'install-exec-am'을(를) 위해 할 일이 없습니다.
+make[3]: 'install-data-am'을(를) 위해 할 일이 없습니다.
+make[3]: 디렉터리 '/home/eklim/openssl_for_ios_and_android/tools/nghttp2-1.42.0/tests' 나감
+make[2]: 디렉터리 '/home/eklim/openssl_for_ios_and_android/tools/nghttp2-1.42.0/tests' 나감
+make[1]: 디렉터리 '/home/eklim/openssl_for_ios_and_android/tools/nghttp2-1.42.0/tests' 나감
+Making install in integration-tests
+make[1]: 디렉터리 '/home/eklim/openssl_for_ios_and_android/tools/nghttp2-1.42.0/integration-tests' 들어감
+make[2]: 디렉터리 '/home/eklim/openssl_for_ios_and_android/tools/nghttp2-1.42.0/integration-tests' 들어감
+make[2]: 'install-exec-am'을(를) 위해 할 일이 없습니다.
+make[2]: 'install-data-am'을(를) 위해 할 일이 없습니다.
+make[2]: 디렉터리 '/home/eklim/openssl_for_ios_and_android/tools/nghttp2-1.42.0/integration-tests' 나감
+make[1]: 디렉터리 '/home/eklim/openssl_for_ios_and_android/tools/nghttp2-1.42.0/integration-tests' 나감
+Making install in doc
+make[1]: 디렉터리 '/home/eklim/openssl_for_ios_and_android/tools/nghttp2-1.42.0/doc' 들어감
+make[2]: 디렉터리 '/home/eklim/openssl_for_ios_and_android/tools/nghttp2-1.42.0/doc' 들어감
+make[2]: 'install-exec-am'을(를) 위해 할 일이 없습니다.
+ /usr/bin/mkdir -p '/home/eklim/openssl_for_ios_and_android/tools/../output/android/nghttp2-x86/share/man/man1'
+ /usr/bin/install -c -m 644 nghttp.1 nghttpd.1 nghttpx.1 h2load.1 '/home/eklim/openssl_for_ios_and_android/tools/../output/android/nghttp2-x86/share/man/man1'
+make[2]: 디렉터리 '/home/eklim/openssl_for_ios_and_android/tools/nghttp2-1.42.0/doc' 나감
+make[1]: 디렉터리 '/home/eklim/openssl_for_ios_and_android/tools/nghttp2-1.42.0/doc' 나감
+Making install in contrib
+make[1]: 디렉터리 '/home/eklim/openssl_for_ios_and_android/tools/nghttp2-1.42.0/contrib' 들어감
+make[2]: 디렉터리 '/home/eklim/openssl_for_ios_and_android/tools/nghttp2-1.42.0/contrib' 들어감
+make[2]: 'install-exec-am'을(를) 위해 할 일이 없습니다.
+make[2]: 'install-data-am'을(를) 위해 할 일이 없습니다.
+make[2]: 디렉터리 '/home/eklim/openssl_for_ios_and_android/tools/nghttp2-1.42.0/contrib' 나감
+make[1]: 디렉터리 '/home/eklim/openssl_for_ios_and_android/tools/nghttp2-1.42.0/contrib' 나감
+Making install in script
+make[1]: 디렉터리 '/home/eklim/openssl_for_ios_and_android/tools/nghttp2-1.42.0/script' 들어감
+make[2]: 디렉터리 '/home/eklim/openssl_for_ios_and_android/tools/nghttp2-1.42.0/script' 들어감
+make[2]: 'install-exec-am'을(를) 위해 할 일이 없습니다.
+ /usr/bin/mkdir -p '/home/eklim/openssl_for_ios_and_android/tools/../output/android/nghttp2-x86/share/nghttp2'
+ /usr/bin/install -c fetch-ocsp-response '/home/eklim/openssl_for_ios_and_android/tools/../output/android/nghttp2-x86/share/nghttp2'
+make[2]: 디렉터리 '/home/eklim/openssl_for_ios_and_android/tools/nghttp2-1.42.0/script' 나감
+make[1]: 디렉터리 '/home/eklim/openssl_for_ios_and_android/tools/nghttp2-1.42.0/script' 나감
+make[1]: 디렉터리 '/home/eklim/openssl_for_ios_and_android/tools/nghttp2-1.42.0' 들어감
+make[2]: 디렉터리 '/home/eklim/openssl_for_ios_and_android/tools/nghttp2-1.42.0' 들어감
+make[2]: 'install-exec-am'을(를) 위해 할 일이 없습니다.
+ /usr/bin/mkdir -p '/home/eklim/openssl_for_ios_and_android/tools/../output/android/nghttp2-x86/share/doc/nghttp2'
+ /usr/bin/install -c -m 644 README.rst '/home/eklim/openssl_for_ios_and_android/tools/../output/android/nghttp2-x86/share/doc/nghttp2'
+make[2]: 디렉터리 '/home/eklim/openssl_for_ios_and_android/tools/nghttp2-1.42.0' 나감
+make[1]: 디렉터리 '/home/eklim/openssl_for_ios_and_android/tools/nghttp2-1.42.0' 나감

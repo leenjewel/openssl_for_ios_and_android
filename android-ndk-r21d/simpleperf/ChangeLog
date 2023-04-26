@@ -1,0 +1,71 @@
+
+ndk r19
+Fix report-sample command on Windows.
+
+ndk r18
+Improve support of profiling JITed/interpreted Java code on Android >= P:
+  1) Support JITed/interpreted Java code in system wide recording.
+  2) Support dex files extracted to memory.
+  3) Fix some bugs and improve inefficient code.
+Improve record command:
+  1) Add a user space buffer and a high priority record reading thread to reduce sampe lost rate.
+  2) Record full process name instead of only the last 16 bytes.
+Improve report_html.py:
+  1) Generate flamegraphs in Javascript code instead of using inferno, thus
+	   reducing the time used to generate and load report.
+  2) Use bootstrap 4 to format UI.
+  3) Use progressbar to show progress of loading contents.
+  4) Add --binary_filter option to only annotate selected binaries.
+Export tracing data in simpleperf_report_lib.py.
+Test python scripts with both python2 and python3.
+Add document for using simpleperf in Android platform profiling.
+
+ndk r17
+(release)
+Use new Android unwinder, which can unwind for archs different from build.
+Support profiling interpreted and JITed java code on Android >= P.
+Refactor app_profiler.py: improve option interface, simplify profiling from launch,
+and improve native lib downloading.
+Fix ndk issues 638, 644, 499, 493.
+Add debug-unwind cmd and script to debug unwinding.
+Update document, including the way using wrap.sh to profile released apk.
+
+(beta 1)
+Add report_html.py, reporting profiling result in html interface.
+Improve inferno.
+Refactor document.
+Provide more complete dwarf based call graphs.
+
+ndk r16
+
+Add inferno, a flamegraph generator.
+Add --trace-offcpu option in simpleperf record command and app_profiler.py to trace offcpu time.
+Add --app option in simpleperf record command to remove need of using run-as.
+Add --profile_from_launch option in app_profiler.py to start recording from Activity launch time.
+Configure scripts from command lines, remove config files.
+Wrap simpleperf report command with report.py, in which GUI mode is enabled with --gui option.
+Add release tests for scripts.
+
+
+ndk r15
+
+Add three Android Studio project examples, show how to build optimized native libs containing
+debug info, show how to fully compile app on Android O.
+Add symbol info in perf.data by default, no need to add --dump-symbols in simpleperf record command.
+Report brief call-graph in simpleperf report command.
+Support raw cpu pmu events.
+
+
+ndk r14
+
+Add app_profiler.py to help recording profiling data.
+Add annotate.py to annotate source code.
+Add simpleperf_report_lib.py interface to support extracting samples from perf.data.
+Release simpleperf binaries on host to support reporting on host.
+
+
+ndk r13
+
+Release simpleperf binaries on device.
+Support recording and reporting stack frame based callgraphs and dwarf based callgraphs.
+Add simpleperf_report.py to show callgraphs in GUI.

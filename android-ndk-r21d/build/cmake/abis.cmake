@@ -1,0 +1,4 @@
+set(NDK_DEFAULT_ABIS "arm64-v8a;armeabi-v7a;x86;x86_64")
+set(NDK_DEPRECATED_ABIS "")
+set(NDK_KNOWN_DEVICE_ABI32S "armeabi-v7a;x86")
+set(NDK_KNOWN_DEVICE_ABI64S "arm64-v8a;x86_64")

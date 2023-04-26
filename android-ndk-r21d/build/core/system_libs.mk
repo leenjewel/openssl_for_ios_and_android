@@ -1,0 +1,1 @@
+NDK_SYSTEM_LIBS := libEGL.so libGLESv1_CM.so libGLESv2.so libGLESv3.so libOpenMAXAL.so libOpenSLES.so libaaudio.so libamidi.so libandroid.so libbinder_ndk.so libc.so libcamera2ndk.so libdl.so libjnigraphics.so liblog.so libm.so libmediandk.so libnativewindow.so libneuralnetworks.so libstdc++.so libsync.so libvulkan.so libz.so

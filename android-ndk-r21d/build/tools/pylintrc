@@ -1,0 +1,12 @@
+[MESSAGES CONTROL]
+# Some of these should be cleaned up, but disable them for now so I can check
+# this in. The too-many-* refactoring warnings will probably remain on for all
+# time, but naming and docstrings can and should be fixed.
+disable=missing-docstring,invalid-name,fixme,design,locally-disabled,too-many-lines,no-else-return,no-self-use,assignment-from-none
+
+
+[BASIC]
+good-names=i,j,k,ex,Run,_
+
+[VARIABLES]
+dummy-variables-rgx=_|dummy

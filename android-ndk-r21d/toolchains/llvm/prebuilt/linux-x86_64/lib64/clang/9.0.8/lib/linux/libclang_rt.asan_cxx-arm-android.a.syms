@@ -1,0 +1,22 @@
+{
+  _ZdaPv;
+  _ZdaPvRKSt9nothrow_t;
+  _ZdaPvSt11align_val_t;
+  _ZdaPvSt11align_val_tRKSt9nothrow_t;
+  _ZdaPvj;
+  _ZdaPvjSt11align_val_t;
+  _ZdlPv;
+  _ZdlPvRKSt9nothrow_t;
+  _ZdlPvSt11align_val_t;
+  _ZdlPvSt11align_val_tRKSt9nothrow_t;
+  _ZdlPvj;
+  _ZdlPvjSt11align_val_t;
+  _Znaj;
+  _ZnajRKSt9nothrow_t;
+  _ZnajSt11align_val_t;
+  _ZnajSt11align_val_tRKSt9nothrow_t;
+  _Znwj;
+  _ZnwjRKSt9nothrow_t;
+  _ZnwjSt11align_val_t;
+  _ZnwjSt11align_val_tRKSt9nothrow_t;
+};
