@@ -9,7 +9,7 @@
 </thead>
 <tbody>
 <tr><td>openssl</td><td>1.1.1d</td><td>ios</td><td>armv7 arm64 arm64e x86_64 </td><td>aae1672</td></tr>
-<tr><td></td><td></td><td>android</td><td>armeabi-v7a arm64-v8a x86 x86_64 </td><td>aae1672</td></tr>
+<tr><td></td><td>1.1.1t</td><td>android</td><td>armeabi-v7a arm64-v8a x86 x86_64 </td><td>aae1672</td></tr>
 <tr><td>nghttp2</td><td>1.40.0</td><td>ios</td><td>armv7 arm64 arm64e x86x86_64 </td><td>aae1672</td></tr>
 <tr><td></td><td></td><td>android</td><td>armeabi-v7a arm64-v8a x86 x86_64 </td><td>aae1672</td></tr>
 <tr><td>curl</td><td>7.68.0</td><td>ios</td><td>armv7 arm64 arm64e x86_64 </td><td>aae1672</td></tr>
@@ -27,6 +27,7 @@ If you do not want to build it by yourself, you could download our prebuilt libr
  - [openssl-1.1.0f.tar.gz](https://www.openssl.org/source/openssl-1.1.0f.tar.gz)
  - [openssl-1.1.1d.tar.gz](https://www.openssl.org/source/openssl-1.1.1d.tar.gz)
  - [openssl-1.1.1i.tar.gz](https://www.openssl.org/source/openssl-1.1.1i.tar.gz)
+ - [openssl-1.1.1t.tar.gz](https://www.openssl.org/source/openssl-1.1.1t.tar.gz)
  - [https://github.com/openssl/openssl](https://github.com/openssl/openssl)
 
 ## nghttp2 Version
@@ -49,6 +50,7 @@ If you do not want to build it by yourself, you could download our prebuilt libr
  - ~~[android-ndk-r14b](https://dl.google.com/android/repository/android-ndk-r14b-darwin-x86_64.zip)~~
  - ~~android-ndk-r15 (**Do not try to build use 15 It will fail**)~~
  - [android-ndk-r21d-darwin](https://dl.google.com/android/repository/android-ndk-r21d-darwin-x86_64.zip) [android-ndk-r21d-linux](https://dl.google.com/android/repository/android-ndk-r21d-linux-x86_64.zip)
+ - [android-ndk-r22b-darwin](https://dl.google.com/android/repository/android-ndk-r22b-darwin-x86_64.zip) [android-ndk-r22b-linux](https://dl.google.com/android/repository/android-ndk-r22b-linux-x86_64.zip)
  - support api 23 above
 
 ## How to build
